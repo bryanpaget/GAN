@@ -1,0 +1,45 @@
+\section*{Outline of Contributions}
+
+One of the goals I set out for myself when I started this thesis was
+to provide a document rich in theory and intuition that would be
+useful for anyone wanting to get up to speed on the theory of
+GANs. Hence I have broken the theory into three different sections,
+\textit{game theory}, \textit{information theory}, and \textit{optimal
+  transport theory}.  This document should be equally useful for
+someone trying to understand the algorithm in order to implement a
+solution to some real world problem. To that end, I have provided an
+in-depth introduction to the theory required to understand the GAN
+algorithm.
+
+\begin{itemize}
+\item Section~\ref{sec:game-theory} contains definitions and examples
+  related to the Nash equilibrium, which the original paper mentions
+  but does not define.  I have included derivations of the value
+  function since the original paper contains no such derivation. See
+  sections~\ref{sec:derivation},~\ref{sec:derivation-d},
+  and~\ref{sec:derivation-g}.
+\item Section~\ref{sec:information-theory} contains relevant
+  definitions to information theoretic quantities used all the time in
+  machine learning which are rarely defined properly in machine
+  learning literature.
+\item Section~\ref{sec:optimal-transport} sheds light on what the GAN
+  algorithm is really doing, i.e.\ finding an efficient mapping from
+  one probability distribution to another. The history of optimal
+  transport is presented along with the Wasserstein GAN.
+  \item In Section~\ref{sec:optimization-dynamics} for a more rigorous
+    proof on training dynamics.  The training dynamics have been cast
+    as dynamics between the generator and the discriminator.  Where
+    the discriminator is optimized to force the value function into an
+    approximation of the Jensen-Shannon divergence and the generator
+    is optimized to minimize this divergence, as a moving target.
+  \item Section~\ref{sec:info-value-function} contains a unique
+    information theoretic theorem about the GAN value function.
+\item In Section~\ref{sec:difficulty}, I provide an illustrative
+  example demonstrating the difficulty in finding a Nash equilibrium
+  is not always easy.
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis.tex"
+%%% End:

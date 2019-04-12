@@ -1,0 +1,53 @@
+\documentclass[10pt]{article}
+\include{settings}
+
+\geometry{margin=1.6in}
+
+\begin{document}
+\pagenumbering{roman}
+
+\include{sections/titlepage}
+
+\include{sections/thankyou}
+\afterpage{\null\blankpage}
+
+\include{sections/blank}
+
+\tableofcontents
+\afterpage{\null\blankpage}
+
+\include{sections/blank2}
+
+\include{sections/notation}
+\afterpage{\null\blankpage}
+
+\include{sections/outline}
+\afterpage{\null\blankpage}
+
+\include{sections/introduction}
+\afterpage{\null\blankpage}
+
+\include{sections/original-gan}
+
+\include{sections/information-theory}
+\afterpage{\blankpage}
+
+\include{sections/optimal-transport}
+\afterpage{\blankpage}
+
+% \include{sections/conclusion}
+
+\include{sections/appendix-a}
+\afterpage{\blankpage}
+
+\include{sections/blank3}
+
+\bibliographystyle{apalike}
+\bibliography{thesis}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

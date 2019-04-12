@@ -1,0 +1,252 @@
+\usepackage{lastpage} % What does this do?
+\usepackage{wrapfig, subcaption, setspace, booktabs}
+
+% % bibtex
+% \usepackage[
+% backend=biber,
+% style=alphabetic,
+% citestyle=authoryear
+% ]{biblatex}
+
+% Initial letter
+\usepackage{lettrine}
+\usepackage{Royal}
+
+% Box [thing \ other thing]
+\usepackage{diagbox}
+
+% New Page
+\usepackage{afterpage}
+\newcommand\blankpage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage}
+
+% TOC depth
+\setcounter{tocdepth}{2}
+\usepackage{titlesec}
+\usepackage{nameref}% http://ctan.org/pkg/nameref
+
+\titleformat{\section}[display]{\normalfont\Large\filcenter\sffamily}{\titlerule[1pt]%
+  \vspace{1pt}%
+  \titlerule\vspace{1pc}%
+  \LARGE\MakeUppercase{}
+  Section \thesection}{1pc}{\titlerule\vspace{1pc}%
+  \Huge}
+
+%%% Math Packages:
+\usepackage{amsmath}
+\usepackage{amssymb}
+\numberwithin{equation}{section}
+
+%%% Fonts and typography stuff
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{yfonts}
+
+%%% Footnotes:
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+%%% Figure Font Sizes:
+\usepackage[font={small,it}]{caption}
+\usepackage{float}
+
+%%% Graphics:
+\usepackage{rotating}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, matrix, chains}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=1.8}
+\pgfmathdeclarefunction{gauss}{2}{
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
+}
+
+%%% Block styles
+\tikzstyle{mystar} = [star,star points=6, draw]
+\tikzstyle{node1} = [circle, draw, node distance=2cm]
+\tikzstyle{node2} = [circle, draw, node distance=2cm]
+\tikzstyle{node3} = [circle, draw, node distance=1cm]
+\tikzstyle{t} = [node distance=1.4cm]
+\tikzstyle{decision} = [diamond, draw, node distance=3cm]
+\tikzstyle{nn3} = [circle, draw, node distance=3cm]
+\tikzstyle{nn2} = [circle, draw, node distance=2cm]
+\tikzstyle{nn} = [circle, draw, node distance=1cm]
+\tikzstyle{true} = [rectangle, draw, rounded
+corners, node distance=3cm]
+\tikzstyle{noise} = [rectangle, draw, rounded
+corners, node distance=3cm]
+\tikzstyle{brain} = [star,star points=10, draw, rounded
+corners, node distance=3cm]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse, node distance=3cm]
+\tikzstyle{pic} = [node distance=3cm]
+
+%%% Theorem:
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{summary}{Summary}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem*{observation}{Observation}
+\newtheorem*{example}{Example}
+\newtheorem*{remark}{Remark}
+\newtheorem{problem}[theorem]{Problem}
+
+%%% Geometry:
+\usepackage{geometry}
+
+%%% Algorithm:
+\usepackage[linesnumbered, ruled]{algorithm2e}
+
+%%% Spacing:
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.4}
+
+%%% Commands:
+\newcommand \V {
+  V(\phi, \theta)
+}
+
+\newcommand \Va {
+  \mathcal{V}(\phi, \theta)
+}
+
+\newcommand \VD {
+  V_{D_\theta}(\phi, \theta)
+}
+
+\newcommand \VG {
+  V_{G_\phi}(\phi, \theta)
+}
+
+% Spaces
+\newcommand{\target}{\&X}
+\newcommand{\prior}{\&Z}
+
+% Generator
+\newcommand{\G}{G_\phi}
+\newcommand{\Gt}{G_{\phi_{t}}}
+\newcommand{\Gtt}{G_{\phi_{t+1}}}
+\newcommand{\Gl}{G_{{\infty}}}
+\newcommand{\Gz}{G_\phi(\mathbf{z})}
+\newcommand{\Gzi}{G_\phi(\mathbf{z}_i)}
+
+\newcommand{\D}{D_\theta}
+\newcommand{\Dt}{D_{\theta_{t}}}
+\newcommand{\Dtt}{D_{\theta_{t+1}}}
+\newcommand{\Dl}{D_{\infty}}
+
+\newcommand{\pg}{p_{\phi}(\tilde{\mathbf{x}})}
+\newcommand{\pgu}{p_{\phi}(\mathbf{u})}
+\newcommand{\pgt}{p_{\phi_t}(\tilde{\mathbf{x}})}
+\newcommand{\pgtu}{p_{\phi_t}(\mathbf{u})}
+
+\newcommand{\pd}{D_\theta(\mathbf{x})}
+
+\newcommand{\pt}{p^*(\mathbf{x})}
+\newcommand{\ptu}{p^*(\mathbf{u})}
+\newcommand{\pz}{p_\prior(\mathbf{z})}
+
+\newcommand \pdg {
+  D_{\theta}(G_{\phi}(\textbf{z}))
+}
+
+\def\*#1{\mathbf{#1}}
+
+\def\&#1{\mathcal{#1}}
+
+\def\i#1{\textit{#1}}
+
+\def\R{\mathbb{R}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand \restr[2] {
+    \left. \kern- \nulldelimiterspace #1 % the function
+      \vphantom{\big|} % pretend it's a little taller at normal size
+    \right|_{#2} % this is the delimiter
+}
+
+\newcommand \Div[1] {
+  \mathcal{D}_{\text{\tiny#1}}
+}
+
+\newcommand \KL[2] {
+  \Div{KL}\left( #1 \middle| \middle| #2 \right)
+}
+
+\newcommand \JSD[2] {
+  \Div{JS}\left(#1\middle|\middle|#2\right)
+}
+
+\newcommand \Dstar[1] {
+  {p^*(\mathbf{#1}) \over p^*(\mathbf{#1}) + p_{\phi}(\mathbf{#1})}
+}
+
+\newcommand \maxV[1] {
+  \mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] +
+  \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]
+}
+
+\newcommand \E[2] {
+  \mathbb{E}_{#1}\left[ #2 \right]
+}
+
+\newcommand \KLE[3] {
+  \E{#1\sim #2}{\log{#2 \over #3}}
+}
+
+\newcommand \KLd[2] {
+  \sum_{\x \sim #1} #1 \log{#1 \over #2}
+}
+
+\newcommand \KLc[3] {
+  \int_{#1} #2 \log{#2 \over #3}d#1
+}
+
+%%% Code
+\usepackage{listings}
+\usepackage{color}
+\lstset{
+  language=Python,
+  showstringspaces=false,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  tabsize=4
+}
+
+%%% PDF Settings
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+  pdftitle={Generative Adversarial Networks: An Overview},
+  pdfauthor={Bryan Paget},
+  pdfkeywords={Machine Learning, Deep Learning, GANs, Statistics, Game Theory},
+  pdfsubject={Statistics, Game Theory, Machine Learning},
+  pdffitwindow=true,
+  colorlinks=false,
+  linkcolor=orange,
+  citecolor=orange,
+  filecolor=magenta,
+  urlcolor=black,
+  pdfstartpage=2
+}
+
+%%% Section Counter
+\setcounter{section}{0}
+
+\usepackage{enumerate}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End:
