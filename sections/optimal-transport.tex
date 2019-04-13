@@ -20,16 +20,16 @@ encountered when using $\V$ as the GAN objective function. In
 particular, this chapter includes an introduction to relevant
 topological concepts and what is commonly referred to as the earth
 mover or Wasserstein-1 distance.  We cover a variant of the GAN
-algorithm called the Wasserstein GAN, which was introduced by
+algorithm called the Wasserstein GAN (WGAN), which was introduced by
 \cite{ref:arjovsky-2017} from the Courant Institute of Mathematical
 Sciences as an attempt to overcome certain obstacles in GAN training.
 
 The moral of this section is the choice of distance function to
-furnish a space with has profound consequences on properties of
+furnish a space $\&X$ with has profound consequences on properties of
 continuity and therefore the ability of sequences of probability
-distributions to convergence within that space.  The reason for this
-issue has to do with the topological differences induced by different
-notions of distance.
+distributions to convergence within $\&X$.  The reason for this has to
+do with the topological differences induced by different notions of
+distance.
 
 A topological space is the most general notion of a mathematical space
 that allows for the definition of concepts like continuity and
@@ -40,15 +40,15 @@ distance functions.  The \textit{open balls} form the base for a
 topology on $\&X$, which makes $\&X$ into a \textit{topological
   space}.
 
-\begin{definition}
-  Let $(\&X, d)$ be a metric space. An \textbf{open ball} of radius
-  $r \in \R^+$ around the point $x_0 \in \&X$ is the set
-  \begin{align}
-    \&B_r(x_0) = \left\{ x \in \&X : d(x,x_0) < r \right\}.
-  \end{align}
-  That is to say $\&B_r(x_0)$ is the set of all points in $\&X$ that
-  are not more than a distance of $r$ from $x_0$.
-\end{definition}
+% \begin{definition}
+%   Let $(\&X, d)$ be a metric space. An \textbf{open ball} of radius
+%   $r \in \R^+$ around the point $x_0 \in \&X$ is the set
+%   \begin{align}
+%     \&B_r(x_0) = \left\{ x \in \&X : d(x,x_0) < r \right\}.
+%   \end{align}
+%   That is to say $\&B_r(x_0)$ is the set of all points in $\&X$ that
+%   are not more than a distance of $r$ from $x_0$.
+% \end{definition}
 
 \begin{definition}
   Let $\&X$ be any set. A \textbf{topology} $\&T$ on $\&X$ is a
@@ -85,6 +85,9 @@ of the practising statistician) can be formed from the notion of the
   \textbf{metric topology}.
 \end{definition}
 
+Different metrics induce different topologies which are characterized
+by the quality of granularity.
+
 \begin{theorem}
   Let $d$ and $d^\prime$ be metrics on  a set $\&X$, and let $\&T$ and
   $\&T^\prime$,  be the  respective  topologies they  induce.  We  say
@@ -93,30 +96,16 @@ of the practising statistician) can be formed from the notion of the
   $\&B_{d^\prime}(x, \delta) \subset \&B_d(x, \epsilon)$.
 \end{theorem}
 
-% \begin{definition}[Topology via Neighbourhoods] Let $\&X$ be any
-%   set, let $N$ be a function assigning to each $x \in \&X$ a
-%   non-empty collection $N(x)$ of subsets of $\&X$. The elements of
-%   $N(x)$
-% \end{definition}
-
-The topology induced by a space's metric affects the ability for
-functions to converge. Suppose $\&T$ and $\&T^\prime$ are two
-topologies on a given set $\&X$. If $\&T^\prime \supset \&T$, then we
-say $\&T^\prime$ is \textit{finer} than $\&T$.
-
-The Kullback-Leibler divergence induces a coarser topology than the
-topology induced by the \textit{earth mover distance}.
-
 The ease in which a probability distribution converges is determined
-by the notion of distance $\Div{}$.
-
-We want a finer topology on $\&P \times \&P$ to ease the convergence.
-A finer topology means we can pack more open sets into the space
-defined by $\&P \times \&P$, which makes it easier to define a
-continuous map from $\&P \times \&P$ to $\R^+$.
-
-If a metric $d$ induces a finer topology on a space than another
-metric $d^\prime$, then we say $d$ is a weaker notion of distance than
+by the notion of distance.  The Kullback-Leibler divergence induces a
+coarser topology than the topology induced by the \textit{earth mover
+  distance}. The interested reader can see the proof of this in
+\cite{ref:arjovsky-2017}.  To ease convergence, we want to place a
+finer topology on $\&P \times \&P$.  A finer topology means we can
+pack more open sets over $\&P \times \&P$, which makes it easier to
+define a \textit{continuous map} from $\&P \times \&P$ to $\R^+$.  If
+a metric $d$ induces a finer topology on a space than another metric
+$d^\prime$, then we say $d$ is a weaker notion of distance than
 $d^\prime$.
 
 We can think of continuity and convergence in more than one way, below
@@ -124,14 +113,14 @@ we include the relevant definitions from both the topological and
 metric space points of view.
 
 \begin{definition}
-  let $\&X$ be any finite set of events, and $\&P$ be the space of all
+  Let $\&X$ be any finite set of events, and $\&P$ be the space of all
   probability distributions over $\&X$ with equal support. Let
-  $\mathcal{D}: \&P \times \&P \mapsto \mathbb{R}$ be a metric on this
-  space. We say a sequence of probability distributions
+  $d: \&P \times \&P \mapsto \mathbb{R}$ be a metric on this space. We
+  say a sequence of probability distributions
   $(P_n)_{n \in \mathbb{N}}$ converges to a probability distribution
   $P$ if for any $\epsilon > 0$ there exists
-  $N(\epsilon) \in \mathbb{N}$ such that
-  $\mathcal{D}(P_n,P) < \epsilon$ for all $n > N(\epsilon)$.
+  $N(\epsilon) \in \mathbb{N}$ such that $d(P_n,P) < \epsilon$ for all
+  $n > N(\epsilon)$.
 \end{definition}
 
 \begin{definition}
@@ -140,16 +129,14 @@ metric space points of view.
   $|x - x_0| < \delta$, then $|f(x) - f(x_0)| < \epsilon$.
 \end{definition}
 
-And with respect to a topology:
-
-Continuous functions between topological spaces preserves proximity,
+Continuous functions between topological spaces preserve proximity,
 i.e.\ a continuous function maps points that are close together in one
 space to points that are close together in the other space.
 
 \begin{definition}
   In a topological space $\&X$, a sequence of points
-  \textbf{converges} to an $x \in \&X$ if for every neighborhood $U$
-  of $x$, there is an $n \in \mathbb{N}$ such that $x_n \in U$ for all
+  \textbf{converges} to $x \in \&X$ if for every neighborhood $U$ of
+  $x$, there is an $n \in \mathbb{N}$ such that $x_n \in U$ for all
   $n \geq \mathbb{N}$.
 \end{definition}
 
@@ -176,12 +163,11 @@ circumstances in GAN training.
 
 \subsection{Limitations of the Kullback-Leibler Divergence}
 
-The Kullback-Leibler and Jensen-Shannon divergences do not handle
-discontinuity well. In~\cite{ref:arjovsky-2017}, the authors use the
-example of learning parallel lines and here we present the same
-example. This is an example of what happens with the Kullback-Leibler
-divergence and the Jensen-Shannon divergence when we compare
-distributions over the same space but with disjoint supports.
+In~\cite{ref:arjovsky-2017}, the authors use the example of learning
+parallel lines and here we present the same example. This is an
+example of what happens with the Kullback-Leibler divergence and the
+Jensen-Shannon divergence when we compare distributions over the same
+space but with disjoint supports.
 
 \begin{example}[Learning Parallel Lines]
   \begin{figure}[h] \centering
@@ -239,62 +225,59 @@ distributions over the same space but with disjoint supports.
   \end{enumerate}
 \end{example}
 
-The reason why this happens has something to do with topology. We need
-to relax the convergence requirements, we need to relax the continuity
-requirements.
+% The reason why this happens has something to do with topology. We
+% need to relax the convergence requirements, we need to relax the
+% continuity requirements.
 
 The reason why this happens is a central topic in
-\cite{ref:arjovsky-towards-2017} and is due to the artificially high
-dimensionality of most data sets. A data set may live in $\R^n$ for
-some large $n$, but there may only be variation of interest in a small
-number of dimensions. This is one of the ideas motivating
-dimensionality reduction algorithms like PCA and manifold learning
-algorithms in particular like Isomap~\cite{ref:tenenbaum-2000}.
+\cite{ref:arjovsky-towards-2017} and is due to the combination of the
+strong notion of distance of the Jensen-Shannon divergence and the
+artificially high dimensionality of most data sets.  A data set may
+live in $\R^n$ for some large $n$, but there may only be variation of
+interest in a small number of dimensions. This is one of the ideas
+motivating dimensionality reduction algorithms like PCA and manifold
+learning algorithms in particular like
+Isomap~\cite{ref:tenenbaum-2000}.
 
 GANs are often used in the generation of realistic looking images. If
-we consider an image to be a point in $\&X = [0, 1]^{3 \times H \times
-  W}$, where $\&X$ is the space of normalized real-valued 3-dimensional
-arrays, we can safely infer that only a very small proportion of this
-space is meaningful to a human.  If we were to randomly sample a point
-from this space, it would be unlikely to look like anything other than
-noise. Thus, any data set of images would correspond to a very small
-subset, or \textit{data manifold}, of $\&X$. An informal definition of
-a \textbf{manifold} is more useful to our discussion than a formal
-one. When we say manifold, we mean a continuous geometrical structure
-with finite dimension (e.g. a line, a curve, a plane, a surface
-etc...) embedded inside a space of higher dimension than the manifold
-itself.
+we consider an image to be a point in
+$\&X = [0, 255]^{3 \times H \times W}$, the space of 8-bit RGB images
+and if we were to sample a point from this space, it would be unlikely
+to look like anything other than noise. Thus, any data set of images
+would correspond to a very small subset, or \textit{data manifold}, of
+$\&X$. An informal definition of a \textbf{manifold} is more useful to
+our discussion than a formal one. When we say manifold, we mean a
+continuous geometrical structure with finite dimension (e.g. a line, a
+curve, a plane, a surface etc...) embedded inside a space of higher
+dimension than the manifold itself.
 
 Richard E. Bellman coined the term \textit{the curse of
-  dimensionality}, to refer to the fact that when the dimensionality of
-the data increases, the volume of the space scales at an exponential
-rate and the consequence is that the available data becomes
-effectively sparse. For instance $10$ points can be evenly arrange
-along the unit interval with $0.1$ units of distance between them,
-however, if we want to cover the unit square with points $0.1$ units
-of distance apart, we would need $100$ points; for the unit cube? 1000
-points. Each time we add a dimension, we need (in our case) 10 times
-as many points. Since the space of all RGB images of length $L$ and
-height $H$ is very large, we get the idea that even a large data set
-of images is effectively quite small.
+  dimensionality}, to refer to the fact that when the dimensionality
+of the data increases, the volume of the space scales at an
+exponential rate and consequently data become effectively sparse. For
+instance $10$ points can be evenly arrange along the unit interval
+with $0.1$ units of distance between them, however, if we want to
+cover the unit square with points $0.1$ units of distance apart, we
+would need $100$ points; for the unit cube? 1000 points. Each time we
+add a dimension, we need (in our case) 10 times as many points. Since
+the space of all $L \times W$ 8-bit RGB images is very large, we get
+the idea that even ``large'' image data sets are effectively small.
 
 In the case of the GAN algorithm, it is unlikely that the generator
-will produce samples that are from the same data manifold that the
-true data lie in. This means the discriminator will easily be able to
-tell apart the manifolds.  %\textcolor{red}{TODO: Add citation.}
+will generate points that are from the same data manifold that the
+true data lie in. Which means $\pg$ and $\pt$ are likely to be
+supported by disjoint lower dimensional manifolds and
+$\KL{\pg}{\pt} = 0$, when the distributions are not equal, or
+$\KL{\pg}{\pt} = \infty$.
 
-Some issues arise with the original value function when $\pg$ and
-$\pt$ are supported by disjoint lower dimensional manifolds as in
-\cite{ref:arjovsky-towards-2017}, and $\KL{\pg}{\pt} = 0$ (when the
-distributions are not equal) or $\KL{\pg}{\pt} = \infty$, which
-presents computational problems.
+% Concretely, issues arises with
+% (\ref{eq:the-original-objective-function}) if $\forall \tilde{\*x}$,
+% $(p^*(\tilde{\*x}) = 0)$ and if $\forall \*x$, $(\pg(\*x) = 0)$ we
+% end up with $\max_{\D}\*V(\*X, \widetilde{\*X}) = 0$. This issue may
+% arise if the supports of $\pt$ and $\pg$ lie in disjoint
+% \textit{submanifolds} of $\&X$.
 
-Concretely, issues arises with
-(\ref{eq:the-original-objective-function}) if $\forall \tilde{\*x}$,
-$(p^*(\tilde{\*x}) = 0)$ and if $\forall \*x$, $(\pg(\*x) = 0)$ we end
-up with $\max_{\D}\*V(\*X, \widetilde{\*X}) = 0$. This issue may arise
-if the supports of $\pt$ and $\pg$ lie in disjoint
-\textit{submanifolds} of $\&X$.
+\subsubsection*{Perfect Discriminator}
 
 The idea of GAN training is to optimize $\D$ until it converges to
 $\D^*$ forcing (\ref{eq:the-original-objective-function}) into a
@@ -345,21 +328,23 @@ quickly converges to be what \cite{ref:arjovsky-towards-2017} call a
 
 \begin{proof}
   \begin{align}
-    \label{eq:d-updates-no-good} \D^{(t+1)} & \gets \D^{(t)} -
-                                              \alpha\nabla_\theta {1 \over m} \sum_{i=1}^n \left( \log
-                                              D^{(t)}_\theta(\mathbf{x}_i) + \log{(1 -
-                                              D^{(t)}_\theta(G^{(t)}_\phi(\mathbf{z}_i)))} \right). \\ \implies
+    \label{eq:d-updates-no-good}
     \D^{(t+1)} & \gets \D^{(t)} - \alpha\nabla_\theta {1 \over m}
-                 \sum_{i=1}^n \left( \log{1} + \log{1} \right) \\ \implies \D^{(t+1)} &
-                                                                                        \gets \D^{(t)}
+                 \sum_{i=1}^n \left( \log D^{(t)}_\theta(\mathbf{x}_i)
+                 + \log{(1 -
+                 D^{(t)}_\theta(G^{(t)}_\phi(\mathbf{z}_i)))}
+                 \right). \\
+    \implies \D^{(t+1)} & \gets \D^{(t)} - \alpha\nabla_\theta {1
+                          \over m} \sum_{i=1}^n \left( \log{1} + \log{1} \right) \\
+    \implies \D^{(t+1)} & \gets \D^{(t)}
   \end{align} which is to say, $\D$ does not get updated.
 \end{proof}
 
 Even though $\D$ is a perfect discriminator, it is only good at
 telling apart obviously different distributions. This begets the need
 for a ``gentler'' discriminator.  The WGAN paper tackles the issues
-mentioned above by using a slightly different objective function and
-training routine.  It is interesting to look into the history of the
+mentioned above by using a different objective function and training
+routine.  It is interesting to look into the history of the
 Wasserstein distance and we will see that the WGAN is a modern
 implementation to an old transportation problem.
 
@@ -419,8 +404,8 @@ Kantorovich in 1942 \cite{ref:kantorovich-1942},
   transform $P$ into $Q$.
 \end{remark}
 
-\begin{definition} The \textbf{transport cost} for a given transport
-  plan is given by
+\begin{definition}
+  The \textbf{transport cost} for a given transport plan is given by
   \begin{align}
     \label{eq:expected-work}
     \left(\int_{\&X}\int_{\&Y}||x-y||^p\gamma(x, y)dxdy \right)^{1 \over p}
@@ -491,24 +476,28 @@ Rubinstein, saves the day.
 
 The topology induced by the Kullback-Leibler divergence is much
 coarser than the topology induced by the Kantorovich-Rubinstein
-distance, which is weak enough to relax convergence requirements. See
-\cite{ref:villani-2008} for more information on the
-Kantorovich-Rubinstein distance.
+distance, which is a weak enough notion of distance to relax
+convergence requirements. See \cite{ref:villani-2008} for more
+information on the Kantorovich-Rubinstein distance.
 
 \begin{example}[Learning Parallel Lines (Revisited)]
-  When we use the Kantorovich-Rubinstein distance in the parallel lines problem.
-  \begin{align} \&W_1(\G(z), p_0(z)) & = \inf_{\gamma \in \Gamma(\G(z),
-                                       p_0(z))}\mathbb{E}_{(x,y) \sim \gamma(x, y)} \left[ || x-y || \right]
-    \\
-                                     & =\inf_{\gamma \in \Gamma(\G(z), p_0(z))}\mathbb{E}_{(x,y) \sim
-                                       \gamma(x, y)} \left[ \sqrt{(\phi - 0)^2 + (z - z)^2} \right] \\ & =
-                                                                                                         |\phi|
+  When we use the Kantorovich-Rubinstein distance in the parallel
+  lines problem.
+  \begin{align}
+    \&W_1(\G(z), p_0(z)) & = \inf_{\gamma \in
+                           \Gamma(\G(z),p_0(z))}\mathbb{E}_{(x,y) \sim
+                           \gamma(x, y)} \left[ || x-y || \right] \\
+                         & =\inf_{\gamma \in \Gamma(\G(z),
+                           p_0(z))}\mathbb{E}_{(x,y) \sim \gamma(x,
+                           y)} \left[ \sqrt{(\phi - 0)^2 + (z - z)^2}
+                           \right] \\
+                         & =|\phi|
   \end{align}
 \end{example}
 
-Thus even for probability distributions with disjoint supports, the
-Kantorovich-Rubinstein distance provides a continuous measure of
-distance.
+The Kantorovich-Rubinstein distance provides a continuous measure of
+distance even for probability distributions with disjoint supports.
+The Lipschitz
 
 \begin{figure}[H]
   \centering
@@ -557,7 +546,8 @@ distance.
 
         Let
         $\phi \gets \phi + \epsilon \cdot \text{RMSProp}(\phi,
-        {\partial{V} \over \partial{\phi}}).$ \\ }
+        {\partial{V} \over \partial{\phi}}).$ \\
+      }
       \caption{WGAN}
       \label{algo:wgawgann-algo}
     \end{algorithm}
