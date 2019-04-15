@@ -1,13 +1,6 @@
 \usepackage{lastpage} % What does this do?
 \usepackage{wrapfig, subcaption, setspace, booktabs}
 
-% % bibtex
-% \usepackage[
-% backend=biber,
-% style=alphabetic,
-% citestyle=authoryear
-% ]{biblatex}
-
 % Initial letter
 \usepackage{lettrine}
 \usepackage{Royal}
@@ -28,11 +21,14 @@
 \usepackage{titlesec}
 \usepackage{nameref}% http://ctan.org/pkg/nameref
 
-\titleformat{\section}[display]{\normalfont\Large\filcenter\sffamily}{\titlerule[1pt]%
-  \vspace{1pt}%
-  \titlerule\vspace{1pc}%
-  \LARGE\MakeUppercase{}
-  Section \thesection}{1pc}{\titlerule\vspace{1pc}%
+\titleformat{\section}[display]{\normalfont\Large\filcenter\sffamily}{%
+  \titlerule[0.01pc]%
+  \vspace{0.2cm}%
+  \Large
+  Section \thesection}{0pc}{
+  \vspace{0.2cm}%
+  \titlerule[0.01pc]%
+  \vspace{0.2cm}%
   \Huge}
 
 %%% Math Packages:

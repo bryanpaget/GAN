@@ -420,14 +420,11 @@ Kullback-Leibler divergence of the generator's prior probability
 distribution and the distribution of mass the discriminator assigns to
 synthetic data points. Finally, we minimize the Kullback-Leibler
 divergence of the generator's prior distribution and the amount of
-mass the discriminator assigns to synthetic data points.
-\textcolor{red}{TODO}
-The Kullback-Leibler divergence in this context can be thought of as
-how much more surprised we will be by events drawn from $p(x)$ since
-we are using an approximation $q(x)$ of the true probability
-distribution over the set.
-
-This can be stated as a theorem.
+mass the discriminator assigns to synthetic data points.  The
+Kullback-Leibler divergence in this context can be thought of as how
+much more surprised we will be by events drawn from $p(x)$ since we
+are using an approximation $q(x)$ of the true probability distribution
+over the set.  This can be stated as a theorem.
 
 \begin{theorem}
   \label{theorem:mine-1}
@@ -484,11 +481,11 @@ the cross entropy of $\pz$ and $\D(\G(\*z))$, which is in direct competition
 with $\D$.
 \end{proof}
 
-\textcolor{red}{TODO} The interpretation of the above theorem is that
-the generator wants the discriminator's decision on the generated data
-to be as uninformative as random noise.  The discriminator wants the
-distribution of its decision over the training data to match its
-empirical probability distribution. At the same time, the
+The interpretation of the above theorem is that the generator wants
+the discriminator's decision on the generated data to be as
+uninformative as random noise.  The discriminator wants the
+distribution of its decision over the training data to match the
+empirical probability distribution, while at the same time, the
 discriminator wants its decision on the generated data to be more
 informative than noise.
 

@@ -17,11 +17,13 @@
     & \mathbb{E}\left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg\over\pg + \pt}\right] + \log4 - \log4 \\
     & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg \over \pg + \pt} + \log4 - \log4 \\
     & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg \over \pg + \pt} + \log2 + \log2 - \log4 \\
-    & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg \over \pg + \pt} + \sum_{\*x}\pt\log2 + \sum_{\*x}\pg\log2 - \log4 \\
+    & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg
+      \over \pg + \pt} \\
+    & \quad + \sum_{\*x}\pt\log2 + \sum_{\*x}\pg\log2 - \log4 \\
     & = \sum_{\*x}\pt\log{2\pt \over \pg + \pt} + \sum_{\*x}\pg\log{2\pg \over \pg + \pt} - \log4 \\
     & = \sum_{\*x}\pt\log{\pt \over {\pg + \pt \over 2}} + \sum_{\*x}\pg\log{\pg \over {\pg + \pt \over 2}} - \log4 \\
-    & = KL \left( \pt  \middle|\middle| {\pg + \pt \over 2} \right) + KL \left( \pg \middle|\middle| {\pg+\pt \over 2} \right) - \log4 \\
-    & = 2JSD(\pg || \pt) - \log4
+    & = \KL{\pt}{\pg + \pt \over 2} + \KL{\pg}{\pg+\pt \over 2} - \log4 \\
+    & = 2 \cdot \JSD{\pg}{\pt} - \log4
   \end{align}
 \end{small}
 

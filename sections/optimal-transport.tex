@@ -350,7 +350,7 @@ quickly converges to be what~\cite{ref:arjovsky-towards-2017} call a
     \label{eq:d-updates-no-good}
     \D^{(t+1)} & \gets \D^{(t)} - \alpha \nabla_\theta {1 \over m}
                  \sum_{i=1}^n \left( \log D^{(t)}_\theta(\mathbf{x}_i)
-                 + \log{(1 - D^{(t)}_\theta(G^{(t)}_\phi(\mathbf{z}_i)))} \right). \\
+                 + \log{(1 - D^{(t)}_\theta(G^{(t)}_\phi(\mathbf{z}_i)))} \right) \\
     \implies \D^{(t+1)} & \gets \D^{(t)} - \alpha\nabla_\theta {1 \over m} \sum_{i=1}^n \left( \log{1} + \log{1} \right) \\
     \implies \D^{(t+1)} & \gets \D^{(t)}
   \end{align} which is to say, $\D$ does not get updated.
@@ -516,6 +516,11 @@ information on the Kantorovich-Rubinstein distance.
 The Kantorovich-Rubinstein distance provides a continuous measure of
 distance even for probability distributions with disjoint supports.
 
+\subsubsection*{The Wasserstein GAN Algorithm}
+
+The following is the WGAN algorithm as presented in
+\cite{ref:arjovsky-2017}.
+
 \begin{figure}[H]
   \centering
   \begin{minipage}{\linewidth}
@@ -571,12 +576,19 @@ distance even for probability distributions with disjoint supports.
 \end{figure}
 
 \subsection{Discussion}
+\textcolor{red}{TODO:}
 
 The objective function inherits the strong topology from the
 Jensen-Shannon and Kullback-Leibler divergences, hence Arjovsky has
-refit an old solution to a new problem.  The weaker notion of distance
+refit an old solution to a new problem. The weaker notion of distance
 provided by the earth mover distance provides a continuous objective
 function.
+
+When we defined the earth mover distance and the duality theorem, we
+said that the sup was taken over the space of all 1-lipshitz
+the way this was achieved in arjovky's paper was to clip the weight
+parameters, which effectively reduced the amount the parameters can
+change with each update.
 
 %%% Local Variables:
 %%% mode: latex
