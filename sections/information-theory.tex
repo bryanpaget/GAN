@@ -1,9 +1,9 @@
-\section{Information Theory}
+\section{Information Theory}%
 \label{sec:information-theory}
 
 \vspace{1cm}
 
-\begin{figure}[h]
+\begin{figure}[h]%
   \label{fig:info}
   \centering
   \fcolorbox{black}{white}{\includegraphics[width=0.3\textwidth]{entropy}}
@@ -13,12 +13,12 @@
 
 \vspace{1cm}
 
-\lettrine[lines=3]{\Royal I} {nformation theory was born in 1948 with
+\lettrine[lines=3]{\Royal~I} {nformation theory was born in 1948 with
   the publication} of \textit{A Mathematical Theory of Communication}
-by Claude Shannon (1916-2001). Shannon's work was inspired in part by
-earlier work by Ludwig Boltzmann and Josiah Willard Gibbs in the
-theory of thermodynamics. Most of the theory and applications of
-information theory (compression, coding schemes, data transfer over
+by Claude Shannon (1916~\textendash~2001). Shannon's work was inspired
+in part by earlier work by Ludwig Boltzmann and Josiah Willard Gibbs
+in the theory of thermodynamics. Most of the theory and applications
+of information theory (compression, coding schemes, data transfer over
 noisy channels) are outside the scope of this paper, but there are
 certain information theoretic quantities used regularly in machine
 learning, so it is useful to discuss them now.
@@ -37,7 +37,7 @@ learning, so it is useful to discuss them now.
 
 Information theory is quite useful for deep learning. If we think of
 neural nets as noisy channels, the need for this theory becomes even
-more obvious. In \cite{ref:mackay-2003}, David Mackay said ``brains
+more obvious. In~\cite{ref:mackay-2003}, David Mackay said ``brains
 are the ultimate compression and communication systems. And the
 state-of-the-art algorithms for both data compression and
 error-correcting codes use the same tools as machine
@@ -68,7 +68,7 @@ requirements it must satisfy.
   \end{enumerate}
 \end{definition}
 \begin{remark}
-  This definition is a modification of one given by \cite{ref:martin-2011}.
+  This definition is a modification of one given by~\cite{ref:martin-2011}.
 \end{remark}
 
 It shouldn't be a surprise that it's new information we are interested in, since
@@ -215,7 +215,7 @@ $P$ and $Q$ have the same support, then $\KL{P}{Q} = 0$ if and only if $P = Q$.
   \begin{align}
    \KL{P^*}{Q} \geq \KL{P}{P^*} + \KL{P^*}{Q}.
   \end{align}
-  The interested reader can consult Theorem 11.6.1 in \cite{ref:cover-thomas}.
+  The interested reader can consult Theorem 11.6.1 in~\cite{ref:cover-thomas}.
 \end{theorem}
 
 \begin{remark}
@@ -304,10 +304,10 @@ Then
  \begin{align}
    \mathbb{E}_{x \sim p\left(x | \theta\right)}\left[ \log p\left(x | \theta^{\left(t\right)}\right) \right].
  \end{align}
- Maximizing this term is equivalent to maximizing the likelihood function for
- $p\left(x | \theta\right)$. Instead, as shown in
- \cite{ref:goodfellow-original}, the generator minimizes an approximation of the
- \textit{Jensen-Shannon divergence}.
+ Maximizing this term is equivalent to maximizing the likelihood
+ function for $p\left(x | \theta\right)$. Instead, as shown
+ in~\cite{ref:goodfellow-original}, the generator minimizes an
+ approximation of the \textit{Jensen-Shannon divergence}.
 
 \begin{definition}
   \label{def:jsd}
@@ -329,7 +329,7 @@ Then
   The square root of the Jensen–Shannon divergence is a metric.
 \end{theorem}
 \begin{proof}
-  See \cite{ref:endres-2003}.
+  See~\cite{ref:endres-2003}.
 \end{proof}
 
 \subsubsection{Mutual Information and other Measures}
@@ -393,7 +393,7 @@ distribution.
     % Bounding Rectangle
     \draw (-3.5,-2.4) rectangle (3.5,2.3);
   \end{tikzpicture}
-  \caption{Venn Diagram of Information-Theoretic Quantities}
+  \caption{Venn Diagram of Information-Theoretic Quantities}%
   \label{fig:venn-information}
 \end{figure}
 
@@ -405,10 +405,10 @@ distribution.
     M = {P + Q \over 2}
   \end{align}
   and a binary indicator variable $Z$ used to switch between $P$ and
-  $Q$ to produce $M$ as discussed in \cite{ref:Schneidma-2003}.
+  $Q$ to produce $M$ as discussed in~\cite{ref:Schneidma-2003}.
 \end{theorem}
 
-\subsection{A Measure of Uncertainty}
+\subsection{A Measure of Uncertainty}%
 \label{sec:info-value-function}
 
 We can now write a bit about $\V$ from the perspective of information
@@ -426,9 +426,8 @@ much more surprised we will be by events drawn from $p(x)$ since we
 are using an approximation $q(x)$ of the true probability distribution
 over the set.  This can be stated as a theorem.
 
-\begin{theorem}
-  \label{theorem:mine-1}
-  \label{contribution:one}
+\begin{theorem}%
+  \label{thm:info-objective}%
   The training objectives of the GAN algorithm are to find
   \begin{enumerate}[(i)]
   \item $\theta \in \Theta$ to minimize $\KL{\pt}{\D(\*x)}$;
@@ -477,8 +476,7 @@ can be expressed equivalently as minimizing
 \begin{align}
   -\sum_{\*z \sim \pz} \pz \log (\D(\G(\*z)))
 \end{align}
-the cross entropy of $\pz$ and $\D(\G(\*z))$, which is in direct competition
-with $\D$.
+the cross entropy of $\pz$ and $\D(\G(\*z))$.
 \end{proof}
 
 The interpretation of the above theorem is that the generator wants
@@ -492,11 +490,11 @@ informative than noise.
 Next, we look at the optimization steps as the dynamics between
 approximating a divergence and minimizing the same divergence.
 
-\subsection{Optimization Dynamics}
+\subsection{Optimization Dynamics}%
 \label{sec:optimization-dynamics}
 
 We discussed training $\D$ and $\G$ from the perspective of game
-theory in Section \ref{sec:derivation}, now let's look at these
+theory in Section~\ref{sec:derivation}, now let's look at these
 results more rigorously and with some actual calculations. Throughout
 this section, we will use the following notation. Let $\&X$ be our
 data and $\pt$ the true probability distribution over $\&X$. Let
@@ -509,14 +507,13 @@ Throughout this section we will make use of not only
 \begin{align} V(\phi, \theta)(\*X, \*Z) & = \sum_{\*x \in \*X}\pt\log{\D(\*x)} +
   \sum_{\*z \in \*Z}\pz\log{(1 - \D(\G(\*z)))},
 \end{align}
-but of two equivalent variations as well. The first variation, $\*V(\phi,
-\theta)(\*X, \tilde{\*X})$, is obtained by changing the second argument of $\V$
-from a sample of noise $\*Z$ to a sample from the generator $\G(\*Z) =
-\tilde{\*X}$. We compute the second expectation with respect to $\pg$, i.e. we
-have
-\begin{align} \*V(\phi, \theta)(\*X, \tilde{\*X}) & = \sum_{\*x \in
-    \*X}\pt\log{\D(\*x)} + \sum_{\tilde{\*x} \in \tilde{\*X}}\pg\log{(1 -
-    \D(\tilde{\*x}))}.
+but of two equivalent variations as well. The first variation,
+$\*V(\phi, \theta)(\*X, \tilde{\*X})$, is obtained by changing the
+second argument of $\V$ from a sample of noise $\*Z$ to a sample from
+the generator $\G(\*Z) = \tilde{\*X}$. We compute the second
+expectation with respect to $\pg$, i.e.\ we have
+\begin{align}
+  \*V(\phi, \theta)(\*X, \tilde{\*X}) = \sum_{\*x \in \*X}\pt\log{\D(\*x)} + \sum_{\tilde{\*x} \in\tilde{\*X}}\pg\log{(1 - \D(\tilde{\*x}))}.
 \end{align}
 For the second variation, $\&V$, we are going to embed our data onto $\*U
 \subset \R$, where each $\*u_i$ is associated with a tuple $(\*x_i,
@@ -528,13 +525,13 @@ For the second variation, $\&V$, we are going to embed our data onto $\*U
 which we will use as short-hand for
 \begin{align}
   \label{eq:joined-verbose}
-  \sum_{\*u \in \*U} (p^* \circ \pi)(\*u)\log (\D \circ \pi)(\*u) + (\pg \circ \tilde{\pi})(\*u) \log(1 - (\D \circ \tilde{\pi})(\*u))),
+  \sum_{\*u \in \*U} (p^* \circ \pi)(\*u)\log (\D \circ \pi)(\*u) + (\pg \circ \tilde{\pi})(\*u) \log(1 - (\D \circ \tilde{\pi})(\*u)),
 \end{align}
 where $\pi$ and $\tilde{\pi}$ are projections, i.e. $(f \circ \pi)(\*u) = (f
 \circ \pi)((\*x, \tilde{\*x})) = f(\*x)$ and $(f \circ \tilde{\pi})(\*u) = (f
 \circ \tilde{\pi})((\*x, \tilde{\*x})) = f(\tilde{\*x})$.
 
-\begin{theorem}
+\begin{theorem}%
  \label{theorem:minimax}
  For any fixed $\G$, $\D$ maximizes $\V$ by playing its minimax
  decision rule and in doing so returns the following function
@@ -609,7 +606,7 @@ i.e. $\max_{\D}\V(\*X, \*Z)$ is equal to
     \label{eq:desired}
     V(\phi, \theta^*) = 2 \cdot \JSD{\pt}{\pg} - \log{4}.
   \end{align}
-  which is what we wanted. See Appendix \ref{sec:proof-for-jsd-thing} for
+  which is what we wanted. See Appendix~\ref{sec:proof-for-jsd-thing} for
   complete details.
 \end{proof}
 
