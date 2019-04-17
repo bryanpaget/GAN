@@ -193,19 +193,27 @@ afterwards.
 \end{definition}
 
 \begin{definition}
-  The \textbf{Kullback-Leibler divergence} is a measure of how one probability
-  distribution is different from a second, reference probability distribution.
-  It is also known by the following names, \textbf{relative entropy},
-  \textbf{directed divergence}, \textbf{information gain} and
-  \textbf{discrimination information}.
+  \label{def:kl-divergence}
+  The \textbf{Kullback-Leibler divergence} is a measure of how
+  different a probability distribution is from a second, reference
+  probability distribution.  It is also known by the following names,
+  \textbf{relative entropy}, \textbf{directed divergence},
+  \textbf{information gain} and \textbf{discrimination information}.
+  It is defined by
   \begin{align}
     \label{eq:KL}
     \KL{P}{Q} = \sum_{x \in \&X} p(x) \log{p(x) \over q(x)}.
   \end{align}
+  If $P$ and $Q$ have the same support, then $\KL{P}{Q} = 0$ if and
+  only if $P = Q$.
 \end{definition}
 
-The Kullback-Leibler divergence is not a metric since it is not symmetric. If
-$P$ and $Q$ have the same support, then $\KL{P}{Q} = 0$ if and only if $P = Q$.
+\begin{remark}
+  The Kullback-Leibler divergence is defined only if $P$ is
+  \textit{absolutely continuous} with respect to $Q$, i.e.\
+  $\forall x$ $q(x) = 0 \implies p(x) = 0$.  When $p(x) = 0$,
+  $\KL{P}{Q} = 0$ since $\lim_{x \to 0} x\log{x} = 0$.
+\end{remark}
 
 \begin{theorem}
   For a closed convex set $E \subset \&P$, where $\&P$ is the space of
@@ -563,7 +571,7 @@ where $\pi$ and $\tilde{\pi}$ are projections, i.e. $(f \circ \pi)(\*u) = (f
 \end{proof}
 
 Now that we have the minimax decision rule, we can place it in the
-value function $\*V$, to uncover $\max_{\D}\*V(\*X, \tilde{\*X})$,
+value function $\*V$, to uncover $\max_{\D}\*V(\phi, \theta)(\*X, \tilde{\*X})$,
 equal to
 \begin{align}
   \label{eq:sum-of-two-kl-divergences}
@@ -577,8 +585,7 @@ i.e. $\max_{\D}\V(\*X, \*Z)$ is equal to
   \KL{\pt}{p_{\phi}(\*x) + \pt} + \KL{\pg}{\pg + p^*(\tilde{\*x})}.
 \end{align}
 \begin{lemma}
-  The minimax value for $\D$, i.e. $\min_{\G}\max_{\D}\V(\*X, \*Z)$, is $ -
-  \log{4}$.
+  The minimax value for $\D$, i.e. $\min_{\G}\max_{\D}\V(\*X, \*Z)$, is $ - \log{4}$.
 \end{lemma}
 
 \begin{proof}
@@ -587,11 +594,11 @@ i.e. $\max_{\D}\V(\*X, \*Z)$ is equal to
   \begin{align}
     \label{eq:side-note}
     V(\phi^*, \theta) & = \sum_{\*x \in \*X}\pt \log{ \pt \over 2 \pt} + \sum_{\tilde{\*x} \in \tilde{\*X}}p^*(\tilde{\*x}) \log{ p^*(\tilde{\*x}) \over 2 p^*(\tilde{\*x})} \\
-                      & = \sum_{\*x \in \*X} \log {1 \over 2} \sum_{\tilde{\*x} \in \tilde{\*X}} \log {1 \over 2} \\
-                      & = 2 \cdot \log{1 \over 2} \\
+                      & = \sum_{\*x \in \*X} \pt \log {1 \over 2} +
+                        \sum_{\tilde{\*x} \in \tilde{\*X}} p^*(\tilde{\*x}) \log {1 \over 2} \\
                       & = -\log{4}
   \end{align}
-  Hence, the lower bound on optimization is $-\log{4}$.
+  Hence, the minimax value is $ - \log{4}$.
 \end{proof}
 
 \begin{theorem}

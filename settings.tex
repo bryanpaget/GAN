@@ -11,25 +11,26 @@
 % New Page
 \usepackage{afterpage}
 \newcommand\blankpage{
-    \null
-    \thispagestyle{empty}
-    \addtocounter{page}{-1}
-    \newpage}
+  \null
+  \thispagestyle{empty}
+  \addtocounter{page}{-1}
+  \newpage
+}
 
 % TOC depth
 \setcounter{tocdepth}{2}
 \usepackage{titlesec}
 \usepackage{nameref}% http://ctan.org/pkg/nameref
 
-\titleformat{\section}[display]{\normalfont\Large\filcenter\sffamily}{%
+\titleformat{\section}[display]{\large\filcenter\scshape}{%
   \titlerule[0.01pc]%
-  \vspace{0.2cm}%
-  \Large
+  \vspace{0.15cm}%
+  \large
   Section \thesection}{0pc}{
-  \vspace{0.2cm}%
+  \vspace{0.15cm}%
   \titlerule[0.01pc]%
-  \vspace{0.2cm}%
-  \Huge}
+  \vspace{0.15cm}%
+  \LARGE}
 
 %%% Math Packages:
 \usepackage{amsmath}

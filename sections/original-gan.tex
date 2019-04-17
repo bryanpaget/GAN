@@ -4,22 +4,24 @@
 \vspace{1cm}
 
 \begin{figure}[h]
-  \label{fig:paradise} \centering
-\fcolorbox{black}{white}{\includegraphics[width=0.3\textwidth]{paradise}}
+  \label{fig:paradise}
+  \centering
+  \fcolorbox{black}{white}{
+    \includegraphics[width=0.3\textwidth]{paradise}
+  }
   \caption{Louis Figuier, ``Reptiles and Birds'', 1869.}
 \end{figure}
 
 \vspace{1cm}
 
-\lettrine[lines=3]{\Royal T}{The original theoretical formulation of
-  the GAN algorithm} (in Goodfellow's paper) is through \textit{game
-  theory}, which is the study of conflict and cooperation between
-rational decision makers through the use of mathematical and
-statistical modelling \cite{ref:myerson}.  Throughout this paper we
-only consider two-player games, and we will use $D$ to represent the
-player, and $G$ to represent her opponent. We use the symbol $V_i$ to
-represent the \textit{value function} of player $i$ for
-$i \in \{D, G\}$.
+\noindent The original theoretical formulation of the GAN algorithm (in
+Goodfellow's paper) is through \textit{game theory}, which is the
+study of conflict and cooperation between rational decision makers
+through the use of mathematical and statistical modelling
+\cite{ref:myerson}.  Throughout this paper we only consider two-player
+games, and we will use $D$ to represent the player, and $G$ to
+represent her opponent. We use the symbol $V_i$ to represent the
+\textit{value function} of player $i$ for $i \in \{D, G\}$.
 
 \begin{definition}
   \label{def:value-function} A \textbf{value function} $V_i$ describes
@@ -79,16 +81,42 @@ $D$ to attain the maximum of the reduced reward.
 
 The GAN algorithm searches for a \textit{Nash equilibrium} in the
 space of parameters for the disciminator and the generator, as covered
-in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}. In a
-Nash equilibrium, no player can improve his or her reward by
-unilaterally changing his or her strategy. Each player's strategy is
-an optimal response based on the acticipated behavior of the other
-player(s) in the game. For more information, see \cite{ref:nash-1950}
-and \cite{ref:nash-1951}.
+in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 
-A minimax solution to a zero-sum game is the same as a Nash
-Equilibrium. The Nash equilibrium is not necessarily globally optimal
-and a game may have more than one Nash equilibrium.
+\begin{definition}
+  A \textbf{Nash equilibrium} in an $n$-player game is a set of
+  strategies, one for each player, with the property that no player
+  can benefit from unilaterally changing their strategy.
+
+  Let $S_i$ denote the set of strategies for player $i$. Let
+  $S = S_1 \times S_2 \times \cdots \times S_n$ denote the set of
+  strategy profiles.  Each strategy profile $s \in S$ is a combination
+  of strategies, one for each player, which dictates what each player
+  will do on their next turn.  Let $f_i(s)$ be the payoff to player
+  $i$ of $s$.
+
+  A Nash equilibrium is a strategy profile
+  $s^* = (s_1, s_2, \dots, s_n)$ such that
+  \begin{align}
+  f_i(s^*) \geq f_i((s_1, s_2, \dots, s_{-i}, \dots, s_n))
+  \end{align}
+  for all $i$ and $s_{-i}$ denotes any strategy of player $i$ other
+  than $s_i$ from $s^*$.
+\end{definition}
+
+\begin{remark}
+  Each player's strategy is an optimal response based on the
+  acticipated behavior of the other player(s) in the game.  A minimax
+  solution to a zero-sum game is the same as a Nash Equilibrium. The
+  Nash equilibrium is not necessarily globally optimal and a game may
+  have more than one Nash equilibrium.
+\end{remark}
+
+% \begin{remark}
+%   Nash's existence theorem states that for $S_i$ for all $i$ and for
+%   finite $n$, at least one Nash equilibrium exists.  For more
+%   information, see \cite{ref:nash-1950} and \cite{ref:nash-1951}.
+% \end{remark}
 
 We look to the \textit{Prisoner's Dilemma} for an illustrative example
 of a Nash equilibrium. The Prisoner's Dilemma was originally
@@ -100,7 +128,6 @@ that the globally optimal state may not be realistically attainable in
 a non-cooperative game. Each player is trying to minimize their
 expected jail-time, and they are assuming the other player is doing
 the same, and given that, they will not achieve the global minimum.
-
 
 \subsubsection{Prisoner's Dilemma}
 \label{sec:prisoners-dilemma}
@@ -230,21 +257,20 @@ Let $\D$ be a discriminator and $\G$ be a generator. Let $\V$ be the
 value function, which is a function of the \textit{actions} (which are
 parameterized by $\phi$ and $\theta$) taken by $\D$ and $\G$, given by
 \begin{align}
-  \label{eq:the-original-objective-function} V(\phi, \theta) =
-  \mathbb{E}_{\*x \sim \pt}[{\log D_\theta(\*x})] + \mathbb{E}_{\*z \sim
-  \pz}[\log{(1 - D_\theta(G_\phi(\mathbf{z})))}].
+  \label{eq:the-original-objective-function}
+  V(\phi, \theta) = \mathbb{E}_{\*x \sim \pt}[{\log D_\theta(\*x})] +
+  \mathbb{E}_{\*z \sim \pz}[\log{(1 - D_\theta(G_\phi(\mathbf{z})))}].
 \end{align}
 
-Interestingly, the value function used by the GAN algorithm is related
-to the value function used by the \textit{noise-contrastive
-  estimator}; the interested reader can see \cite{ref:gutmann-2010}
-for more details. In the game between $\G$ and $\D$, each will want to
-maximize the minimum reward it can earn and equivalently, minimize the
-maximum loss. In general, a player can minimize the maximum loss by
-playing its minimax decision rule (see Definition \ref{def:minimax}).
+The value function used by the GAN algorithm is related to the value
+function used by the \textit{noise-contrastive estimator}, see
+\cite{ref:gutmann-2010} for more details. In the game between $\G$ and
+$\D$, each will want to maximize the minimum reward it can earn and
+equivalently, minimize the maximum loss. In general, a player can
+minimize the maximum loss by playing its minimax decision rule (see
+Definition \ref{def:minimax}).
 
-\subsubsection{Derivation of the Value Function from the Perspective
-of $\D$}
+\subsubsection{Derivation of the Value Function from the Perspective of $\D$}
 \label{sec:derivation-d}
 
 We begin the derivation of $\V$ from the perspective of $\D$. We want
@@ -252,16 +278,18 @@ $\D$ to assign density to $\*x \in \target$ that are close to the
 density assigned by $\pt$. We can do this by finding
 $\theta \in \Theta$ which maximize the likelihood function
 \begin{align}
-  \label{eq:d-1} L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(\*{x}_i),
-  \quad \*x_i \sim \pt.
-\end{align} Since this maximization is done numerically, we maximize
-the logarithm of the above equation,
+  \label{eq:d-1}
+  L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(\*{x}_i), \quad \*x_i \sim \pt.
+\end{align}
+Since this maximization is done numerically, we maximize the logarithm
+of the above equation,
 \begin{align}
-  \label{eq:d-l1} \ell_{D}^{(1)}(\theta) = \log \prod_{i=1}^n
-  \D(\*x_i) = \sum_{i=1}^n \log \D (\*x_i).
-\end{align} One benefit of using $\log$ is it is monotone increasing
-(any maximizer of (\ref{eq:d-l1}) will also maximize (\ref{eq:d-1}))
-and the curvature of $\log$ may make optimization more efficient by
+  \label{eq:d-l1}
+  \ell_{D}^{(1)}(\theta) = \log \prod_{i=1}^n \D(\*x_i) = \sum_{i=1}^n \log \D (\*x_i).
+\end{align}
+One benefit of using $\log$ is it is monotone increasing (any
+maximizer of (\ref{eq:d-l1}) will also maximize (\ref{eq:d-1})) and
+the curvature of $\log$ may make optimization more efficient by
 providing steeper gradients.
 
 At the same time, since we also want the discriminator $\D$ to
@@ -269,44 +297,46 @@ distinguish generated samples from real samples, we want $\D$ to
 assign low probability (preferably zero) to any generated data point
 $\G(\*z) = \tilde{\*x}$.  Therefore, for some fixed $\G$, $\theta$
 must also minimize the following likelihood function,
-\begin{align} ^*L_{D}^{(2)}(\theta) = \prod_{i=1}^n D_\theta(\Gzi),
-  \quad \*z_i \sim \pz,
-\end{align} and as before, minimization of $^*L_{D}^{(2)}(\theta)$ can
-be done via minimization of its logarithm,
 \begin{align}
-  \label{eq:d-l2} ^*\ell_{D}^{(2)}(\theta) = \log \prod_{i=1}^n
-  D_\theta(\Gzi) = \sum_{i=1}^n \log \D (\Gzi).
-\end{align} Alternatively, since we are already maximizing
-(\ref{eq:d-l1}), we can turn (\ref{eq:d-l2}) into a function to be
-maximized. Specifically, we ask $\D$ to maximize
-\begin{align} \ell_{D}^{(2)}(\theta) = \sum_{i=1}^n \log{(1 -
-    D_\theta(G_\phi(\mathbf{z}_i)))},
-\end{align} since minimizing $\D(\G(\*z))$ is the same as maximizing
+  ^*L_{D}^{(2)}(\theta) = \prod_{i=1}^n D_\theta(\Gzi), \quad \*z_i \sim \pz,
+\end{align}
+and as before, minimization of $^*L_{D}^{(2)}(\theta)$ can be done via
+minimization of its logarithm,
+\begin{align}
+  \label{eq:d-l2} ^*\ell_{D}^{(2)}(\theta) = \log \prod_{i=1}^n D_\theta(\Gzi) = \sum_{i=1}^n \log \D (\Gzi).
+\end{align}
+Alternatively, since we are already maximizing (\ref{eq:d-l1}), we can
+turn (\ref{eq:d-l2}) into a function to be maximized. Specifically, we
+ask $\D$ to maximize
+\begin{align}
+  \ell_{D}^{(2)}(\theta) = \sum_{i=1}^n \log{(1 - D_\theta(G_\phi(\mathbf{z}_i)))},
+\end{align}
+since minimizing $\D(\G(\*z))$ is the same as maximizing
 $1 - \D(\G(\*z))$. When we combine $\ell_{D}^{(1)}(\theta)$ and
 $\ell_{D}^{(2)}(\theta)$ we arrive at the following objective function
 for $\D$ to maximize,
-\begin{align} \sum_{i=1}^n \left( \log D_\theta(\*x_i) + \log{(1 -
-      \D(\G(\*z_i)))} \right).
-\end{align} This is equivalent to maximizing the mean, which, by the
-law of large numbers, converges to
 \begin{align}
-  \label{eq:objective-for-d} \mathbb{E}_{\*x \sim \pt}[{\log \D(\*x})]
-  + \mathbb{E}_{\*z \sim \pz}[\log{(1 - \D(\G(\*z)))}]
-\end{align} for $n$ sufficiently large. Thus, we can say the objective
-of the GAN algorithm from the perspective of the discriminator is to
-find a set of parameters $\theta$ which maximize
-(\ref{eq:objective-for-d}).
+  \sum_{i=1}^n \left( \log D_\theta(\*x_i) + \log{(1 - \D(\G(\*z_i)))} \right).
+\end{align}
+This is equivalent to maximizing the mean, which, by the law of large
+numbers, converges to
+\begin{align}
+  \label{eq:objective-for-d}
+  \mathbb{E}_{\*x \sim \pt}[{\log \D(\*x})] + \mathbb{E}_{\*z \sim \pz}[\log{(1 - \D(\G(\*z)))}]
+\end{align}
+for $n$ sufficiently large. Thus, we can say the objective of the GAN
+algorithm from the perspective of the discriminator is to find a set
+of parameters $\theta$ which maximize (\ref{eq:objective-for-d}).
 
-\subsubsection{Derivation of the Value Function from the Perspective
-  of $\G$}
+\subsubsection{Derivation of the Value Function from the Perspective of $\G$}
 \label{sec:derivation-g}
 
 From the perspective of the generator, we search for $\phi$ that
 maximizes the likelihood (as a defined by a fixed $\D$) that a
 generated sample comes from the target distribution $\pt$, i.e.\ we
 want $\G$ to maximize
-\begin{align} ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(\*z_i)) =
-  \sum_{i=1}^n\log{\D(\G(\*z_i))}, \quad \*z \sim \pz.
+\begin{align}
+  ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(\*z_i)) = \sum_{i=1}^n\log{\D(\G(\*z_i))}, \quad \*z \sim \pz.
 \end{align}
 Alternatively, we can minimize
 \begin{align}
@@ -318,14 +348,18 @@ which is equivalent to minimizing $\mathbb{E}_{\*z \sim \pz} \left[\log{(1 - \D(
 
 Then the training objectives for $\D$ and $\G$ lead us to the
 following formula for the \textit{minimax value} of $\D$:
-\begin{align} \overline{V_{\D}} & =
-  \min_{\phi}\max_{\theta}\left(V_{\D}(\theta, \phi) \right) \\ & =
-  \min_{\phi}\max_{\theta}\left(\mathbb{E}\left[\log{\D(\*x)}\right] +
-    \mathbb{E}\left[\log(1 - \D(\G(\*z)))\right] \right)
-\end{align} which we will solve in the next section by finding the
-\textit{minimax decision rule} and \textit{minimax value} for $\D$
-(see Theorem~\ref{theorem:minimax}), which means we are finding the
-Nash Equilibrium.  But this is not always easy to do in practice.
+\begin{align}
+  \overline{V_{\D}} & = \min_{\phi}\max_{\theta}\left(V_{\D}(\theta,
+                      \phi) \right) \\
+                    & =
+                      \min_{\phi}\max_{\theta}\left(\mathbb{E}\left[\log{\D(\*x)}\right]
+                      +
+                      \mathbb{E}\left[\log(1 - \D(\G(\*z)))\right] \right)
+\end{align}
+which we will solve in the next section by finding the \textit{minimax
+  decision rule} and \textit{minimax value} for $\D$ (see
+Theorem~\ref{theorem:minimax}), which means we are finding the Nash
+equilibrium.  But this is not always easy to do in practice.
 
 \subsubsection{The Difficulty of Finding a Nash Equilibrium}
 \label{sec:difficulty}
@@ -333,51 +367,66 @@ Nash Equilibrium.  But this is not always easy to do in practice.
 It is not always easy to find a Nash equilibrium, in fact, if we look
 at the following example, we will see there is a tendency to oscillate
 around an equilibrium. This example was inspired by
-\cite{ref:weng-2017}.
+\cite{ref:weng-2017}.  Let $G$ control $x$ and $D$ control $y$.
 
-\begin{example} Let $V(x, y) = xy$ be a value function and let the
-following be our game,
-  \begin{align} \min_x\max_yV(x, y) = xy.
-  \end{align} Then since ${\partial{V} \over \partial{x}} = y$ and
-  ${\partial{V} \over \partial{y}} = x$ we obtain the following updates
-  by following the gradient in the appropriate direction,
-  \begin{align} x^{(t+1)} \gets x^{(t)} - D y; \\ y^{(t+1)} \gets
-y^{(t)} + D x;
-  \end{align} where $D > 0$ is the learning rate. The Nash equilibrium
-  for this game is $V(0, 0) = 0$, since if $x = 0$, there is no way to
-  maximize $V$ with respect to $y$, unless $x \not = 0$. If $y = 0$,
-  there is no way to minimize $V$ with respect to $x$, unless $y \not =
-  0$. Then as we alternate updates, we observe the following oscillating
-  behavior as depicted in Figure \ref{fig:alternating}.
+\begin{example}
+  Let $V(x, y) = xy$ be a value function and let the following be our
+  game,
+  \begin{align}
+    \min_x\max_yV(x, y) = xy.
+  \end{align}
+  Then since ${\partial{V} \over \partial{x}} = y$ and
+  ${\partial{V} \over \partial{y}} = x$ we obtain the following
+  updates by following the gradient in the appropriate direction,
+  \begin{align}
+    x^{(t+1)} \gets x^{(t)} - \eta \cdot y; \\
+    y^{(t+1)} \gets y^{(t)} + \eta \cdot x;
+  \end{align}
+  where $\eta > 0$ is the learning rate. The Nash equilibrium for this
+  game is a pair of strategies $s^* = (s_G, s_D)$. If $G$'s strategy
+  is $s^*_G = (0, 0, 0, \dots)$, then $V(s^*_G, s_D) = 0\ \forall s_D$, so
+  in particular $D$ cannot improve the value function.  And if $D$
+  takes the same strategy $s^*_D = (0, 0, 0, \dots)$, then there is
+  nothing $G$ can do to improve the value function from its
+  perspective.  Hence $s^* = (s^*_D, s^*_G)$ and $V(s^*_G, s^*_D) = 0$.
 
-  \begin{figure}[H] \centering
+  \begin{figure}[H]
+    \centering
     \includegraphics[width=0.6\textwidth]{plot1}
     \caption{Oscillating around the optimal value}
     \label{fig:alternating}
   \end{figure}
 \end{example}
 
-\begin{example} We can do something similar with another value
-  function $V(x, y) = \log(x) + \log(1 - xy)$, with the same game
-  \begin{align} \min_x\max_y V(x, y) = \log(x) + \log(1 - xy).
-  \end{align} The updates for this optimization are
-  \begin{align} x^{(t+1)} & \gets x^{(t)} - D \left( {1 \over x} + {y
-        \over 1 - xy} \right); \\ y^{(t+1)} & \gets y^{(t)} - D \left(
-      {x \over 1 - xy} \right);
-  \end{align} and we can observe the following behavior in
-  Figure~\ref{fig:drop}.
+As we alternate updates, we observe oscillating behavior as depicted
+in Figure \ref{fig:alternating}.  This oscillation has been observed
+in GAN training.
 
-  \begin{figure}[H] \centering
-    \includegraphics[width=0.6\textwidth]{plot2}
-    \caption{$x$ dominates}
-    \label{fig:drop}
-  \end{figure}
-
-\end{example}
-
-In the first example the optimization oscilates around 0, while in the
-second example $x$ quickly dominates, and this simple example
-resembles what happens in GAN training in practice.
+% \begin{example}
+%   We can do something similar with another value
+%   function $V(x, y) = \log(x) + \log(1 - xy)$, with the same game
+%   \begin{align}
+%     \min_x\max_y V(x, y) = \log(x) + \log(1 - xy).
+%   \end{align}
+%   The updates for this optimization are
+%   \begin{align}
+%     x^{(t+1)} & \gets x^{(t)} - \eta \left( {1 \over x} + {y
+%                 \over 1 - xy} \right); \\
+%     y^{(t+1)} & \gets y^{(t)} - \eta \left({x \over 1 - xy} \right);
+%   \end{align} and we can observe the following behavior in
+%   Figure~\ref{fig:drop}.
+%
+%   \begin{figure}[H] \centering
+%     \includegraphics[width=0.6\textwidth]{plot2}
+%     \caption{$x$ dominates}
+%     \label{fig:drop}
+%   \end{figure}
+%
+% \end{example}
+%
+% In the first example the optimization oscilates around 0, while in the
+% second example $x$ quickly dominates, and this simple example
+% resembles what happens in GAN training in practice.
 
 \subsubsection{Two Value Functions}
 \label{sec:two-value}
@@ -458,5 +507,7 @@ From the perspective of $\G$, if $\D$ has converged, i.e. $\D(\*x) =
 {1 \over 2}$ for all $\*x$, then there is nothing for $\G$ to do to
 improve it's situation. So it doesn't really have a minimax rule.
 
-%%% Local Variables: %%% mode: latex %%% TeX-master: "../thesis.tex"
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
 %%% End:
