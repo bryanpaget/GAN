@@ -47,28 +47,30 @@ intelligence methods''.
 
 The most fundamental quantity in information theory is
 \textit{entropy}. Before we state the formal definition of entropy, we
-will motivate it as a measure of \textit{uncertainty} by walking
-through its derivation. We will define a function $\eta$ as a measure
-of uncertainty. We will derive entropy as a function based on the
+will motivate it as a measure of uncertainty by walking through its
+derivation. We will define a function $\eta$ as a measure of
+uncertainty. We will derive entropy as a function based on the
 requirements it must satisfy.
 
 \begin{definition}
-  Let $(\&X, p(x))$ be a finite probability space. We define
-  \textbf{uncertainty} to be a real-valued function $\eta(\cdot): \&X \mapsto
-  \R^+$ which depends only on the probabilities of the events and satisfies the
-  following:
+  Let $(\&X, p(x))$ be a discrete probability space. We define
+  \textbf{uncertainty} to be a real-valued function
+  $\eta(\cdot): \&X \mapsto \R^+$ which depends only on the
+  probabilities of the events and satisfies the following:
   \begin{enumerate}[(i)]
   \item If an event $x$ is guaranteed to occur, then there is no uncertainty
     about it and $\eta(x) = 0$;
   \item For any two events $x$, $x^\prime$, we have $p(x) < p(x^\prime) \iff
     \eta(x) > \eta(x^\prime)$;
-  \item For any two events, $x$, $x^\prime$, the uncertainty of their
-    simultaneous occurrence, is the sum of their uncertainties, i.e. $\eta(x
-    \cdot x^\prime) = \eta(x) + \eta(x^\prime)$.
+  \item For any two independent events, $x$, $x^\prime$, the
+    uncertainty of their joint occurrence, is the sum of their
+    uncertainties, i.e.
+    $\eta(x \cdot x^\prime) = \eta(x) + \eta(x^\prime)$.
   \end{enumerate}
 \end{definition}
 \begin{remark}
-  This definition is a modification of one given by~\cite{ref:martin-2011}.
+  This definition is a modification of one given
+  by~\cite{ref:martin-2011}.
 \end{remark}
 
 It shouldn't be a surprise that it's new information we are interested in, since
@@ -86,21 +88,24 @@ set of possible events are uniformly distributed.
   \label{eq:eta-2}
   \eta(x) \leq {1 \over |\&X|}
 \end{align}
-Since $\eta$ must satisfy $\eta(x \cdot x^\prime) = \eta(x) + \eta(x^\prime)$,
-we must define $\eta$ in terms of the logarithm, which provides additivity where
-once was only multiplicity.
+Since $\eta$ must satisfy
+$\eta(x \cdot x^\prime) = \eta(x) + \eta(x^\prime)$, we must define
+$\eta$ in terms of the logarithm.  This is because the probability of
+two independent events is the product of their probabilities where as
+information is additive.
 \begin{align}
   \label{eq:eta-3}
   \eta(x) \approx \log{\left({1 \over p(x)}\right)}
 \end{align}
-Where the logarithm is to the base 2. For probability distributions not equal to
-the uniform distribution, we need a more precise estimate of measuring how much
-uncertainty, \textit{on average}, is contained in events from $(\&X, p(x))$. We
-need to weight the calculation by the probability of observing each event. This
-means what we are really seeking is a measure on the probability distribution
-over $\&X$, since that is where the information about the probability of events
-is stored. We will adjust the notation, we wil use the upper case of $\eta$,
-which resembles the Latin H,
+For probability distributions not equal to the uniform distribution,
+we need a more precise estimate of measuring how much uncertainty,
+\textit{on average}, is contained in events from $(\&X, p(x))$. We
+need to weight the calculation by the probability of observing each
+event. This means what we are really seeking is a measure on the
+probability distribution over $\&X$, since that is where the
+information about the probability of events is stored. We will adjust
+the notation, we wil use the upper case of $\eta$, which resembles the
+Latin H,
 \begin{align}
   \label{eq:eta-almost}
   \&H(P) = \sum_{x \in \&X} p(x) \log\left({1 \over p(x)}\right).
@@ -438,53 +443,53 @@ over the set.  This can be stated as a theorem.
   \label{thm:info-objective}%
   The training objectives of the GAN algorithm are to find
   \begin{enumerate}[(i)]
-  \item $\theta \in \Theta$ to minimize $\KL{\pt}{\D(\*x)}$;
-  \item $\theta \in \Theta$ to maximize $\KL{\pz}{\D(\G(\*z))}$;
-  \item $\phi \in \Phi$ to minimize $\KL{\pz}{\D(\G(\*z))}$.
+  \item $\theta \in \Theta$ to minimize $\KL{\pt}{\D(x)}$;
+  \item $\theta \in \Theta$ to maximize $\KL{\pz}{\D(\G(z))}$;
+  \item $\phi \in \Phi$ to minimize $\KL{\pz}{\D(\G(z))}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{proof}
   The first term of $\V$ is the negative cross entropy of $\pt$ and
-  the distribution induced by $\D(\*x)$,
+  the distribution induced by $\D(x)$,
 \begin{align}
   \label{eq:neg-cross-entropy}
-  - \&H(\pt, \D(\*x)) = \sum_{\*x}\pt\log(\D(\*x)) = \mathbb{E}_{\*x \sim \pt} \left[\log(\D(\*x))\right].
+  - \&H(\pt, \D(x)) = \sum_{x}\pt\log(\D(x)) = \mathbb{E}_{x \sim \pt} \left[\log(\D(x))\right].
 \end{align}
 Since we train the discriminator to maximize
 (\ref{eq:neg-cross-entropy}) we can think of this as minimizing its
 negative, which is equivalent to minimizing the cross entropy of $\pt$
-and the distribution induced by $\D(\*x)$, which occurs when the
+and the distribution induced by $\D(x)$, which occurs when the
 Kullback-Leibler divergence of $\pt$ and $\pd$ is 0, since
 \begin{align}
-  \&H(\pt,\D(\*x)) & = - \sum_{\*x \in \&X} \pt \log \pd \\
-                   & = -\sum_{\*x \in \&X} \pt \log \pt + \sum_{\*x \in \&X} \pt \log \pt - \sum_{\*x \in \&X} \pt \log \pd \\
-                   & = -\sum_{\*x \in \&X} \pt \log \pt + \sum_{\*x \in \&X} \pt \log {\pt \over
+  \&H(\pt,\D(x)) & = - \sum_{x \in \&X} \pt \log \pd \\
+                   & = -\sum_{x \in \&X} \pt \log \pt + \sum_{x \in \&X} \pt \log \pt - \sum_{x \in \&X} \pt \log \pd \\
+                   & = -\sum_{x \in \&X} \pt \log \pt + \sum_{x \in \&X} \pt \log {\pt \over
                      \pd}  \\
-                   & = H(\pt) + \KL{\pt}{\D(\*x)}.
+                   & = H(\pt) + \KL{\pt}{\D(x)}.
 \end{align}
 Since we don't touch $\pt$ during training, the only way to minimize
-$\&H(\pt,\D(\*x))$ is to train $\D$ to minimize $\KL{\pt}{\D(\*x)}$,
-which occurs when $\pt = \D(\*x)$. Therefore, when $\D$ has been
-optimized, $\D(\*x)$ will return the probability that $\*x$ was
+$\&H(\pt,\D(x))$ is to train $\D$ to minimize $\KL{\pt}{\D(x)}$,
+which occurs when $\pt = \D(x)$. Therefore, when $\D$ has been
+optimized, $\D(x)$ will return the probability that $x$ was
 sampled from $\pt$, which equals $\pt$ when $\D$ is optimal. The
 second term,
 \begin{align}
-  \mathbb{E}_{\*z \sim \pz}\left[\log(1 - \D(\G(\*{z})))\right] =
-  \sum_{\*z \sim \pz} \pz \log (1 - \D(\G(\*{z})))
+  \mathbb{E}_{z \sim \pz}\left[\log(1 - \D(\G(\*{z})))\right] =
+  \sum_{z \sim \pz} \pz \log (1 - \D(\G(\*{z})))
 \end{align}
 was maximized by $\D$, which is equivalent to $\D$ maximizing
 \begin{align}
-  -\sum_{\*z \sim \pz} \pz \log (\D(\G(\*z))),
+  -\sum_{z \sim \pz} \pz \log (\D(\G(z))),
 \end{align}
-which is the cross entropy of $\pz$ and $\D(\G(\*z))$. This means $\D$ is trying
-to make $\pz$ and $\D(\G(\*z))$ to be as different as possible. And given a
+which is the cross entropy of $\pz$ and $\D(\G(z))$. This means $\D$ is trying
+to make $\pz$ and $\D(\G(z))$ to be as different as possible. And given a
 fixed discriminator $\D$, we train the $\G$ to minimize the same equation, which
 can be expressed equivalently as minimizing
 \begin{align}
-  -\sum_{\*z \sim \pz} \pz \log (\D(\G(\*z)))
+  -\sum_{z \sim \pz} \pz \log (\D(\G(z)))
 \end{align}
-the cross entropy of $\pz$ and $\D(\G(\*z))$.
+the cross entropy of $\pz$ and $\D(\G(z))$.
 \end{proof}
 
 The interpretation of the above theorem is that the generator wants
@@ -507,25 +512,25 @@ results more rigorously and with some actual calculations. Throughout
 this section, we will use the following notation. Let $\&X$ be our
 data and $\pt$ the true probability distribution over $\&X$. Let
 $\tilde{\&X}$ be the generated data and $\pg$ be the distribution over
-$\tilde{\&X}$ induced by $\G$. Let $\*X$ be a sample from $\&X$,
-$\tilde{\*X}$ be a sample from $\tilde{\&X}$, and let
-$\*Z \subset \R^m$ be a sample from the noise distribution $\pz$.
+$\tilde{\&X}$ induced by $\G$. Let $x$ be a sample from $\&X$,
+$\tilde{x}$ be a sample from $\tilde{\&X}$, and let
+$z \subset \R^m$ be a sample from the noise distribution $\pz$.
 
 Throughout this section we will make use of not only
-\begin{align} V(\phi, \theta)(\*X, \*Z) & = \sum_{\*x \in \*X}\pt\log{\D(\*x)} +
-  \sum_{\*z \in \*Z}\pz\log{(1 - \D(\G(\*z)))},
+\begin{align} V(\phi, \theta)(x, z) & = \sum_{x \in x}\pt\log{\D(x)} +
+  \sum_{z \in z}\pz\log{(1 - \D(\G(z)))},
 \end{align}
 but of two equivalent variations as well. The first variation,
-$\*V(\phi, \theta)(\*X, \tilde{\*X})$, is obtained by changing the
-second argument of $\V$ from a sample of noise $\*Z$ to a sample from
-the generator $\G(\*Z) = \tilde{\*X}$. We compute the second
+$\*V(\phi, \theta)(x, \tilde{x})$, is obtained by changing the
+second argument of $\V$ from a sample of noise $z$ to a sample from
+the generator $\G(z) = \tilde{x}$. We compute the second
 expectation with respect to $\pg$, i.e.\ we have
 \begin{align}
-  \*V(\phi, \theta)(\*X, \tilde{\*X}) = \sum_{\*x \in \*X}\pt\log{\D(\*x)} + \sum_{\tilde{\*x} \in\tilde{\*X}}\pg\log{(1 - \D(\tilde{\*x}))}.
+  \*V(\phi, \theta)(x, \tilde{x}) = \sum_{x \in x}\pt\log{\D(x)} + \sum_{\tilde{x} \in\tilde{x}}\pg\log{(1 - \D(\tilde{x}))}.
 \end{align}
 For the second variation, $\&V$, we are going to embed our data onto $\*U
-\subset \R$, where each $\*u_i$ is associated with a tuple $(\*x_i,
-\tilde{\*x}_i)$. Then we can define the following function
+\subset \R$, where each $\*u_i$ is associated with a tuple $(x_i,
+\tilde{x}_i)$. Then we can define the following function
 \begin{align}
   \label{eq:joined}
   \Va(\*U) = \sum_{\*u \in \*U} \ptu \log \D(\*u) + \pgu \log(1 - \D(\*u)),
@@ -536,8 +541,8 @@ which we will use as short-hand for
   \sum_{\*u \in \*U} (p^* \circ \pi)(\*u)\log (\D \circ \pi)(\*u) + (\pg \circ \tilde{\pi})(\*u) \log(1 - (\D \circ \tilde{\pi})(\*u)),
 \end{align}
 where $\pi$ and $\tilde{\pi}$ are projections, i.e. $(f \circ \pi)(\*u) = (f
-\circ \pi)((\*x, \tilde{\*x})) = f(\*x)$ and $(f \circ \tilde{\pi})(\*u) = (f
-\circ \tilde{\pi})((\*x, \tilde{\*x})) = f(\tilde{\*x})$.
+\circ \pi)((x, \tilde{x})) = f(x)$ and $(f \circ \tilde{\pi})(\*u) = (f
+\circ \tilde{\pi})((x, \tilde{x})) = f(\tilde{x})$.
 
 \begin{theorem}%
  \label{theorem:minimax}
@@ -571,21 +576,21 @@ where $\pi$ and $\tilde{\pi}$ are projections, i.e. $(f \circ \pi)(\*u) = (f
 \end{proof}
 
 Now that we have the minimax decision rule, we can place it in the
-value function $\*V$, to uncover $\max_{\D}\*V(\phi, \theta)(\*X, \tilde{\*X})$,
+value function $\*V$, to uncover $\max_{\D}\*V(\phi, \theta)(x, \tilde{x})$,
 equal to
 \begin{align}
   \label{eq:sum-of-two-kl-divergences}
-   \mathbb{E}_{\*x \sim \pt}\left[\log{{\pt \over p_{\phi}(\*x)+ \pt}}\right] + \mathbb{E}_{\tilde{\*x} \sim \pg}\left[\log{\pg \over \pg + p^*(\tilde{\*x})} \right],
+   \mathbb{E}_{x \sim \pt}\left[\log{{\pt \over p_{\phi}(x)+ \pt}}\right] + \mathbb{E}_{\tilde{x} \sim \pg}\left[\log{\pg \over \pg + p^*(\tilde{x})} \right],
 \end{align}
 which is the sum of two Kullback-Leibler divergences (which is related
 to the Jenson-Shannon divergence of $\pt$ and $\pg$)
-i.e. $\max_{\D}\V(\*X, \*Z)$ is equal to
+i.e. $\max_{\D}\V(x, z)$ is equal to
 \begin{align}
   \label{eq:16}
-  \KL{\pt}{p_{\phi}(\*x) + \pt} + \KL{\pg}{\pg + p^*(\tilde{\*x})}.
+  \KL{\pt}{p_{\phi}(x) + \pt} + \KL{\pg}{\pg + p^*(\tilde{x})}.
 \end{align}
 \begin{lemma}
-  The minimax value for $\D$, i.e. $\min_{\G}\max_{\D}\V(\*X, \*Z)$, is $ - \log{4}$.
+  The minimax value for $\D$, i.e. $\min_{\G}\max_{\D}\V(x, z)$, is $ - \log{4}$.
 \end{lemma}
 
 \begin{proof}
@@ -593,9 +598,9 @@ i.e. $\max_{\D}\V(\*X, \*Z)$ is equal to
   \pt$. If this optimal $\G^*$ is place inside (\ref{eq:16}), we obtain
   \begin{align}
     \label{eq:side-note}
-    V(\phi^*, \theta) & = \sum_{\*x \in \*X}\pt \log{ \pt \over 2 \pt} + \sum_{\tilde{\*x} \in \tilde{\*X}}p^*(\tilde{\*x}) \log{ p^*(\tilde{\*x}) \over 2 p^*(\tilde{\*x})} \\
-                      & = \sum_{\*x \in \*X} \pt \log {1 \over 2} +
-                        \sum_{\tilde{\*x} \in \tilde{\*X}} p^*(\tilde{\*x}) \log {1 \over 2} \\
+    V(\phi^*, \theta) & = \sum_{x \in x}\pt \log{ \pt \over 2 \pt} + \sum_{\tilde{x} \in \tilde{x}}p^*(\tilde{x}) \log{ p^*(\tilde{x}) \over 2 p^*(\tilde{x})} \\
+                      & = \sum_{x \in x} \pt \log {1 \over 2} +
+                        \sum_{\tilde{x} \in \tilde{x}} p^*(\tilde{x}) \log {1 \over 2} \\
                       & = -\log{4}
   \end{align}
   Hence, the minimax value is $ - \log{4}$.
@@ -635,18 +640,18 @@ clustering similar objects into groups.
 Another way to think of GAN training is as optimization of model fit
 as measured by the average of the goodness-of-fit test since
 \begin{align}
-  \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\D(\*x_i)} + {1
-    \over n} \sum_{i=1}^n\log{(1 - \D(\G(\*z_i)))}
+  \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\D(x_i)} + {1
+    \over n} \sum_{i=1}^n\log{(1 - \D(\G(z_i)))}
 \end{align}
 has the same fixed point as
 \begin{align}
-  & \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\D(\*x_i)} - \log{(\D(\G(\*z_i)))} \\
-  & = \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\left({\D(\*x_i) \over \D(\G(\*z_i))}\right)}
+  & \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\D(x_i)} - \log{(\D(\G(z_i)))} \\
+  & = \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\left({\D(x_i) \over \D(\G(z_i))}\right)}
 \end{align}
 which is the KL divergence, or the average likelihood ratio
-test. Since $\forall \*x$ $\D(\*x) \in [0, 1]$, we can infer that when
-$\D$ is optimized, it will place a larger amount of mass on $\*x$ than
-on $\G(\*z)$.
+test. Since $\forall x$ $\D(x) \in [0, 1]$, we can infer that when
+$\D$ is optimized, it will place a larger amount of mass on $x$ than
+on $\G(z)$.
 
 %%% Local Variables:
 %%% mode: latex

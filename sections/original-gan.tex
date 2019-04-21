@@ -222,8 +222,8 @@ meaningless noise. \footnote{Meaningless to a human.}
 
 The goal of the GAN algorithm is to train a generator $\G$,
 parameterized by $\phi \in \Phi \subset \R^n$, to map random samples
-$\*z$ drawn from $(\prior, p_{\prior})$, where $\prior \subset \R^k$
-such that $\G(\*z)$ is located in $\target$ in a region where $\pt$
+$z$ drawn from $(\prior, p_{\prior})$, where $\prior \subset \R^k$
+such that $\G(z)$ is located in $\target$ in a region where $\pt$
 assigns a relatively large amount of mass. In practice
 $\prior \not = \target$ and $k$ is usually smaller than $|\target|$
 \cite{ref:arjovsky-2017}.
@@ -236,7 +236,7 @@ $\prior \not = \target$ and $k$ is usually smaller than $|\target|$
     (5, 1) {}; \node at (5.8, 1.8) {$\target$}; \draw[->] (Z) to
     [out=45,in=135] (O);
   \end{tikzpicture}
-  \caption{$\G$ maps $\*z$ to $\G(\*z) \in \target$}
+  \caption{$\G$ maps $z$ to $\G(z) \in \target$}
   \label{fig:g-maps}
 \end{figure}
 
@@ -246,7 +246,7 @@ instance if $\target$ is the space of all RGB images and we desire
 images of human faces, then we want $\G$ to map samples from $\&Z$ to
 the region of $\target$ with RGB values within a very narrow range.
 
-In the beginning $\G$ maps $\*z \in \&Z$ to $\target$ hapharzardly and
+In the beginning $\G$ maps $z \in \&Z$ to $\target$ hapharzardly and
 it is from $\D$ that $\G$ obtains gradients to learn from. We optimize
 the discriminator $\D$ until it classifies samples sufficiently well,
 i.e. $\D$ must learn to assign the correct probability that the sample
@@ -258,8 +258,8 @@ value function, which is a function of the \textit{actions} (which are
 parameterized by $\phi$ and $\theta$) taken by $\D$ and $\G$, given by
 \begin{align}
   \label{eq:the-original-objective-function}
-  V(\phi, \theta) = \mathbb{E}_{\*x \sim \pt}[{\log D_\theta(\*x})] +
-  \mathbb{E}_{\*z \sim \pz}[\log{(1 - D_\theta(G_\phi(\mathbf{z})))}].
+  V(\phi, \theta) = \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] +
+  \mathbb{E}_{z \sim \pz}[\log{(1 - D_\theta(G_\phi(\mathbf{z})))}].
 \end{align}
 
 The value function used by the GAN algorithm is related to the value
@@ -274,18 +274,18 @@ Definition \ref{def:minimax}).
 \label{sec:derivation-d}
 
 We begin the derivation of $\V$ from the perspective of $\D$. We want
-$\D$ to assign density to $\*x \in \target$ that are close to the
+$\D$ to assign density to $x \in \target$ that are close to the
 density assigned by $\pt$. We can do this by finding
 $\theta \in \Theta$ which maximize the likelihood function
 \begin{align}
   \label{eq:d-1}
-  L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(\*{x}_i), \quad \*x_i \sim \pt.
+  L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(\*{x}_i), \quad x_i \sim \pt.
 \end{align}
 Since this maximization is done numerically, we maximize the logarithm
 of the above equation,
 \begin{align}
   \label{eq:d-l1}
-  \ell_{D}^{(1)}(\theta) = \log \prod_{i=1}^n \D(\*x_i) = \sum_{i=1}^n \log \D (\*x_i).
+  \ell_{D}^{(1)}(\theta) = \log \prod_{i=1}^n \D(x_i) = \sum_{i=1}^n \log \D (x_i).
 \end{align}
 One benefit of using $\log$ is it is monotone increasing (any
 maximizer of (\ref{eq:d-l1}) will also maximize (\ref{eq:d-1})) and
@@ -295,10 +295,10 @@ providing steeper gradients.
 At the same time, since we also want the discriminator $\D$ to
 distinguish generated samples from real samples, we want $\D$ to
 assign low probability (preferably zero) to any generated data point
-$\G(\*z) = \tilde{\*x}$.  Therefore, for some fixed $\G$, $\theta$
+$\G(z) = \tilde{x}$.  Therefore, for some fixed $\G$, $\theta$
 must also minimize the following likelihood function,
 \begin{align}
-  ^*L_{D}^{(2)}(\theta) = \prod_{i=1}^n D_\theta(\Gzi), \quad \*z_i \sim \pz,
+  ^*L_{D}^{(2)}(\theta) = \prod_{i=1}^n D_\theta(\Gzi), \quad z_i \sim \pz,
 \end{align}
 and as before, minimization of $^*L_{D}^{(2)}(\theta)$ can be done via
 minimization of its logarithm,
@@ -311,18 +311,18 @@ ask $\D$ to maximize
 \begin{align}
   \ell_{D}^{(2)}(\theta) = \sum_{i=1}^n \log{(1 - D_\theta(G_\phi(\mathbf{z}_i)))},
 \end{align}
-since minimizing $\D(\G(\*z))$ is the same as maximizing
-$1 - \D(\G(\*z))$. When we combine $\ell_{D}^{(1)}(\theta)$ and
+since minimizing $\D(\G(z))$ is the same as maximizing
+$1 - \D(\G(z))$. When we combine $\ell_{D}^{(1)}(\theta)$ and
 $\ell_{D}^{(2)}(\theta)$ we arrive at the following objective function
 for $\D$ to maximize,
 \begin{align}
-  \sum_{i=1}^n \left( \log D_\theta(\*x_i) + \log{(1 - \D(\G(\*z_i)))} \right).
+  \sum_{i=1}^n \left( \log D_\theta(x_i) + \log{(1 - \D(\G(z_i)))} \right).
 \end{align}
 This is equivalent to maximizing the mean, which, by the law of large
 numbers, converges to
 \begin{align}
   \label{eq:objective-for-d}
-  \mathbb{E}_{\*x \sim \pt}[{\log \D(\*x})] + \mathbb{E}_{\*z \sim \pz}[\log{(1 - \D(\G(\*z)))}]
+  \mathbb{E}_{x \sim \pt}[{\log \D(x})] + \mathbb{E}_{z \sim \pz}[\log{(1 - \D(\G(z)))}]
 \end{align}
 for $n$ sufficiently large. Thus, we can say the objective of the GAN
 algorithm from the perspective of the discriminator is to find a set
@@ -336,13 +336,13 @@ maximizes the likelihood (as a defined by a fixed $\D$) that a
 generated sample comes from the target distribution $\pt$, i.e.\ we
 want $\G$ to maximize
 \begin{align}
-  ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(\*z_i)) = \sum_{i=1}^n\log{\D(\G(\*z_i))}, \quad \*z \sim \pz.
+  ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(z_i)) = \sum_{i=1}^n\log{\D(\G(z_i))}, \quad z \sim \pz.
 \end{align}
 Alternatively, we can minimize
 \begin{align}
-  \ell_G(\phi) = \sum_{i=1}^n\log{(1 - \D(\G(\*z_i)))},
+  \ell_G(\phi) = \sum_{i=1}^n\log{(1 - \D(\G(z_i)))},
 \end{align}
-which is equivalent to minimizing $\mathbb{E}_{\*z \sim \pz} \left[\log{(1 - \D(\G(\*z)))} \right]$.
+which is equivalent to minimizing $\mathbb{E}_{z \sim \pz} \left[\log{(1 - \D(\G(z)))} \right]$.
 
 \subsubsection{Minimax value for $\D$}
 
@@ -352,9 +352,9 @@ following formula for the \textit{minimax value} of $\D$:
   \overline{V_{\D}} & = \min_{\phi}\max_{\theta}\left(V_{\D}(\theta,
                       \phi) \right) \\
                     & =
-                      \min_{\phi}\max_{\theta}\left(\mathbb{E}\left[\log{\D(\*x)}\right]
+                      \min_{\phi}\max_{\theta}\left(\mathbb{E}\left[\log{\D(x)}\right]
                       +
-                      \mathbb{E}\left[\log(1 - \D(\G(\*z)))\right] \right)
+                      \mathbb{E}\left[\log(1 - \D(\G(z)))\right] \right)
 \end{align}
 which we will solve in the next section by finding the \textit{minimax
   decision rule} and \textit{minimax value} for $\D$ (see
@@ -462,24 +462,24 @@ We finally present the full algorithm below.
       Let $\D: \Theta \times \&X \mapsto [0, 1]$ \\
       Let $\G: \Phi \times \&Z \mapsto \&X$ \\
       \While {t < T} {
-        Let $\*Z = \{\*z_1, \dots, \*z_m\}$,
-        \textit{where each $\*z_i$ is sampled according to $\pz$, the
+        Let $z = \{z_1, \dots, z_m\}$,
+        \textit{where each $z_i$ is sampled according to $\pz$, the
           prior probability distribution over
           $\&Z$.  This batch will be used in the optimization of $\D$.} \\
-      Let $\*X = \{\*x_1, \dots, \*x_m\}$, \textit{where each $\*x_i$
+      Let $x = \{x_1, \dots, x_m\}$, \textit{where each $x_i$
 is from the training data.} \\
       Let $\theta \gets \theta + \epsilon \cdot \nabla_{\theta} {1
-\over m} \sum_{i=1}^m \left[ \log{\D\left( \*x_i\right)} +
-\log{\left(1 - \D\left(\G\left( \*z_i\right)\right)\right)} \right]$,
+\over m} \sum_{i=1}^m \left[ \log{\D\left( x_i\right)} +
+\log{\left(1 - \D\left(\G\left( z_i\right)\right)\right)} \right]$,
 \textit{i.e.  we update the discriminator's parameters $\theta$ by
 ascending the gradient of $\V$ with respect to $\theta$.} \\
-      Let $\*Z = \{\*z_1, \dots, \*z_m\}$, \textit{we sample a new
+      Let $z = \{z_1, \dots, z_m\}$, \textit{we sample a new
 batch according to $\pz$. This batch will be used in the optimization
 of $\G$.} \\
 
 $\phi \gets \phi - \epsilon \cdot \nabla_{\phi} {1 \over m }
 \sum_{i=1}^m \log{\left(1 -
-    \D\left(\G\left(\*z_i\right)\right)\right)}$, \textit{i.e.  we
+    \D\left(\G\left(z_i\right)\right)\right)}$, \textit{i.e.\ we
   update the generator's parameters $\phi$ by descending th gradient
   of $\V$ with respect to $\phi$.} \\ }
     \caption{Generative Adversarial Nets}
@@ -503,8 +503,8 @@ synthetic). So there is a maximization of entropy happening here. This
 is the minimax rule for $\D$. This action will minimize the maximum
 loss incurred by $\D$.
 
-From the perspective of $\G$, if $\D$ has converged, i.e. $\D(\*x) =
-{1 \over 2}$ for all $\*x$, then there is nothing for $\G$ to do to
+From the perspective of $\G$, if $\D$ has converged, i.e. $\D(x) =
+{1 \over 2}$ for all $x$, then there is nothing for $\G$ to do to
 improve it's situation. So it doesn't really have a minimax rule.
 
 %%% Local Variables:

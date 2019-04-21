@@ -290,9 +290,9 @@ $\KL{\pg}{\pt} = 0$, when the distributions are not equal, or
 $\KL{\pg}{\pt} = \infty$.
 
 % Concretely, issues arises with
-% (\ref{eq:the-original-objective-function}) if $\forall \tilde{\*x}$,
-% $(p^*(\tilde{\*x}) = 0)$ and if $\forall \*x$, $(\pg(\*x) = 0)$ we
-% end up with $\max_{\D}\*V(\*X, \widetilde{\*X}) = 0$. This issue may
+% (\ref{eq:the-original-objective-function}) if $\forall \tilde{x}$,
+% $(p^*(\tilde{x}) = 0)$ and if $\forall x$, $(\pg(x) = 0)$ we
+% end up with $\max_{\D}\*V(x, \widetilde{x}) = 0$. This issue may
 % arise if the supports of $\pt$ and $\pg$ lie in disjoint
 % \textit{submanifolds} of $\&X$.
 
@@ -308,11 +308,11 @@ quickly converges to be what~\cite{ref:arjovsky-towards-2017} call a
 \begin{definition}%
   \label{def:perfect-discriminator}
   A \textbf{perfect discriminator} is a function $D:
-  \&X \mapsto [0,1]$ that has accuracy 1 for all $\*x$ in the supports
+  \&X \mapsto [0,1]$ that has accuracy 1 for all $x$ in the supports
   of $\pt$ and $\pg$. In other words
   \begin{align}
-    \mathbb{P}_{\&X}(\{\{\*x \in \&X : \pt > 0\} : D(\*x) = 1 \} )= 1, \\
-    \mathbb{P}_{\tilde{\&X}}(\{\{\tilde{\*x} \in \tilde{\&X} : \pg > 0\} : D(\tilde{\*x}) = 0 \} )= 1.
+    \mathbb{P}_{\&X}(\{\{x \in \&X : \pt > 0\} : D(x) = 1 \} )= 1, \\
+    \mathbb{P}_{\tilde{\&X}}(\{\{\tilde{x} \in \tilde{\&X} : \pg > 0\} : D(\tilde{x}) = 0 \} )= 1.
   \end{align}
 \end{definition}
 
@@ -332,8 +332,8 @@ quickly converges to be what~\cite{ref:arjovsky-towards-2017} call a
   assignment operator. Then
   \begin{align}
     \label{eq:g-updates-no-good}
-    \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log\left( 1 - \D^{(t+1)}(\G^{(t)}(\*z_i)) \right) \\
-    \implies \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log{ \left( 1 - \D^{(t+1)}(\tilde{\*x}_i) \right)} \\
+    \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log\left( 1 - \D^{(t+1)}(\G^{(t)}(z_i)) \right) \\
+    \implies \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log{ \left( 1 - \D^{(t+1)}(\tilde{x}_i) \right)} \\
     \implies \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log{1} \\
     \implies \G^{(t+1)} & \gets \G^{(t)}
   \end{align} which is to say, $\G$ does not get updated.
@@ -519,8 +519,7 @@ distance even for probability distributions with disjoint supports.
 
 \subsubsection*{The Wasserstein GAN Algorithm}
 
-The following is the WGAN algorithm as presented in
-\cite{ref:arjovsky-2017}.
+The following is the WGAN algorithm as presented in~\cite{ref:arjovsky-2017}.
 
 \begin{figure}[H]
   \centering
@@ -538,14 +537,14 @@ The following is the WGAN algorithm as presented in
         \For%
         {$k \in \{0, \dots, K\}$} {
           Let
-          $\*Z = \{\*z_1, \dots, \*z_m\}$, \textit{where each
-            $\*z_i$ is sampled according to $\pz$, the prior
+          $z = \{z_1, \dots, z_m\}$, \textit{where each
+            $z_i$ is sampled according to $\pz$, the prior
             probability distribution over $\&Z$.  This batch will be
             used in the optimization of
             $\D$.} \\
           Let
-          $\*X = \{\*x_1, \dots, \*x_m\}$, \textit{where each
-            $\*x_i$ is from the training data.} \\
+          $x = \{x_1, \dots, x_m\}$, \textit{where each
+            $x_i$ is from the training data.} \\
           Let
           ${\partial{V} \over \partial{\theta}} = \nabla_\theta\left[
             {1 \over m} \sum_{i=1}^m f_{\theta}(x_i) - {1 \over m}
@@ -557,7 +556,7 @@ The following is the WGAN algorithm as presented in
           Let $\theta \gets \text{clip}(\theta, -c, c)$.
         }
 
-        Let $\*Z = \{\*z_1, \dots, \*z_m\}$, \textit{we sample a new
+        Let $z = \{z_1, \dots, z_m\}$, \textit{we sample a new
           batch according to $\pz$. This batch will be used in the
           optimization of
           $\G$.} \\
@@ -580,7 +579,7 @@ The following is the WGAN algorithm as presented in
 \textcolor{red}{TODO:}
 
 The objective function inherits the strong topology from the
-Jensen-Shannon and Kullback-Leibler divergences, hence Arjovsky has
+Jensen-Shannon and Kullback-Leibler divergences, hence Arjovsky and has
 refit an old solution to a new problem. The weaker notion of distance
 provided by the earth mover distance provides a continuous objective
 function.

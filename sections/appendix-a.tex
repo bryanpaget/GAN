@@ -15,13 +15,13 @@
 \begin{small}
   \begin{align}
     & \mathbb{E}\left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg\over\pg + \pt}\right] + \log4 - \log4 \\
-    & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg \over \pg + \pt} + \log4 - \log4 \\
-    & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg \over \pg + \pt} + \log2 + \log2 - \log4 \\
-    & = \sum_{\*x}\pt\log{\pt \over \pg + \pt} + \sum_{\*x}\pg\log{\pg
+    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg \over \pg + \pt} + \log4 - \log4 \\
+    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg \over \pg + \pt} + \log2 + \log2 - \log4 \\
+    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg
       \over \pg + \pt} \\
-    & \quad + \sum_{\*x}\pt\log2 + \sum_{\*x}\pg\log2 - \log4 \\
-    & = \sum_{\*x}\pt\log{2\pt \over \pg + \pt} + \sum_{\*x}\pg\log{2\pg \over \pg + \pt} - \log4 \\
-    & = \sum_{\*x}\pt\log{\pt \over {\pg + \pt \over 2}} + \sum_{\*x}\pg\log{\pg \over {\pg + \pt \over 2}} - \log4 \\
+    & \quad + \sum_{x}\pt\log2 + \sum_{x}\pg\log2 - \log4 \\
+    & = \sum_{x}\pt\log{2\pt \over \pg + \pt} + \sum_{x}\pg\log{2\pg \over \pg + \pt} - \log4 \\
+    & = \sum_{x}\pt\log{\pt \over {\pg + \pt \over 2}} + \sum_{x}\pg\log{\pg \over {\pg + \pt \over 2}} - \log4 \\
     & = \KL{\pt}{\pg + \pt \over 2} + \KL{\pg}{\pg+\pt \over 2} - \log4 \\
     & = 2 \cdot \JSD{\pg}{\pt} - \log4
   \end{align}
@@ -33,11 +33,11 @@
 %%   \overline{\VD} & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}}
 %%                    V_{\D}(\theta, \phi) \\
 %%                  & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}} \left (
-%%                    \mathbb{E}\left[\log{\D(\*x)}\right] +
+%%                    \mathbb{E}\left[\log{\D(x)}\right] +
 %%                    \mathbb{E}\left[\log(1 -
 %%                    \D(\G(\mathbf{z})))\right] \right) \\
 %%                  & = \min_{\mathbf{\phi}}\left(\max_{\mathbf{\theta}} \left (
-%%                    \mathbb{E}\left[\log{\D(\*x)}\right] +
+%%                    \mathbb{E}\left[\log{\D(x)}\right] +
 %%                    \mathbb{E}\left[\log(1 -
 %%                    \D(\G(\mathbf{z})))\right] \right)
 %%                    \right) \\
@@ -61,19 +61,19 @@
 %%                     \phi) \\
 %%                   & =
 %%                     \max_{\mathbf{\theta}}\min_{\mathbf{\phi}} \left(
-%%                     \mathbb{E}\left[\log{\D(\*x)}\right] +
+%%                     \mathbb{E}\left[\log{\D(x)}\right] +
 %%                     \mathbb{E}\left[\log(1 - \D(\G(\mathbf{z})))\right]\right) \\
 %%                   & = \max_{\mathbf{\theta}}\left(\min_{\mathbf{\phi}} \left(
-%%                     \mathbb{E}\left[\log{\D(\*x)}\right] +
+%%                     \mathbb{E}\left[\log{\D(x)}\right] +
 %%                     \mathbb{E}\left[\log(1 -
 %%                     \D(\G(\mathbf{z})))\right]\right)\right) \\
 %%                   & = \max_{\mathbf{\theta}}\left(\left(
-%%                     \mathbb{E}\left[\log{\D(\*x)}\right] +
+%%                     \mathbb{E}\left[\log{\D(x)}\right] +
 %%                     \mathbb{E}\left[\log(1 -
-%%                     \D(\*x))\right]\right)\right) \\
+%%                     \D(x))\right]\right)\right) \\
 %%                   & = \max_{\mathbf{\theta}}\left(\left(
-%%                     \mathbb{E}\left[\log{\D(\*x)} +
-%%                     \log(1 - \D(\*x))\right]\right)\right) \\
+%%                     \mathbb{E}\left[\log{\D(x)} +
+%%                     \log(1 - \D(x))\right]\right)\right) \\
 %%                   & = \mathbb{E}\left[\log{\pt \over \pt + \pt}\right]
 %%                     + \mathbb{E}\left[\log\left(1 - {\pt \over \pt + \pt}\right)\right] \\
 %%                   & = \mathbb{E}\left[\log{1 \over 2}\right] + \mathbb{E}\left[\log{\left(1 - {1 \over 2}\right)}\right] \\
@@ -86,21 +86,21 @@
 %% \begin{align}
 %%   \overline{\VG} & = \min_{\theta}\max_{\phi} \VG \\
 %%                  & = \min_{\theta}\max_{\mathbf{\phi}}
-%%                    \left (-\mathbb{E}\left[\log{\D(\*x)}\right] -
+%%                    \left (-\mathbb{E}\left[\log{\D(x)}\right] -
 %%                    \mathbb{E}\left[\log(1 -
 %%                    \D(\G(\mathbf{z})))\right] \right) \\
 %%                  & = \min_{\theta}\left(\max_{\mathbf{\phi}}
-%%                    \left (-\mathbb{E}\left[\log{\D(\*x)}\right] -
+%%                    \left (-\mathbb{E}\left[\log{\D(x)}\right] -
 %%                    \mathbb{E}\left[\log(1 -
 %%                    \D(\G(\mathbf{z})))\right] \right)
 %%                    \right) \\
 %%                  & = \min_{\theta}\left(
-%%                    -\mathbb{E}\left[\log{\D(\*x)}\right] -
+%%                    -\mathbb{E}\left[\log{\D(x)}\right] -
 %%                    \mathbb{E}\left[\log(1 -
-%%                    \D(\*x))\right] \right) \\
+%%                    \D(x))\right] \right) \\
 %%                  & = \min_{\theta}\left(
-%%                    -\mathbb{E}\left[\log{\D(\*x)} +
-%%                    \log(1 - \D(\*x))\right] \right) \\
+%%                    -\mathbb{E}\left[\log{\D(x)} +
+%%                    \log(1 - \D(x))\right] \right) \\
 %%                  & = -\mathbb{E}\left[\log{\pt \over \pt + \pt} +
 %%                    \log\left(1 - {\pt \over \pt + \pt}\right)\right] \\
 %%                  & = - \mathbb{E}\left[\log{1 \over 2} +
@@ -115,11 +115,11 @@
 %%   \underline{\VG} & = \max_{\mathbf{\phi}} \min_{\mathbf{\theta}}\VG \\
 %%                   & = \max_{\mathbf{\phi}}\min_{\mathbf{\theta}}\VG \\
 %%                   & = \max_{\phi}\min_{\theta} \left(
-%%                     -\mathbb{E}\left[\log{\D(\*x)}\right] -
+%%                     -\mathbb{E}\left[\log{\D(x)}\right] -
 %%                     \mathbb{E}\left[\log(1 -
 %%                     \D(\G(\mathbf{z})))\right] \right) \\
 %%                   & = \max_{\phi}\left(\min_{\theta} \left(
-%%                     -\mathbb{E}\left[\log{\D(\*x)}\right] -
+%%                     -\mathbb{E}\left[\log{\D(x)}\right] -
 %%                     \mathbb{E}\left[\log(1 -
 %%                     \D(\G(\mathbf{z})))\right] \right)
 %%                     \right) \\
