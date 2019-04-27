@@ -1,12 +1,9 @@
 \section*{Preface}
 
-TODO: be clear about alerting the reader to original contributions.
-Make separate section for contributions and for exposition.
-
 One of the goals I set out for myself when I started this thesis was
-to provide a document rich in theory and intuition that would be
-useful for anyone wanting to get up to speed on the theory of
-generative adversarial networks (GANs).
+to provide a document rich in theory and intuition useful for anyone
+wanting to get up to speed on the theory of generative adversarial
+networks (GANs).
 
 I have broken the theory into three different sections, \textit{game
   theory}, \textit{information theory}, and \textit{optimal transport
@@ -17,36 +14,32 @@ optimization.  Information theory is required to deepen the
 understanding of the value function.  Optimal transport was included
 at the end because it provides the theoretical foundation of a more
 recent implementation of the GAN algorithm which was inspired by the
-optimal transport problem by Monge, Kantorovich, and Rubinstein.
-
-% This document should be equally useful for someone trying to
-% understand the algorithm in order to implement a solution to some real
-% world problem.
-
+optimal transport problem by Monge, Kantorovich, and Rubinstein.  The
+survey component of this thesis includes the following:
 \begin{enumerate}[(i)]
 \item Section~\ref{sec:game-theory} contains definitions and examples
   related to the Nash equilibrium.
-\item In Section~\ref{sec:difficulty}, I provide an illustrative
-  example demonstrating the difficulty in finding a Nash equilibrium
-  is not always easy.
-\item I have included motivational derivations of the value function
+\item I have included a motivational derivation of the value function
   in sections~\ref{sec:derivation},~\ref{sec:derivation-d},
   and~\ref{sec:derivation-g}.
-\item Section~\ref{sec:information-theory} contains relevant
-  definitions of information theoretic quantities used in machine
-  learning. I then show how those quantities are found in the value
-  function in Section~\ref{thm:info-objective}.
-\item I include in Section~\ref{sec:optimization-dynamics} a more
-  rigorous proof of the training dynamics.  The training dynamics have
-  been cast as dynamics between the generator and the discriminator.
-  Where the discriminator is optimized to persuade the value function
+\item In Section~\ref{sec:difficulty}, I provide an illustrative
+  example demonstrating the difficulty in finding a Nash equilibrium.
+\item Section~\ref{sec:information-theory} contains definitions of
+  information theoretic quantities used in machine learning. I then
+  show how those quantities are found in the value function in
+  Section~\ref{thm:info-objective}.
+\item Section~\ref{sec:optimization-dynamics} contains rigorous proofs
+  that show the discriminator is optimized to force the value function
   into an approximation of the Jensen-Shannon divergence and the
   generator is optimized to minimize this divergence.
-\item Section~\ref{sec:info-value-function} contains an original (TODO
-  CHECK) information theoretic theorem about the GAN value function.
 \item Section~\ref{sec:optimal-transport} contains the history of
   optimal transport and introduction to the Wasserstein GAN.
 \end{enumerate}
+
+Section~\ref{sec:info-value-function} contains an original information
+theoretic theorem about the GAN value function which focuses on what
+is happening step-by-step rather than the limiting behavior as
+discussed in Section~\ref{sec:optimization-dynamics}.
 
 %%% Local Variables:
 %%% mode: latex

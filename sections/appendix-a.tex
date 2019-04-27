@@ -14,16 +14,16 @@
 \label{sec:proof-for-jsd-thing}
 \begin{small}
   \begin{align}
-    & \mathbb{E}\left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg\over\pg + \pt}\right] + \log4 - \log4 \\
-    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg \over \pg + \pt} + \log4 - \log4 \\
-    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg \over \pg + \pt} + \log2 + \log2 - \log4 \\
-    & = \sum_{x}\pt\log{\pt \over \pg + \pt} + \sum_{x}\pg\log{\pg
-      \over \pg + \pt} \\
-    & \quad + \sum_{x}\pt\log2 + \sum_{x}\pg\log2 - \log4 \\
-    & = \sum_{x}\pt\log{2\pt \over \pg + \pt} + \sum_{x}\pg\log{2\pg \over \pg + \pt} - \log4 \\
-    & = \sum_{x}\pt\log{\pt \over {\pg + \pt \over 2}} + \sum_{x}\pg\log{\pg \over {\pg + \pt \over 2}} - \log4 \\
-    & = \KL{\pt}{\pg + \pt \over 2} + \KL{\pg}{\pg+\pt \over 2} - \log4 \\
-    & = 2 \cdot \JSD{\pg}{\pt} - \log4
+    & \mathbb{E}\left[\log{{\ptx \over \pgx + \ptx}}\right] + \mathbb{E}\left[\log{\pgx\over\pgx + \ptx}\right] + \log4 - \log4 \\
+    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \over \pgx + \ptx} + \log4 - \log4 \\
+    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \over \pgx + \ptx} + \log2 + \log2 - \log4 \\
+    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx
+      \over \pgx + \ptx} \\
+    & \quad + \sum_{x}\ptx\log2 + \sum_{x}\pgx\log2 - \log4 \\
+    & = \sum_{x}\ptx\log{2\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{2\pgx \over \pgx + \ptx} - \log4 \\
+    & = \sum_{x}\ptx\log{\ptx \over {\pgx + \ptx \over 2}} + \sum_{x}\pgx\log{\pgx \over {\pgx + \ptx \over 2}} - \log4 \\
+    & = \KL{\ptx}{\pgx + \ptx \over 2} + \KL{\pgx}{\pgx+\ptx \over 2} - \log4 \\
+    & = 2 \cdot \JSD{\pgx}{\ptx} - \log4
   \end{align}
 \end{small}
 

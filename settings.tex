@@ -10,10 +10,11 @@
 
 % New Page
 \usepackage{afterpage}
+
 \newcommand\blankpage{
   \null
   \thispagestyle{empty}
-  \addtocounter{page}{-1}
+  % \addtocounter{page}{-1}
   \newpage
 }
 
@@ -52,6 +53,7 @@
 %%% Graphics:
 \usepackage{rotating}
 \usepackage{tikz}
+\usepackage{tikz-cd}
 \usetikzlibrary{shapes, arrows, matrix, chains}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
@@ -133,27 +135,30 @@ corners, node distance=3cm]
 \newcommand{\Gt}{G_{\phi_{t}}}
 \newcommand{\Gtt}{G_{\phi_{t+1}}}
 \newcommand{\Gl}{G_{{\infty}}}
-\newcommand{\Gz}{G_\phi(\mathbf{z})}
-\newcommand{\Gzi}{G_\phi(\mathbf{z}_i)}
+\newcommand{\Gz}{G_\phi(z)}
+\newcommand{\Gzi}{G_\phi(z_i)}
 
 \newcommand{\D}{D_\theta}
 \newcommand{\Dt}{D_{\theta_{t}}}
 \newcommand{\Dtt}{D_{\theta_{t+1}}}
 \newcommand{\Dl}{D_{\infty}}
 
-\newcommand{\pg}{p_{\phi}(\tilde{\mathbf{x}})}
-\newcommand{\pgu}{p_{\phi}(\mathbf{u})}
-\newcommand{\pgt}{p_{\phi_t}(\tilde{\mathbf{x}})}
-\newcommand{\pgtu}{p_{\phi_t}(\mathbf{u})}
+\newcommand{\pg}{p_{\phi}}
+\newcommand{\pgx}{p_{\phi}(\tilde{x})}
+\newcommand{\pgu}{p_{\phi}(u)}
+\newcommand{\pgt}{p_{\phi_t}(\tilde{x})}
+\newcommand{\pgtu}{p_{\phi_t}(u)}
 
-\newcommand{\pd}{D_\theta(\mathbf{x})}
+\newcommand{\pd}{D_\theta(x)}
 
-\newcommand{\pt}{p^*(\mathbf{x})}
-\newcommand{\ptu}{p^*(\mathbf{u})}
-\newcommand{\pz}{p_\prior(\mathbf{z})}
+\newcommand{\pt}{p^*}
+\newcommand{\ptx}{p^*(x)}
+\newcommand{\ptu}{p^*(u)}
+\newcommand{\pz}{p_\prior}
+\newcommand{\pzz}{p_\prior(z)}
 
 \newcommand \pdg {
-  D_{\theta}(G_{\phi}(\textbf{z}))
+  D_{\theta}(G_{\phi}(z))
 }
 
 \def\*#1{\mathbf{#1}}
@@ -187,7 +192,7 @@ corners, node distance=3cm]
 }
 
 \newcommand \Dstar[1] {
-  {p^*(\mathbf{#1}) \over p^*(\mathbf{#1}) + p_{\phi}(\mathbf{#1})}
+  {p^*(#1) \over p^*(#1) + p_{\phi}(#1)}
 }
 
 \newcommand \maxV[1] {

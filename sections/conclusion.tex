@@ -1,21 +1,30 @@
 \section{Conclusion}
 
-We
-Introduced GAN from game theory, information theory and optimal
-transport
+In Section \ref{sec:game-theory} we looked at game theory and how the
+GAN algorithm can be cast as a game between two competing neural
+networks.  The minimax strategy for $D$ was $D(x) = {1 \over 2}$ for
+all $x$, which, if attained, would make it impossible for the
+generator to minimize the value function, since $G$'s actions would no
+longer affect the actions of $D$.  This strategy makes sense for $D$,
+since it's the best anyone can do when confronted with maximum
+uncertainty.
 
-it seems like GAN is just a refitting of optimal transport to a new
-problem.
+Section \ref{sec:information-theory} included two information
+perspectives on GAN training. Theorem \ref{thm:limiting} considered
+the theoretical, limiting behaviour of GANs and
+\ref{thm:info-objective} considered what happens at each step of the
+optimization.  This is similar to a macroscopic and microscopic view
+of GAN training.
 
-Information theory helps us to develop a deeper intuition for what it
-is we are optimizing, i.e.\ we want to eliminate any extra uncertainty
-and surprise, and we want the generator and discriminator both to
-``know'' the true / empirical probability distribution of interest
-over the set of interest.
+Section \ref{sec:optimal-transport} introduced optimal transport and
+showed how the GAN algorithm has benefited greatly from the
+application of the Kantorovich-Rubinstein distance from optimal
+transport.  It takes a great deal of theoretical understanding to
+build the a well-functioning learning system.  By recasting the GAN
+algorithm as an optimal transport problem, \cite{ref:arjovsky-2017}
+have put GANs on a solid theoretical foundation.
 
-what else?
-
-%%%Local Variables:
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
 %%% End:

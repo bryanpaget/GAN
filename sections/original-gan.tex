@@ -14,19 +14,20 @@
 
 \vspace{1cm}
 
-\noindent The original theoretical formulation of the GAN algorithm (in
-Goodfellow's paper) is through \textit{game theory}, which is the
-study of conflict and cooperation between rational decision makers
-through the use of mathematical and statistical modelling
-\cite{ref:myerson}.  Throughout this paper we only consider two-player
-games, and we will use $D$ to represent the player, and $G$ to
-represent her opponent. We use the symbol $V_i$ to represent the
-\textit{value function} of player $i$ for $i \in \{D, G\}$.
+\noindent The original theoretical formulation of the GAN algorithm,
+as in~\cite{ref:goodfellow-original}, is through \textit{game theory},
+which is the study of conflict and cooperation between rational
+decision makers through the use of mathematical and statistical
+modeling~\cite{ref:myerson}.  Throughout this paper we only consider
+two-player games, and we will use $D$ to represent the player, and $G$
+to represent her opponent. We use the symbol $V_i$ to represent the
+value function of player $i$ for $i \in \{D, G\}$.
 
 \begin{definition}
-  \label{def:value-function} A \textbf{value function} $V_i$ describes
-  the reward or loss for player $i$ in a game as a function of their
-  action(s).
+  \label{def:value-function}
+  A \textnormal{\sffamily value function} $V_i$ is the reward (or loss
+  if it is negative) for player $i$ in a game as a function of that
+  player's action(s).
 \end{definition}
 
 \begin{remark} Sometimes the loss is simply the difference between the
@@ -42,9 +43,10 @@ allows the GAN algorithm to be interpreted as a \textit{zero-sum
 \cite{ref:gidel-variational-2018}.
 
 \begin{definition}
-  \label{def:zero-sum-game} A \textbf{zero-sum game} is any game where
-  the loss of one player is the gain of the other. In a zero-sum game,
-  the players' rewards sum to zero, i.e. $V_D + V_G = 0$.
+  \label{def:zero-sum-game} A \textnormal{\sffamily zero-sum game} is
+  any game where the loss of one player is the gain of the other. In a
+  zero-sum game, the players' rewards sum to zero, i.e.
+  $V_D + V_G = 0$.
 \end{definition}
 
 \begin{remark} For this section we will stick with the the first value
@@ -63,11 +65,12 @@ know your opponent is trying to minimize your reward.
 \begin{definition}
   \label{def:minimax}
   \label{def:minimax-value} In a two-player game, with players $D$ and
-  $G$, a \textbf{minimax decision rule} for $D$ is a strategy that
-  maximizes $D's$ expected reward, after $G$ has minimized the maximum
-  reward attainable by $D$ that is. The \textbf{minimax value}
-  $\overline{V_D}$ for $D$, is the largest reward $D$ can win after
-  $G$ makes his move to minimize $D$'s reward, in symbols we write
+  $G$, a \textnormal{\sffamily minimax decision rule} for $D$ is a
+  strategy that maximizes $D's$ expected reward, after $G$ has
+  minimized the maximum reward attainable by $D$ that is. The
+  \textnormal{\sffamily minimax value} $\overline{V_D}$ for $D$, is
+  the largest reward $D$ can win after $G$ makes his move to minimize
+  $D$'s reward, in symbols we write
   \begin{align} \overline{V_D} = \min_{G} \max_{D} V_D(D, {G}).
   \end{align}
 \end{definition}
@@ -80,20 +83,20 @@ $D$ to attain the maximum of the reduced reward.
 \label{sec:nash-dilemma}
 
 The GAN algorithm searches for a \textit{Nash equilibrium} in the
-space of parameters for the disciminator and the generator, as covered
+space of parameters for the discriminator and the generator, as covered
 in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 
 \begin{definition}
-  A \textbf{Nash equilibrium} in an $n$-player game is a set of
-  strategies, one for each player, with the property that no player
-  can benefit from unilaterally changing their strategy.
+  A \textnormal{\sffamily Nash equilibrium} in an $n$-player game is a
+  set of strategies, one for each player, with the property that no
+  player can benefit from unilaterally changing their strategy.
 
   Let $S_i$ denote the set of strategies for player $i$. Let
   $S = S_1 \times S_2 \times \cdots \times S_n$ denote the set of
   strategy profiles.  Each strategy profile $s \in S$ is a combination
   of strategies, one for each player, which dictates what each player
   will do on their next turn.  Let $f_i(s)$ be the payoff to player
-  $i$ of $s$.
+  $i$ of strategy profile $s$.
 
   A Nash equilibrium is a strategy profile
   $s^* = (s_1, s_2, \dots, s_n)$ such that
@@ -106,7 +109,7 @@ in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 
 \begin{remark}
   Each player's strategy is an optimal response based on the
-  acticipated behavior of the other player(s) in the game.  A minimax
+  anticipated behavior of the other player(s) in the game.  A minimax
   solution to a zero-sum game is the same as a Nash Equilibrium. The
   Nash equilibrium is not necessarily globally optimal and a game may
   have more than one Nash equilibrium.
@@ -136,20 +139,20 @@ This game has two players, $D$ and $G$, who are held separately in
 police custody with no means of communication. The players have each
 been arrested for some small crime which the prosecution has enough
 evidence to convict them of. However, the prosecution suspects one of
-$D$ or $G$ of having commited a more serious crime in the
+$D$ or $G$ of having committed a more serious crime in the
 not-so-distant past. The problem is they lack sufficient evidence to
 convict either $D$ or $G$ of the more serious crime. So the
 prosecutors cut each player a deal. The deal is
 
 \begin{enumerate}
-\item if $D$ defects and accuses $G$ of having commited the more
+\item if $D$ defects and accuses $G$ of having committed the more
   serious crime (and $G$ denies involvement) $D$ gets 1 year (as a
   reward for co-operation) while $G$ gets 5 years of jail-time (and
   vice-versa);
-\item if both $D$ and $G$ deny commiting the larger crime, then they
+\item if both $D$ and $G$ deny committing the larger crime, then they
   both get 2 years, since the prosecution does have enough evidence to
   convict them of the less serious crime;
-\item if both $D$ and $G$ accuse each other of commiting the larger
+\item if both $D$ and $G$ accuse each other of committing the larger
   crime, then they both get 3 years. Remember, they can not
   communicate with each other.
 \end{enumerate}
@@ -187,7 +190,7 @@ this is true.
   5.
 \item \textit{(Defect, Defect).} If they both defect, neither $D$ nor
   $G$ will gain anything by changing their strategy, for if $D$
-  changed to denying involement, $D$ would serve 5 years, and the same
+  changed to denying involvement, $D$ would serve 5 years, and the same
   holds true for $G$.
 \end{enumerate}
 
@@ -222,10 +225,10 @@ meaningless noise. \footnote{Meaningless to a human.}
 
 The goal of the GAN algorithm is to train a generator $\G$,
 parameterized by $\phi \in \Phi \subset \R^n$, to map random samples
-$z$ drawn from $(\prior, p_{\prior})$, where $\prior \subset \R^k$
+$z$ drawn from $(\prior, p_{\prior})$, where $\prior \subset \R^n$
 such that $\G(z)$ is located in $\target$ in a region where $\pt$
 assigns a relatively large amount of mass. In practice
-$\prior \not = \target$ and $k$ is usually smaller than $|\target|$
+$\prior \not = \target$ and $n$ is usually smaller than $|\target|$
 \cite{ref:arjovsky-2017}.
 
 \begin{figure}[H] \centering
@@ -246,7 +249,7 @@ instance if $\target$ is the space of all RGB images and we desire
 images of human faces, then we want $\G$ to map samples from $\&Z$ to
 the region of $\target$ with RGB values within a very narrow range.
 
-In the beginning $\G$ maps $z \in \&Z$ to $\target$ hapharzardly and
+In the beginning $\G$ maps $z \in \&Z$ to $\target$ haphazardly and
 it is from $\D$ that $\G$ obtains gradients to learn from. We optimize
 the discriminator $\D$ until it classifies samples sufficiently well,
 i.e. $\D$ must learn to assign the correct probability that the sample
@@ -258,8 +261,8 @@ value function, which is a function of the \textit{actions} (which are
 parameterized by $\phi$ and $\theta$) taken by $\D$ and $\G$, given by
 \begin{align}
   \label{eq:the-original-objective-function}
-  V(\phi, \theta) = \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] +
-  \mathbb{E}_{z \sim \pz}[\log{(1 - D_\theta(G_\phi(\mathbf{z})))}].
+  \V = \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] +
+  \mathbb{E}_{z \sim \pz}[\log{(1 - D_\theta(G_\phi(z)))}].
 \end{align}
 
 The value function used by the GAN algorithm is related to the value
@@ -274,12 +277,12 @@ Definition \ref{def:minimax}).
 \label{sec:derivation-d}
 
 We begin the derivation of $\V$ from the perspective of $\D$. We want
-$\D$ to assign density to $x \in \target$ that are close to the
-density assigned by $\pt$. We can do this by finding
-$\theta \in \Theta$ which maximize the likelihood function
+$\D(x)$ to assign mass to $x \in \target$ that are close to the mass
+assigned by $\pt$. We can do this by finding $\theta \in \Theta$ which
+maximize the likelihood function
 \begin{align}
   \label{eq:d-1}
-  L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(\*{x}_i), \quad x_i \sim \pt.
+  L_{D}^{(1)}(\theta) = \prod_{i=1}^n \D(x_i), \quad x_i \sim \pt.
 \end{align}
 Since this maximization is done numerically, we maximize the logarithm
 of the above equation,
@@ -287,8 +290,8 @@ of the above equation,
   \label{eq:d-l1}
   \ell_{D}^{(1)}(\theta) = \log \prod_{i=1}^n \D(x_i) = \sum_{i=1}^n \log \D (x_i).
 \end{align}
-One benefit of using $\log$ is it is monotone increasing (any
-maximizer of (\ref{eq:d-l1}) will also maximize (\ref{eq:d-1})) and
+One benefit of using $\log$ is it is monotone increasing (any argument
+that maximizes (\ref{eq:d-l1}) will also maximize (\ref{eq:d-1})) and
 the curvature of $\log$ may make optimization more efficient by
 providing steeper gradients.
 
@@ -309,7 +312,7 @@ Alternatively, since we are already maximizing (\ref{eq:d-l1}), we can
 turn (\ref{eq:d-l2}) into a function to be maximized. Specifically, we
 ask $\D$ to maximize
 \begin{align}
-  \ell_{D}^{(2)}(\theta) = \sum_{i=1}^n \log{(1 - D_\theta(G_\phi(\mathbf{z}_i)))},
+  \ell_{D}^{(2)}(\theta) = \sum_{i=1}^n \log{(1 - D_\theta(G_\phi(z_i)))},
 \end{align}
 since minimizing $\D(\G(z))$ is the same as maximizing
 $1 - \D(\G(z))$. When we combine $\ell_{D}^{(1)}(\theta)$ and
@@ -336,7 +339,7 @@ maximizes the likelihood (as a defined by a fixed $\D$) that a
 generated sample comes from the target distribution $\pt$, i.e.\ we
 want $\G$ to maximize
 \begin{align}
-  ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(z_i)) = \sum_{i=1}^n\log{\D(\G(z_i))}, \quad z \sim \pz.
+  ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(z_i)) = \sum_{i=1}^n\log{\D(\G(z_i))}, \quad z_i \sim \pz.
 \end{align}
 Alternatively, we can minimize
 \begin{align}
@@ -347,7 +350,7 @@ which is equivalent to minimizing $\mathbb{E}_{z \sim \pz} \left[\log{(1 - \D(\G
 \subsubsection{Minimax value for $\D$}
 
 Then the training objectives for $\D$ and $\G$ lead us to the
-following formula for the \textit{minimax value} of $\D$:
+following formula for the minimax value of $\D$:
 \begin{align}
   \overline{V_{\D}} & = \min_{\phi}\max_{\theta}\left(V_{\D}(\theta,
                       \phi) \right) \\
@@ -356,8 +359,8 @@ following formula for the \textit{minimax value} of $\D$:
                       +
                       \mathbb{E}\left[\log(1 - \D(\G(z)))\right] \right)
 \end{align}
-which we will solve in the next section by finding the \textit{minimax
-  decision rule} and \textit{minimax value} for $\D$ (see
+which we will solve in the next section by finding the minimax
+decision rule and minimax value for $\D$ (see
 Theorem~\ref{theorem:minimax}), which means we are finding the Nash
 equilibrium.  But this is not always easy to do in practice.
 
@@ -439,11 +442,11 @@ avoided the above issues. The first value function (equation
 leads to vanishing gradients, which means the generator has nothing to
 learn from. The decoupled objective functions
 \begin{align}
-  \label{eq:second-value-function} \max_{\mathbf{\theta}} \left(
-  \mathbb{E}\left[\log{D_\theta(\mathbf{x})}\right] +
-  \mathbb{E}\left[\log(1 - D_\theta(G_\phi(\mathbf{z})))\right]
+  \label{eq:second-value-function} \max_{\theta} \left(
+  \mathbb{E}\left[\log{D_\theta(x)}\right] +
+  \mathbb{E}\left[\log(1 - D_\theta(G_\phi(z)))\right]
   \right) \\
-  \max_{\mathbf{\phi}}\mathbb{E}\left[\log(D_\theta(G_\phi(\mathbf{z})))\right]
+  \max_{\phi}\mathbb{E}\left[\log(D_\theta(G_\phi(z)))\right]
 \end{align} have the same fixed points as the previous one, but the
 gradients of the loss with respect to the generator are stronger,
 therefore providing better learning material for the generator. With
@@ -452,37 +455,38 @@ the GAN algorithm is no longer a zero-sum game.
 
 \subsection{Generative Adversarial Networks}
 
-We finally present the full algorithm below.
+The full algorithm is presented below.
 
 \begin{figure}[H] \centering
   \begin{minipage}{0.95\linewidth}
     \begin{algorithm}[H]
-      Let $\epsilon > 0$, \textit{be the learning rate.} \\
+      Let $\eta > 0$, \textit{be the learning rate.} \\
       Let $T > 0$, \textit{be the number of training iterations.} \\
       Let $\D: \Theta \times \&X \mapsto [0, 1]$ \\
       Let $\G: \Phi \times \&Z \mapsto \&X$ \\
-      \While {t < T} {
-        Let $z = \{z_1, \dots, z_m\}$,
-        \textit{where each $z_i$ is sampled according to $\pz$, the
-          prior probability distribution over
-          $\&Z$.  This batch will be used in the optimization of $\D$.} \\
-      Let $x = \{x_1, \dots, x_m\}$, \textit{where each $x_i$
-is from the training data.} \\
-      Let $\theta \gets \theta + \epsilon \cdot \nabla_{\theta} {1
-\over m} \sum_{i=1}^m \left[ \log{\D\left( x_i\right)} +
-\log{\left(1 - \D\left(\G\left( z_i\right)\right)\right)} \right]$,
-\textit{i.e.  we update the discriminator's parameters $\theta$ by
-ascending the gradient of $\V$ with respect to $\theta$.} \\
-      Let $z = \{z_1, \dots, z_m\}$, \textit{we sample a new
-batch according to $\pz$. This batch will be used in the optimization
-of $\G$.} \\
+      \While {t < T} { Let $z = \{z_1, \dots, z_m\}$, \textit{where
+          each $z_i$ is sampled from $(\&Z, \pz)$
+          This batch will be used in the optimization of $\D$.} \\
+        Let $x = \{x_1, \dots, x_m\}$, \textit{where each $x_i$
+          is from the training data.} \\
+        Let
+        $\theta \gets \theta + \eta \cdot \nabla_{\theta} {1 \over m}
+        \sum_{i=1}^m \left[ \log{\D\left( x_i\right)} + \log{\left(1 -
+              \D\left(\G\left( z_i\right)\right)\right)} \right]$,
+        \textit{i.e.\ we update the discriminator's parameters
+          $\theta$ by
+          ascending the gradient of $\V$ with respect to $\theta$.} \\
+        Let $z = \{z_1, \dots, z_m\}$, \textit{we sample a new batch
+          from $(\&Z, \pz)$. This batch will be used in the
+          optimization
+          of $\G$.} \\
 
-$\phi \gets \phi - \epsilon \cdot \nabla_{\phi} {1 \over m }
-\sum_{i=1}^m \log{\left(1 -
-    \D\left(\G\left(z_i\right)\right)\right)}$, \textit{i.e.\ we
-  update the generator's parameters $\phi$ by descending th gradient
-  of $\V$ with respect to $\phi$.} \\ }
-    \caption{Generative Adversarial Nets}
+        $\phi \gets \phi - \eta \cdot \nabla_{\phi} {1 \over m}
+        \sum_{i=1}^m \log{\left(1 -
+            \D\left(\G\left(z_i\right)\right)\right)}$, \textit{i.e.\
+          we update the generator's parameters $\phi$ by descending
+          the gradient of $\V$ with respect to $\phi$.} \\ }
+    \caption{Generative Adversarial Networks}
     \label{algo:main-algo}
   \end{algorithm}
   \end{minipage}
@@ -495,17 +499,16 @@ clarity.
 
 \subsection{Discussion}
 
-From the perspective of $\D$, we assume that we can not tell the
-difference between real and synthetic data points. Then to minimize
-the loss $\D$ chooses ${1 \over 2}$ for all data points it sees, since
-that is the maximum entropy distribution over the two states (real or
-synthetic). So there is a maximization of entropy happening here. This
-is the minimax rule for $\D$. This action will minimize the maximum
-loss incurred by $\D$.
-
-From the perspective of $\G$, if $\D$ has converged, i.e. $\D(x) =
-{1 \over 2}$ for all $x$, then there is nothing for $\G$ to do to
-improve it's situation. So it doesn't really have a minimax rule.
+The minimax strategy for $D$ can be thought of as follows.  If $D$
+assumes $G$ has done its worst, then $D$ should assume that $G$ is
+able to produce data points that are indistinguishable from the real
+thing. If that's the case, to minimize loss, $D$ should return
+${1 \over 2}$ for all data points, which happens to be the maximum
+entropy distribution over the two states (real or synthetic).  If
+$D(x) = {1 \over 2}$ $\forall x$, there is nothing for $G$ can do to
+improve its situation.  The next section will show
+$D(x) = {1 \over 2}$ $\forall x$ is indeed the optimal strategy for
+$D$.
 
 %%% Local Variables:
 %%% mode: latex
