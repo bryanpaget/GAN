@@ -1,4 +1,4 @@
-\section*{Preface}
+\section{Preface}
 
 One of the goals I set out for myself when I started this thesis was
 to provide a document rich in theory and intuition useful for anyone
@@ -14,8 +14,8 @@ optimization.  Information theory is required to deepen the
 understanding of the value function.  Optimal transport was included
 at the end because it provides the theoretical foundation of a more
 recent implementation of the GAN algorithm which was inspired by the
-optimal transport problem by Monge, Kantorovich, and Rubinstein.  The
-survey component of this thesis includes the following:
+optimal transport problem of Monge, Kantorovich, and Rubinstein.  The
+content of this thesis includes the following highlights:
 \begin{enumerate}[(i)]
 \item Section~\ref{sec:game-theory} contains definitions and examples
   related to the Nash equilibrium.
@@ -34,13 +34,11 @@ survey component of this thesis includes the following:
   generator is optimized to minimize this divergence.
 \item Section~\ref{sec:optimal-transport} contains the history of
   optimal transport and introduction to the Wasserstein GAN.
+\item Proposition~\ref{thm:info-objective} offers an
+  information-theoretic perspective on what happens step-by-step
+  during GAN training rather than the limiting behavior as discussed
+  in Section~\ref{sec:optimization-dynamics}.
 \end{enumerate}
-
-Section~\ref{sec:info-value-function} contains an original information
-theoretic theorem about the GAN value function which focuses on what
-is happening step-by-step rather than the limiting behavior as
-discussed in Section~\ref{sec:optimization-dynamics}.
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis.tex"

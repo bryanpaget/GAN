@@ -157,108 +157,112 @@ prosecutors cut each player a deal. The deal is
   communicate with each other.
 \end{enumerate}
 
-\begin{figure}[h] \centering \bgroup \def\arraystretch{1.4}
+\begin{figure}[h]
+  \centering
+  \bgroup
+  \def\arraystretch{1.4}
   \begin{tabular}[c]{|c|c|c|}
     \hline
-    \diagbox{$D$}{$G$} & Deny & Defect \\
+    \diagbox{$D$}{$G$} & Deny  & Defect \\
     \hline
-    Deny & (2, 2) & (5, 1) \\
-    \hline Defect & (1, 5) & (3, 3) \\
+                  Deny & (2, 2) & (5, 1) \\
     \hline
-  \end{tabular} \egroup
-  \caption{Prisoner's Dilemma Payoff Matrix}
+                Defect & (1, 5) & (3, 3) \\
+    \hline
+  \end{tabular}
+  \egroup
+  \caption{Prisoner's Dilemma Payoff Matrix}%
   \label{fig:prisoners-matrix}
 \end{figure}
 
-Figure~\ref{fig:prisoners-matrix} has the game's payoff matrix, scores
-are for ($D$, $G$), i.e. $D$ controls the rows and $G$ controls the
-columns. It's obvious that (Deny, Deny) is the global optimum, but it
-turns out that it's an unstable state. The state (Defect, Defect) is
-the Nash equilibrium, we will go over all four states and show why
-this is true.
+Figure~\ref{fig:prisoners-matrix} has the game's payoff matrix, scores are for
+($D$, $G$), i.e. $D$ controls the rows and $G$ controls the columns. It's
+obvious that (Deny, Deny) is the global optimum, but it turns out that it's an
+unstable state. The state (Defect, Defect) is the Nash equilibrium, we will go
+over all four states and show why this is true.
 
 \begin{enumerate}
-\item \textit{(Deny, Defect).} If $D$ is allowed to change her stance,
-  knowing that $G$ is going to defect, she will end up in a better
-  situation, which means there is incentive for $D$ to change her
-  strategy, given that $G$ will not change his. Therefore, this is not
-  a Nash equilibrium, and vice-versa for (Defect, Deny) by symmetry.
-\item \textit{(Deny, Deny).} If $D$ and $G$ both deny involvement, and
-  if $D$ knows that $G$ is not going to change his stance, $D$ does
-  gain from changing her strategy to defecting, since that will change
-  the situation to (Defect, Deny), where $D$ does 1 year and $G$ does
-  5.
-\item \textit{(Defect, Defect).} If they both defect, neither $D$ nor
-  $G$ will gain anything by changing their strategy, for if $D$
-  changed to denying involvement, $D$ would serve 5 years, and the same
-  holds true for $G$.
+  \item \textit{(Deny, Defect).} If $D$ is allowed to change her stance,
+    knowing that $G$ is going to defect, she will end up in a better
+    situation, which means there is incentive for $D$ to change her
+    strategy, given that $G$ will not change his. Therefore, this is not
+    a Nash equilibrium, and vice-versa for (Defect, Deny) by symmetry.
+  \item \textit{(Deny, Deny).} If $D$ and $G$ both deny involvement, and
+    if $D$ knows that $G$ is not going to change his stance, $D$ does
+    gain from changing her strategy to defecting, since that will change
+    the situation to (Defect, Deny), where $D$ does 1 year and $G$ does
+    5.
+  \item \textit{(Defect, Defect).} If they both defect, neither $D$ nor
+    $G$ will gain anything by changing their strategy, for if $D$
+    changed to denying involvement, $D$ would serve 5 years, and the same
+    holds true for $G$.
 \end{enumerate}
 
-Thus (Defect, Defect) is the Nash equilibrium for this game. It's a
-stable game state, i.e. there is no incentive for either player to
-change strategy (unless the other does as well). As $D$ sits in the
-holding cell, she is thinking that $G$ is going to either defect or
-deny involvement. If $D$ wants to minimize the maximum amount of
-jail-time she could possibly do, she will want to defect, since that
-will eliminate the worst case scenario of having to do 5 years. When
+Thus (Defect, Defect) is the Nash equilibrium for this game. It's a stable game
+state, i.e.\ there is no incentive for either player to change strategy (unless
+the other does as well). As $D$ sits in the holding cell, she is thinking that
+$G$ is going to either defect or deny involvement. If $D$ wants to minimize the
+maximum amount of jail-time she could possibly do, she will want to defect,
+since that will eliminate the worst case scenario of having to do 5 years. When
 she defects, the worst that can happen to her is 2 years.
 
-Since in this situation, the minimax does not achieve the global
-minimum, what can we say about the minimax strategy and the GAN
-algorithm?
+Since in this situation, the minimax does not achieve the global minimum, what
+can we say about the minimax strategy and the GAN algorithm?
 
-\subsection{Derivation of the Value Function}
+\subsection{Derivation of the Value Function}%
 \label{sec:derivation}
 
-Now that we have introduced the relevant concepts from game theory we
-can introduce the algorithm and its constituent neural networks. Let
-$(\target, \pt)$ be a probability space where $\target$ is any finite
-space. Let $\pt$ be the probability distribution over this space. For
-instance $\target$ may be the idealized space of all 8-bit RGB images
-of length $H$ and width $W$, i.e.
-$\target = [0, 255]^{3 \times H \times W}$, and $\pt$ is the
-probability distribution over this space which assigns mass to regions
-of $\target$ which correspond to RGB values that look like meaningful
-images, e.g.\ images of human faces. Each point in this space
-represents an image, and most points in this space will look like
-meaningless noise. \footnote{Meaningless to a human.}
+Now that we have introduced the relevant concepts from game theory we can
+introduce the algorithm and its constituent neural networks. Let $(\target,
+\pt)$ be a probability space where $\target$ is any finite space. Let $\pt$ be
+the probability distribution over this space. For instance $\target$ may be the
+idealized space of all 8-bit RGB images of length $H$ and width $W$, i.e.
+$\target = {[0, 255]}^{3 \times H \times W}$, and $\pt$ is the probability
+distribution over this space which assigns mass to regions of $\target$ which
+correspond to RGB values that look like meaningful images, e.g.\ images of human
+faces. Each point in this space represents an image, and most points in this
+space will look like meaningless noise.\footnote{Meaningless to a human.}
 
-The goal of the GAN algorithm is to train a generator $\G$,
-parameterized by $\phi \in \Phi \subset \R^n$, to map random samples
-$z$ drawn from $(\prior, p_{\prior})$, where $\prior \subset \R^n$
-such that $\G(z)$ is located in $\target$ in a region where $\pt$
-assigns a relatively large amount of mass. In practice
-$\prior \not = \target$ and $n$ is usually smaller than $|\target|$
+The goal of the GAN algorithm is to train a generator $\G$, parameterized by
+$\phi \in \Phi \subset \R^n$, to map random samples $z$ drawn from $(\prior,
+p_{\prior})$, where $\prior \subset \R^n$ such that $\G(z)$ is located in
+$\target$ in a region where $\pt$ assigns a relatively large amount of mass. In
+practice $\prior \not = \target$ and $n$ is usually smaller than $|\target|$
 \cite{ref:arjovsky-2017}.
 
-\begin{figure}[H] \centering
-  \begin{tikzpicture} \node (G) at (3, 2.2) {$\G(\cdot)$}; \draw (0,
-    0) rectangle +(2, 2); \node at (0.2, 1.8) {$\prior$}; \filldraw
-    (1, 1) circle (0.05cm); \node (Z) at (1, 1) {}; \draw (4, 0)
-    rectangle +(2, 2); \filldraw (5, 1) circle (0.05cm); \node (O) at
-    (5, 1) {}; \node at (5.8, 1.8) {$\target$}; \draw[->] (Z) to
-    [out=45,in=135] (O);
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node (G) at (3, 2.2) {$\G(\cdot)$};
+    \draw (0, 0) rectangle +(2, 2);
+    \node at (0.2, 1.8) {$\prior$};
+    \filldraw (1, 1) circle (0.05cm);
+    \node (Z) at (1, 1) {};
+    \draw (4, 0) rectangle +(2, 2);
+    \filldraw (5, 1) circle (0.05cm);
+    \node (O) at (5, 1) {};
+    \node at (5.8, 1.8) {$\target$}; \draw[->] (Z) to [out=45,in=135] (O);
   \end{tikzpicture}
-  \caption{$\G$ maps $z$ to $\G(z) \in \target$}
+  \caption{$\G$ maps $z$ to $\G(z) \in \target$}%
   \label{fig:g-maps}
 \end{figure}
 
-The reason we use a generative model is to obtain samples from
-$\target$ characterized by a specific distribution of values. For
-instance if $\target$ is the space of all RGB images and we desire
-images of human faces, then we want $\G$ to map samples from $\&Z$ to
-the region of $\target$ with RGB values within a very narrow range.
+The reason we use a generative model is to obtain samples from $\target$
+characterized by a specific distribution of values. For instance if $\target$ is
+the space of all RGB images and we desire images of human faces, then we want
+$\G$ to map samples from $\&Z$ to the region of $\target$ with RGB values within
+a very narrow range.
 
-In the beginning $\G$ maps $z \in \&Z$ to $\target$ haphazardly and
-it is from $\D$ that $\G$ obtains gradients to learn from. We optimize
-the discriminator $\D$ until it classifies samples sufficiently well,
-i.e. $\D$ must learn to assign the correct probability that the sample
-came from the target distribution. Thus $\D$ and $\G$ both learn
-$\pt$, but from different perspectives.
+In the beginning $\G$ maps $z \in \&Z$ to $\target$ haphazardly and it is from
+$\D$ that $\G$ obtains gradients to learn from. We optimize the discriminator
+$\D$ until it classifies samples sufficiently well, i.e. $\D$ must learn to
+assign the correct probability that the sample came from the target
+distribution. Thus $\D$ and $\G$ both learn $\pt$, but from different
+perspectives.
 
-Let $\D$ be a discriminator and $\G$ be a generator. Let $\V$ be the
-value function, which is a function of the \textit{actions} (which are
-parameterized by $\phi$ and $\theta$) taken by $\D$ and $\G$, given by
+Let $\D$ be a discriminator and $\G$ be a generator. Let $\V$ be the value
+function, which is a function of the \textit{actions} (which are parameterized
+by $\phi$ and $\theta$) taken by $\D$ and $\G$, given by
 \begin{align}
   \label{eq:the-original-objective-function}
   \V = \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] +
@@ -431,10 +435,10 @@ in GAN training.
 % second example $x$ quickly dominates, and this simple example
 % resembles what happens in GAN training in practice.
 
-\subsubsection{Two Value Functions}
+\subsubsection{Two Value Functions}%
 \label{sec:two-value}
 
-In \cite{ref:goodfellow-original}, the paper introduced one value
+In~\cite{ref:goodfellow-original}, the paper introduced one value
 function as part of the theoretical discussion, but when it came to
 training the algorithm, they used a different value function which
 avoided the above issues. The first value function (equation

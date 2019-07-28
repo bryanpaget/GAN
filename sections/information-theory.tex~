@@ -199,14 +199,15 @@ afterwards.
   \end{enumerate}
 \end{definition}
 
-\begin{definition}%
+\begin{definition}
   \label{def:kl-divergence}
-  The \textnormal{\sffamily Kullback-Leibler divergence} is a measure of how
-  different a probability distribution is from a second, reference probability
-  distribution. It is also known by the following names, \textnormal{\sffamily
-    relative entropy}, \textnormal{\sffamily directed divergence},
-  \textnormal{\sffamily information gain} and \textnormal{\sffamily
-    discrimination information}. It is defined by
+  The \textnormal{\sffamily Kullback-Leibler divergence} is a measure
+  of how different a probability distribution is from a second,
+  reference probability distribution.  It is also known by the
+  following names, \textnormal{\sffamily relative entropy},
+  \textnormal{\sffamily directed divergence}, \textnormal{\sffamily
+    information gain} and \textnormal{\sffamily discrimination
+    information}.  It is defined by
   \begin{align}
     \label{eq:KL}
     \KL{P}{Q} = \sum_{x \in \&X} p(x) \log{p(x) \over q(x)}.
