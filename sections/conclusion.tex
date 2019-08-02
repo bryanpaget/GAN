@@ -1,30 +1,31 @@
 \section{Conclusion}
 
-In Section \ref{sec:game-theory} we looked at game theory and how the
-GAN algorithm can be cast as a game between two competing neural
-networks.  The minimax strategy for $D$ was $D(x) = {1 \over 2}$ for
-all $x$, which, if attained, would make it impossible for the
-generator to minimize the value function, since $G$'s actions would no
-longer affect the actions of $D$.  This strategy makes sense for $D$,
-since it's the best anyone can do when confronted with maximum
-uncertainty.
+In Section~\ref{sec:game-theory} we looked at game theory and how the GAN
+algorithm can be cast as a game between two competing neural networks. The
+minimax strategy for $D$ was $D(x) = {1 \over 2}$ for all $x$, which, if
+attained, would make it impossible for the generator to minimize the value
+function, since $G$'s actions would no longer affect the actions of $D$. This
+strategy makes sense for $D$, since it is the best anyone can do when confronted
+with maximum uncertainty.
 
-Section \ref{sec:information-theory} included two information
-perspectives on GAN training. Theorem \ref{thm:limiting} considered
-the theoretical, limiting behaviour of GANs and
-\ref{thm:info-objective} considered what happens at each step of the
-optimization.  This is similar to a macroscopic and microscopic view
+Section~\ref{sec:information-theory} included two information perspectives on
+GAN training. Theorem~\ref{thm:limiting} considered the theoretical, limiting
+behaviour of GANs and~\ref{thm:info-objective} considered what happens at each
+step of the optimization. This is similar to a macroscopic and microscopic view
 of GAN training.
 
-Section \ref{sec:optimal-transport} introduced optimal transport and
-showed how the GAN algorithm has benefited greatly from the
-application of the Kantorovich-Rubinstein distance from optimal
-transport.  It takes a great deal of theoretical understanding to
-build a well-functioning learning system.  By proposing a variant of
-the GAN algorithm based on optimal transport theory,
-\cite{ref:arjovsky-2017} have opened up an additional theoretical
-avenue of research.  Future research for GANs can come from game
-theory, information theory and optimal transport.
+Section~\ref{sec:optimal-transport} introduced optimal transport and showed how
+the GAN algorithm has benefited greatly from the application of the
+Kantorovich-Rubinstein distance from optimal transport. It takes a great deal of
+theoretical understanding to build a well-functioning learning system. By
+proposing a variant of the GAN algorithm based on optimal transport
+theory,~\cite{ref:arjovsky-2017} have opened up an additional theoretical avenue
+of research. Future research for GANs can come from game theory, information
+theory and optimal transport.
+
+TODO:Should include a statement of what the thesis contributes to research, what
+do you suggest and where does this lead you?  Something about an application?
+
 
 %%% Local Variables:
 %%% mode: latex

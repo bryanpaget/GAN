@@ -8,18 +8,19 @@
 
 \include{sections/titlepage}
 
-\include{sections/thankyou}
-%% \afterpage{\null\blankpage}
-
-%% \include{sections/blank}
-
 \tableofcontents
-%% \afterpage{\null\blankpage}
 
+\include{sections/thankyou}
+
+%% \afterpage{\null\blankpage}
+%% \include{sections/blank}
+%% \afterpage{\null\blankpage}
 %% \include{sections/blank2}
 
 \include{sections/notation}
 %% \afterpage{\null\blankpage}
+
+\include{sections/abstract}
 
 \include{sections/outline}
 %% \afterpage{\null\blankpage}
@@ -43,8 +44,13 @@
 %% \include{sections/blank3}
 
 \bibliographystyle{apalike}
-\bibliography{thesis}
+\addcontentsline{toc}{section}{References}
+% \bibliography
+% \bibliographystyle{apalike}
 
+% \bibliography{thesis}
+
+\bibliography{thesis}
 \end{document}
 
 %%% Local Variables:

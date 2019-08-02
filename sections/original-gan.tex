@@ -1,9 +1,9 @@
-\section{Game Theory}
+\section{Game Theory}%
 \label{sec:game-theory}
 
 \vspace{1cm}
 
-\begin{figure}[h]
+\begin{figure}[h]%
   \label{fig:paradise}
   \centering
   \fcolorbox{black}{white}{
@@ -14,77 +14,75 @@
 
 \vspace{1cm}
 
-\noindent The original theoretical formulation of the GAN algorithm,
-as in~\cite{ref:goodfellow-original}, is through \textit{game theory},
-which is the study of conflict and cooperation between rational
-decision makers through the use of mathematical and statistical
-modeling~\cite{ref:myerson}.  Throughout this paper we only consider
-two-player games, and we will use $D$ to represent the player, and $G$
-to represent her opponent. We use the symbol $V_i$ to represent the
-value function of player $i$ for $i \in \{D, G\}$.
+\noindent The original theoretical formulation of the GAN algorithm, as
+in~\cite{ref:goodfellow-original}, is through \textit{game theory}, which is the
+study of conflict and cooperation between rational decision makers through the
+use of mathematical and statistical modelling~\cite{ref:myerson}. Throughout
+this thesis we only consider two-player games, and we will use $D$ to represent
+the player and $G$ to represent her opponent. We use the symbol $V_i$ to
+represent the value function of player $i$ for $i \in \{D, G\}$.
 
-\begin{definition}
+\begin{definition}%
   \label{def:value-function}
-  A \textnormal{\sffamily value function} $V_i$ is the reward (or loss
-  if it is negative) for player $i$ in a game as a function of that
-  player's action(s).
+  A \textnormal{\sffamily value function} $V_i$ is the reward (or loss if it is
+  negative) for player $i$ in a game as a function of that player's action(s).
 \end{definition}
 
-\begin{remark} Sometimes the loss is simply the difference between the
-  target value $y$ and the estimate $\hat{y}$. In the case of GANs,
-  the value function is more complex, and is essentially a measure on
-  uncertainty.
+\begin{remark}
+  Sometimes the loss is simply the difference between the target value $y$ and
+  the estimate $\hat{y}$. In the case of GANs, the value function is more
+  complex and is essentially a measure on uncertainty.
 \end{remark}
 
-There are actually two value functions (see Section
-\ref{sec:two-value}) used in \cite{ref:goodfellow-original}, the first
-allows the GAN algorithm to be interpreted as a \textit{zero-sum
-  game}, while the second value function does not
-\cite{ref:gidel-variational-2018}.
+There are actually two value functions (see Section~\ref{sec:two-value}) used
+in~\cite{ref:goodfellow-original}, the first allows the GAN algorithm to be
+interpreted as a \textit{zero-sum game}, while the second value function does
+not~\cite{ref:gidel-variational-2018}.
 
-\begin{definition}
-  \label{def:zero-sum-game} A \textnormal{\sffamily zero-sum game} is
-  any game where the loss of one player is the gain of the other. In a
-  zero-sum game, the players' rewards sum to zero, i.e.
-  $V_D + V_G = 0$.
+\begin{definition}%
+  \label{def:zero-sum-game}
+  A \textnormal{\sffamily zero-sum game} is any game where the loss of one
+  player is the gain of the other. In a zero-sum game, the players' rewards sum
+  to zero, i.e. $V_D + V_G = 0$.
 \end{definition}
 
-\begin{remark} For this section we will stick with the the first value
-  function, therefore we will consider the GAN algorithm to be a
-  zero-sum game between the generator and the discriminator, see
-  (\ref{def:generator}) and (\ref{def:discriminator}) for the relevant
-  definitions.
+\begin{remark}
+  For this section we will stick with the first value function, therefore we
+  will consider the GAN algorithm to be a zero-sum game between the generator
+  and the discriminator, see (\ref{def:generator}) and (\ref{def:discriminator})
+  for the relevant definitions.
 \end{remark}
 
-What is the optimal strategy in a zero-sum-game? At any given turn,
-what action should a player take to maximize his or her chances of
-winning or at least minimize the expected loss? The \textit{minimax
-  decision rule} is a strategy to get the best outcome given that you
-know your opponent is trying to minimize your reward.
+What is the optimal strategy in a zero-sum-game? At any given turn, what action
+should a player take to maximize his or her chances of winning or at least
+minimize the expected loss? The \textit{minimax decision rule} is a strategy to
+get the best outcome given that you know your opponent is trying to minimize
+your reward.
 
 \begin{definition}
   \label{def:minimax}
-  \label{def:minimax-value} In a two-player game, with players $D$ and
-  $G$, a \textnormal{\sffamily minimax decision rule} for $D$ is a
-  strategy that maximizes $D's$ expected reward, after $G$ has
-  minimized the maximum reward attainable by $D$ that is. The
-  \textnormal{\sffamily minimax value} $\overline{V_D}$ for $D$, is
-  the largest reward $D$ can win after $G$ makes his move to minimize
-  $D$'s reward, in symbols we write
-  \begin{align} \overline{V_D} = \min_{G} \max_{D} V_D(D, {G}).
+  \label{def:minimax-value}
+  In a two-player game, with players $D$ and $G$, a \textnormal{\sffamily
+    minimax decision rule} for $D$ is a strategy that maximizes $D's$ expected
+  reward, after $G$ has minimized the maximum reward attainable by $D$ that is.
+  The \textnormal{\sffamily minimax value} $\overline{V_D}$ for $D$, is the
+  largest reward $D$ can win after $G$ makes his move to minimize $D$'s reward,
+  in symbols we write
+  \begin{align}
+    \overline{V_D} = \min_{G} \max_{D} V_D(D, {G}).
   \end{align}
 \end{definition}
 
-In a game between $D$ and $G$, if $G$ moves first to minimize the
-reward $D$ can attain on her move, the minimax rule for $D$ will allow
-$D$ to attain the maximum of the reduced reward.
+In a game between $D$ and $G$, if $G$ moves first to minimize the reward $D$ can
+attain on her move, the minimax rule for $D$ will allow $D$ to attain the
+maximum of the reduced reward.
 
 \subsection{Nash Equilibrium and the Prisoner's Dilemma}
 \label{sec:nash-dilemma}
 
-The GAN algorithm searches for a \textit{Nash equilibrium} in the
-space of parameters for the discriminator and the generator, as covered
-in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
+The GAN algorithm searches for a \textit{Nash equilibrium} in the space of
+parameters for the discriminator and the generator, as covered in
+\cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 
 \begin{definition}
   A \textnormal{\sffamily Nash equilibrium} in an $n$-player game is a
@@ -108,11 +106,11 @@ in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 \end{definition}
 
 \begin{remark}
-  Each player's strategy is an optimal response based on the
-  anticipated behavior of the other player(s) in the game.  A minimax
-  solution to a zero-sum game is the same as a Nash Equilibrium. The
-  Nash equilibrium is not necessarily globally optimal and a game may
-  have more than one Nash equilibrium.
+  Each player's strategy is an optimal response based on the anticipated
+  behavior of the other player(s) in the game. A minimax solution to a zero-sum
+  game is the same as a Nash Equilibrium. The Nash equilibrium is not
+  necessarily globally optimal and a game may have more than one Nash
+  equilibrium.
 \end{remark}
 
 % \begin{remark}
@@ -121,45 +119,42 @@ in \cite{ref:goodfellow-2016} and \cite{ref:goodfellow-2017}.
 %   information, see \cite{ref:nash-1950} and \cite{ref:nash-1951}.
 % \end{remark}
 
-We look to the \textit{Prisoner's Dilemma} for an illustrative example
-of a Nash equilibrium. The Prisoner's Dilemma was originally
-formulated in a paper by Merrill Flood and Melvin Dresher in the
-1950s, and Albert W. Tucker reformulated the game in terms of prison
-sentences and gave it the name \textit{Prisoner's Dilemma}
-\cite{ref:poundstone}. The point of the Prisoner's Dilemma is to show
-that the globally optimal state may not be realistically attainable in
-a non-cooperative game. Each player is trying to minimize their
-expected jail-time, and they are assuming the other player is doing
-the same, and given that, they will not achieve the global minimum.
+We look to the \textit{Prisoner's Dilemma} for an illustrative example of a Nash
+equilibrium. The Prisoner's Dilemma was originally formulated in a paper by
+Merrill Flood and Melvin Dresher in the 1950s, and Albert W. Tucker reformulated
+the game in terms of prison sentences and gave it the name \textit{Prisoner's
+  Dilemma} \cite{ref:poundstone}. The point of the Prisoner's Dilemma is to show
+that the globally optimal state may not be realistically attainable in a
+non-cooperative game. Each player is trying to minimize their expected jail-time
+and they are assuming the other player is doing the same and, given that, they
+will not achieve the global minimum.
 
 \subsubsection{Prisoner's Dilemma}
 \label{sec:prisoners-dilemma}
 
-This game has two players, $D$ and $G$, who are held separately in
-police custody with no means of communication. The players have each
-been arrested for some small crime which the prosecution has enough
-evidence to convict them of. However, the prosecution suspects one of
-$D$ or $G$ of having committed a more serious crime in the
-not-so-distant past. The problem is they lack sufficient evidence to
-convict either $D$ or $G$ of the more serious crime. So the
+This game has two players, $D$ and $G$, who are held separately in police
+custody with no means of communication. The players have each been arrested for
+some small crime of which the prosecution has enough evidence to convict them.
+However, the prosecution suspects one of $D$ or $G$ of having committed a more
+serious crime in the not-so-distant past. The problem is they lack sufficient
+evidence to convict either $D$ or $G$ of the more serious crime. So the
 prosecutors cut each player a deal. The deal is
 
 \begin{enumerate}
-\item if $D$ defects and accuses $G$ of having committed the more
-  serious crime (and $G$ denies involvement) $D$ gets 1 year (as a
-  reward for co-operation) while $G$ gets 5 years of jail-time (and
-  vice-versa);
-\item if both $D$ and $G$ deny committing the larger crime, then they
-  both get 2 years, since the prosecution does have enough evidence to
-  convict them of the less serious crime;
-\item if both $D$ and $G$ accuse each other of committing the larger
-  crime, then they both get 3 years. Remember, they can not
-  communicate with each other.
+  \item if $D$ defects and accuses $G$ of having committed the more
+    serious crime (and $G$ denies involvement) $D$ gets 1 year (as a
+    reward for co-operation) while $G$ gets 5 years of jail-time (and
+    vice-versa);
+  \item if both $D$ and $G$ deny committing the larger crime, then they
+    both get 2 years, since the prosecution does have enough evidence to
+    convict them of the less serious crime;
+  \item if both $D$ and $G$ accuse each other of committing the larger
+    crime, then they both get 3 years.
 \end{enumerate}
 
 \begin{figure}[h]
-  \centering
-  \bgroup
+  \centering%
+  \bgroup%
   \def\arraystretch{1.4}
   \begin{tabular}[c]{|c|c|c|}
     \hline
@@ -176,9 +171,9 @@ prosecutors cut each player a deal. The deal is
 \end{figure}
 
 Figure~\ref{fig:prisoners-matrix} has the game's payoff matrix, scores are for
-($D$, $G$), i.e. $D$ controls the rows and $G$ controls the columns. It's
-obvious that (Deny, Deny) is the global optimum, but it turns out that it's an
-unstable state. The state (Defect, Defect) is the Nash equilibrium, we will go
+($D$, $G$), i.e. $D$ controls the rows and $G$ controls the columns. It is
+obvious that (Deny, Deny) is the global optimum, but it turns out that it is an
+unstable state. The state (Defect, Defect) is the Nash equilibrium. We will go
 over all four states and show why this is true.
 
 \begin{enumerate}
@@ -192,21 +187,21 @@ over all four states and show why this is true.
     gain from changing her strategy to defecting, since that will change
     the situation to (Defect, Deny), where $D$ does 1 year and $G$ does
     5.
-  \item \textit{(Defect, Defect).} If they both defect, neither $D$ nor
-    $G$ will gain anything by changing their strategy, for if $D$
-    changed to denying involvement, $D$ would serve 5 years, and the same
-    holds true for $G$.
+  \item \textit{(Defect, Defect).} If they both defect, neither $D$ nor $G$ will gain
+    anything by changing their strategy, for if $D$ changed to denying involvement,
+    $D$ would serve 5 years. A similar argument can be made about $G$ changing his strategy.
 \end{enumerate}
 
-Thus (Defect, Defect) is the Nash equilibrium for this game. It's a stable game
+Thus (Defect, Defect) is the Nash equilibrium for this game. It is a stable game
 state, i.e.\ there is no incentive for either player to change strategy (unless
-the other does as well). As $D$ sits in the holding cell, she is thinking that
-$G$ is going to either defect or deny involvement. If $D$ wants to minimize the
-maximum amount of jail-time she could possibly do, she will want to defect,
-since that will eliminate the worst case scenario of having to do 5 years. When
-she defects, the worst that can happen to her is 2 years.
+the other does as well). Remember, they can not communicate with each other. As
+$D$ sits in the holding cell, she is thinking that $G$ is going to either defect
+or deny involvement. If $D$ wants to minimize the maximum amount of jail-time
+she could possibly do, she will want to defect, since that will eliminate the
+worst case scenario of having to do 5 years. When she defects, the worst that
+can happen to her is 3 years.
 
-Since in this situation, the minimax does not achieve the global minimum, what
+Since (in this situation) the minimax has not achieve the global minimum, what
 can we say about the minimax strategy and the GAN algorithm?
 
 \subsection{Derivation of the Value Function}%
@@ -215,12 +210,12 @@ can we say about the minimax strategy and the GAN algorithm?
 Now that we have introduced the relevant concepts from game theory we can
 introduce the algorithm and its constituent neural networks. Let $(\target,
 \pt)$ be a probability space where $\target$ is any finite space. Let $\pt$ be
-the probability distribution over this space. For instance $\target$ may be the
-idealized space of all 8-bit RGB images of length $H$ and width $W$, i.e.
-$\target = {[0, 255]}^{3 \times H \times W}$, and $\pt$ is the probability
+the probability distribution over this space. For instance, $\target$ may be the
+idealized space of all 8-bit RGB images of length $H$ and width $W$, (i.e.
+$\target = {[0, 255]}^{3 \times H \times W}$), and $\pt$ is the probability
 distribution over this space which assigns mass to regions of $\target$ which
 correspond to RGB values that look like meaningful images, e.g.\ images of human
-faces. Each point in this space represents an image, and most points in this
+faces. Each point in this space represents an image and most points in this
 space will look like meaningless noise.\footnote{Meaningless to a human.}
 
 The goal of the GAN algorithm is to train a generator $\G$, parameterized by
@@ -238,9 +233,11 @@ practice $\prior \not = \target$ and $n$ is usually smaller than $|\target|$
     \node at (0.2, 1.8) {$\prior$};
     \filldraw (1, 1) circle (0.05cm);
     \node (Z) at (1, 1) {};
+    \node (ZZ) at (1.2, 0.8) {\small $z$};
     \draw (4, 0) rectangle +(2, 2);
     \filldraw (5, 1) circle (0.05cm);
     \node (O) at (5, 1) {};
+    \node (OO) at (5.5, 0.7) {\small $\G(z)$};
     \node at (5.8, 1.8) {$\target$}; \draw[->] (Z) to [out=45,in=135] (O);
   \end{tikzpicture}
   \caption{$\G$ maps $z$ to $\G(z) \in \target$}%
@@ -248,15 +245,15 @@ practice $\prior \not = \target$ and $n$ is usually smaller than $|\target|$
 \end{figure}
 
 The reason we use a generative model is to obtain samples from $\target$
-characterized by a specific distribution of values. For instance if $\target$ is
-the space of all RGB images and we desire images of human faces, then we want
+characterized by a specific distribution of values. For instance, if $\target$
+is the space of all RGB images and we desire images of human faces, then we want
 $\G$ to map samples from $\&Z$ to the region of $\target$ with RGB values within
 a very narrow range.
 
-In the beginning $\G$ maps $z \in \&Z$ to $\target$ haphazardly and it is from
-$\D$ that $\G$ obtains gradients to learn from. We optimize the discriminator
-$\D$ until it classifies samples sufficiently well, i.e. $\D$ must learn to
-assign the correct probability that the sample came from the target
+In the beginning, $\G$ maps $z \in \&Z$ to $\target$ haphazardly and it is from
+$\D$ that $\G$ obtains gradients from which to learn. We optimize the
+discriminator $\D$ until it classifies samples sufficiently well, i.e. $\D$ must
+learn to assign the correct probability that the sample came from the target
 distribution. Thus $\D$ and $\G$ both learn $\pt$, but from different
 perspectives.
 
@@ -331,17 +328,16 @@ numbers, converges to
   \label{eq:objective-for-d}
   \mathbb{E}_{x \sim \pt}[{\log \D(x})] + \mathbb{E}_{z \sim \pz}[\log{(1 - \D(\G(z)))}]
 \end{align}
-for $n$ sufficiently large. Thus, we can say the objective of the GAN
-algorithm from the perspective of the discriminator is to find a set
-of parameters $\theta$ which maximize (\ref{eq:objective-for-d}).
+for $n$ sufficiently large. Thus, we can say the objective of the GAN algorithm
+from the perspective of the discriminator is to find a set of parameters
+$\theta$ which maximize (\ref{eq:objective-for-d}).
 
-\subsubsection{Derivation of the Value Function from the Perspective of $\G$}
+\subsubsection{Derivation of the Value Function from the Perspective of $\G$}%
 \label{sec:derivation-g}
 
-From the perspective of the generator, we search for $\phi$ that
-maximizes the likelihood (as a defined by a fixed $\D$) that a
-generated sample comes from the target distribution $\pt$, i.e.\ we
-want $\G$ to maximize
+From the perspective of the generator, we search for $\phi$ that maximizes the
+likelihood (as defined by a fixed $\D$) that a generated sample comes from the
+target distribution $\pt$, i.e.\ we want $\G$ to maximize
 \begin{align}
   ^*\ell_G(\phi) = \log\prod_{i=1}^n\D(\G(z_i)) = \sum_{i=1}^n\log{\D(\G(z_i))}, \quad z_i \sim \pz.
 \end{align}
@@ -371,10 +367,10 @@ equilibrium.  But this is not always easy to do in practice.
 \subsubsection{The Difficulty of Finding a Nash Equilibrium}
 \label{sec:difficulty}
 
-It is not always easy to find a Nash equilibrium, in fact, if we look
-at the following example, we will see there is a tendency to oscillate
-around an equilibrium. This example was inspired by
-\cite{ref:weng-2017}.  Let $G$ control $x$ and $D$ control $y$.
+It is not always easy to find a Nash equilibrium. In fact, if we look at the
+following example, we will see there is a tendency to oscillate around an
+equilibrium. This example was inspired by~\cite{ref:weng-2017}. Let $G$ control
+$x$ and $D$ control $y$.
 
 \begin{example}
   Let $V(x, y) = xy$ be a value function and let the following be our
@@ -438,24 +434,23 @@ in GAN training.
 \subsubsection{Two Value Functions}%
 \label{sec:two-value}
 
-In~\cite{ref:goodfellow-original}, the paper introduced one value
-function as part of the theoretical discussion, but when it came to
-training the algorithm, they used a different value function which
-avoided the above issues. The first value function (equation
-\ref{eq:the-original-objective-function}) is hard to train and often
-leads to vanishing gradients, which means the generator has nothing to
-learn from. The decoupled objective functions
+In~\cite{ref:goodfellow-original}, the paper introduced one value function as
+part of the theoretical discussion, but when it came to training the algorithm,
+they used a different value function which avoided the above issues. The first
+value function (equation~\ref{eq:the-original-objective-function}) is hard to
+train and often leads to vanishing gradients, which means the generator has
+nothing from which to learn. The decoupled objective functions
 \begin{align}
   \label{eq:second-value-function} \max_{\theta} \left(
   \mathbb{E}\left[\log{D_\theta(x)}\right] +
   \mathbb{E}\left[\log(1 - D_\theta(G_\phi(z)))\right]
   \right) \\
   \max_{\phi}\mathbb{E}\left[\log(D_\theta(G_\phi(z)))\right]
-\end{align} have the same fixed points as the previous one, but the
-gradients of the loss with respect to the generator are stronger,
-therefore providing better learning material for the generator. With
-equation \ref{eq:second-value-function} as the objective functions,
-the GAN algorithm is no longer a zero-sum game.
+\end{align}
+have the same fixed points as the previous one, but the gradients of the loss
+with respect to the generator are stronger, therefore providing better learning
+material for the generator. With equation \ref{eq:second-value-function} as the
+objective functions, the GAN algorithm is no longer a zero-sum game.
 
 \subsection{Generative Adversarial Networks}
 
@@ -496,23 +491,20 @@ The full algorithm is presented below.
   \end{minipage}
 \end{figure}
 
-In the original paper, the discriminator is said to be optimized $k$
-times before the generator is optimized, however $k=1$, so we chose to
-leave out that inner training loop in favor of readability conceptual
-clarity.
+In the original paper, the discriminator is said to be optimized $k$ times
+before the generator is optimized, however $k=1$, so we chose to leave out that
+inner training loop in favour of readability and conceptual clarity.
 
 \subsection{Discussion}
 
-The minimax strategy for $D$ can be thought of as follows.  If $D$
-assumes $G$ has done its worst, then $D$ should assume that $G$ is
-able to produce data points that are indistinguishable from the real
-thing. If that's the case, to minimize loss, $D$ should return
-${1 \over 2}$ for all data points, which happens to be the maximum
-entropy distribution over the two states (real or synthetic).  If
-$D(x) = {1 \over 2}$ $\forall x$, there is nothing for $G$ can do to
-improve its situation.  The next section will show
-$D(x) = {1 \over 2}$ $\forall x$ is indeed the optimal strategy for
-$D$.
+The minimax strategy for $D$ can be thought of as follows: if $D$ assumes $G$
+has done its worst, then $D$ should assume that $G$ is able to produce data
+points that are indistinguishable from the real thing. If that is the case, to
+minimize loss, $D$ should return ${1 \over 2}$ for all data points, which
+happens to be the maximum entropy distribution over the two states (real or
+synthetic). If $D(x) = {1 \over 2}$ $\forall x$, there is nothing $G$ can do to
+improve its situation. The next section will show $D(x) = {1 \over 2}$ $\forall
+x$ is indeed the optimal strategy for $D$.
 
 %%% Local Variables:
 %%% mode: latex

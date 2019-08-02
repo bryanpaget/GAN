@@ -15,9 +15,18 @@
 
 \vspace{1cm}
 
-\noindent This is a survey on the theory behind the machine learning
-algorithm called \textit{generative adversarial networks} (GANs).  The
-purpose of the GAN algorithm is to train two neural networks through a
+\noindent This thesis is a survey on the theory behind the machine learning
+algorithm called \textit{generative adversarial networks} (GANs).
+
+Why study GANs? is important in undertanding the mathematical understanding deep
+fakes, see {}.
+
+\newcounter{x}
+\forloop{x}{1}{\value{x}<10}{%
+   \cite{ref:df\arabic{x}}
+}%
+
+The purpose of the GAN algorithm is to train two neural networks through a
 two-player, zero-sum game, hence the first chapter is on game theory.
 
 The two neural networks model completely different functions.  One is
@@ -285,18 +294,23 @@ minimization was for one player to try to predict outcomes in some
 event space and the adversary tries to minimize the ability of that
 player to make those predictions.
 
-A blog post from 2010 essentially describes the GAN algorithm, see
-\cite{ref:niemitalo-2010}. In 2012, a paper on adversarial support
-vector machines was written by \cite{ref:zhou-2012}. Finally, in 2014
-an algorithm for training models to simulate the behavior of animals
-based on two populations, replicas and classifiers, was written by
-\cite{ref:li-2014}.
+A blog post from 2010 \cite{ref:niemitalo-2010} essentially describes the GAN
+algorithm. In 2012, a paper on adversarial support vector machines was written
+by \cite{ref:zhou-2012}. Finally, in 2014 an algorithm for training models to
+simulate the behavior of animals based on two populations, replicas and
+classifiers, was written by \cite{ref:li-2014}.
 
 In 2014, while a student of Yoshua Bengio at the Universit\'{e} de
 Montr\'{e}al, Ian Goodfellow and colleagues published
 \textit{Generative Adversarial Nets}.  This paper has since inspired
 many publications and has triggered a surge in the interest in
 generative models.
+
+TODO: more?
+
+Now with this thesis, the author presents a detailed exposition on the theory of
+Generative Adversarial Networks from game, information and optimal transport
+theory.
 
 %%% Local Variables:
 %%% mode: latex

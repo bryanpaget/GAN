@@ -13,41 +13,39 @@
 
 \vspace{1cm}
 
-\noindent Information theory was born in 1948 with the publication of
-\textit{A Mathematical Theory of Communication} by Claude Shannon
-(1916~\textendash~2001). Shannon was inspired in part by earlier work
-by Boltzmann and Gibbs in thermodynamics and by Hartley and Nyquist at
-Bell, see \cite{ref:losee-1997}. Most of the theory and applications of
-information theory (compression, coding schemes, data transfer over
-noisy channels) are outside the scope of this paper, but there are
-certain information theoretic quantities used regularly in machine
-learning, so it is useful to discuss them now.
+\noindent Information theory was born in 1948 with the publication of \textit{A
+  Mathematical Theory of Communication} by Claude Shannon
+(1916~\textendash~2001). Shannon was inspired in part by earlier work by
+Boltzmann and Gibbs in thermodynamics and by Hartley and Nyquist at Bell,
+see~\cite{ref:losee-1997}. Most of the theory and applications of information
+theory (compression, coding schemes, data transfer over noisy channels) are
+outside the scope of this thesis, but there are certain information theoretic
+quantities used regularly in machine learning, so it is useful to discuss them
+now.
 
 \begin{remark}
-  The information we talk about is restricted to the information about
-  the probability distribution over the elementary outcomes, not
-  information about the content of the outcomes.  The significance of
-  probability is that it tells us how certain we can be when making
-  inference. The most important information in this regard is found in
-  the probability distribution over the possible outcomes.
+  The information we talk about is restricted to the information about the
+  probability distribution over the elementary outcomes, not information about
+  the content of the outcomes. The significance of probability is that it tells
+  us how certain we can be when making inference. The most important information
+  in this regard is found in the probability distribution over the possible
+  outcomes.
 \end{remark}
 
-Information theory is quite useful for deep learning. If we think of
-neural nets as noisy channels, the need for this theory becomes even
-more obvious. In~\cite{ref:mackay-2003}, David Mackay said ``brains
-are the ultimate compression and communication systems. And the
-state-of-the-art algorithms for both data compression and
-error-correcting codes use the same tools as machine
-learning''. Furthermore, ``we might anticipate that the best data
-compression algorithms will result from the development of artificial
-intelligence methods''.
+Information theory is quite useful for deep learning. If we think of neural nets
+as noisy channels, the need for this theory becomes even more obvious.
+In~\cite{ref:mackay-2003}, David Mackay said ``brains are the ultimate
+compression and communication systems. And the state-of-the-art algorithms for
+both data compression and error-correcting codes use the same tools as machine
+learning''. Furthermore, ``we might anticipate that the best data compression
+algorithms will result from the development of artificial intelligence
+methods''.
 
-The most fundamental quantity in information theory is entropy. Before
-we state the formal definition of entropy, we will motivate it as a
-measure of uncertainty by walking through its derivation. We will
-define a function $\eta$ as a measure of uncertainty and we will
-derive entropy as a function based on the requirements it must
-satisfy using $\eta$ as a starting point.
+The most fundamental quantity in information theory is entropy. Before we state
+the formal definition of entropy, we will motivate it as a measure of
+uncertainty by walking through its derivation. We will define a function $\eta$
+as a measure of uncertainty and we will derive entropy as a function based on
+the requirements it must satisfy using $\eta$ as a starting point.
 
 \begin{definition}
   Let $(\&X, p)$ be a discrete probability space. We define
@@ -71,62 +69,56 @@ satisfy using $\eta$ as a starting point.
   by~\cite{ref:martin-2011}.
 \end{remark}
 
-It shouldn't be a surprise that it's new information we are interested
-in, since that is what reduces uncertainty. Common outcomes provide
-less information than rare outcomes, which means $\eta$ should be
-inversely proportional to the probability of the outcome.
+It should not be a surprise that it is new information we are interested in,
+since that is what reduces uncertainty. Common outcomes provide less information
+than rare outcomes, which means $\eta$ should be inversely proportional to the
+probability of the outcome.
 \begin{align}
   \label{eq:eta-1}
   \eta(x) \propto {1 \over p(x)}
 \end{align}
-Since $\eta$ must satisfy
-$\eta(x \cdot x^\prime) = \eta(x) + \eta(x^\prime)$, we must define
-$\eta$ in terms of the logarithm.  This is because the probability of
-two independent outcomes is the product of their probabilities whereas
-we want information to be additive.
+Since $\eta$ must satisfy $\eta(x \cdot x^\prime) = \eta(x) + \eta(x^\prime)$,
+we must define $\eta$ in terms of the logarithm. This is because the probability
+of two independent outcomes is the product of their probabilities whereas we
+want information to be additive.  Thus,
 \begin{align}
   \label{eq:eta-3}
-  \eta(x) \approx \log{1 \over p(x)}
+  \eta(x) \approx \log{1 \over p(x)}.
 \end{align}
-For probability distributions, we need a measure of uncertainty that
-says, on average, how much uncertainty is contained in $(\&X, p)$. We
-need to weight the calculation by the probability of observing each
-outcome. This means what we are really seeking is a measure on the
-probability distribution over $\&X$. We will adjust the notation, we
-will use the capital eta, which resembles the Latin H,
+For probability distributions, we need a measure of uncertainty that says, on
+average, how much uncertainty is contained in $(\&X, p)$. We need to weight the
+calculation by the probability of observing each outcome. This means what we are
+really seeking is a measure on the probability distribution over $\&X$. We
+adjust the notation, using the capital eta, which resembles the Latin H. Thus,
 \begin{align}
   \label{eq:eta-almost}
-  \&H(P) = \sum_{x \in \&X} p(x) \log{1 \over p(x)}.
+  \&H(p) = \sum_{x \in \&X} p(x) \log{1 \over p(x)}.
 \end{align}
-This is what we will call entropy, a measure on the average amount of
-surprise associated to outcomes from $(\&X, p)$.  Entropy is maximized
-when we cannot say with any confidence if an outcome will occur. This
-upper bound occurs when the probabilities over the set of possible
-outcomes are uniformly distributed.
+This is what we will call entropy, a measure on the average amount of surprise
+associated to outcomes from $(\&X, p)$. Entropy is maximized when we cannot say
+with any confidence if an outcome will occur. This upper bound occurs when the
+probabilities over the set of possible outcomes are uniformly distributed.
 \begin{align}
   \label{eq:eta-2}
-  \&H(P) \leq \log{|\&X|}
+  \&H(p) \leq \log{|\&X|}
 \end{align}
-We can also think of entropy as, how much information, measured in
-binary information units (bits), is required to describe outcomes
-drawn from $(\&X, p)$. The way to understand this last part is the
-logarithm tells us how many bits we need to describe this uncertainty,
-since
+We can also think of entropy as how much information, measured in binary
+information units (bits), is required to describe outcomes drawn from $(\&X,
+p)$. The way to understand this last part is the logarithm tells us how many
+bits we need to describe this uncertainty, since
 \begin{align}
   \label{eq:understand-log}
   \log_2{1 \over p(x)} = n \iff 2^n = {1 \over p(x)}.
 \end{align}
-However, any logarithm can be used. Base $e$ and base 10 are also
-commonly used.
+However, any logarithm can be used. Base $e$ and base 10 are also commonly used.
 \begin{definition}
-  Let $(\&X, p)$ be any discrete probability space. The
-  \textnormal{\sffamily entropy} of a probability distribution $P$
-  with mass function $p$, denoted by $\&H(P)$, is the average amount
-  of uncertainty found in elementary outcomes from $(\&X, p)$. We
-  write
+  Let $(\&X, p)$ be any discrete probability space. The \textnormal{\sffamily
+    entropy} of a probability distribution $p$ with mass function $p$, denoted
+  by $\&H(p)$, is the average amount of uncertainty found in elementary outcomes
+  from $(\&X, p)$. We write
   \begin{align}
     \label{eq:entropy}
-    \&H(P) = - \mathbb{E}_{x \sim p} \left[ \log{p(x)} \right].
+    \&H(p) = - \mathbb{E}_{x \sim p} \left[ \log{p(x)} \right].
   \end{align}
   The entropy of a probability distribution tells us how much
   variation we should expect to see in samples drawn from $(\&X,
@@ -134,7 +126,7 @@ commonly used.
   uniform distribution since all outcomes are equally surprising.
 \end{definition}
 
-Figure \ref{fig:entropy-coin-toss} depicts the entropy of a
+Figure~\ref{fig:entropy-coin-toss} depicts the entropy of a
 probability distribution over two states as a function of the symmetry
 of the distribution.  As the probability of heads $p(H)$ approaches 0
 or 1, we see the uncertainty vanishes, and uncertainty is maximized
@@ -149,12 +141,12 @@ when probability is equally distributed over heads and tails.
       xmin = 0,
       xmax = 1,
       xlabel = $p(H)$,
-      ylabel = $\&H(P)$,
+      ylabel = $\&H(p)$,
       enlargelimits = false]
       \addplot [samples = 300, blue] {-x*log2(x)-(1-x)*log2(1-x)};
     \end{axis}
   \end{tikzpicture}
-  \caption{Entropy of a coin toss as a function of the symmetry of $p(H)$.}
+  \caption{Entropy of a coin toss as a function of the symmetry of $p(H)$.}%
   \label{fig:entropy-coin-toss}
 \end{figure}
 
@@ -167,9 +159,8 @@ when probability is equally distributed over heads and tails.
 
 \subsubsection*{Entropy-based Quantities}
 
-We include a definition of a metric below in order to make make clear
-the distinction between it and a divergence, which will be define
-afterwards.
+We include a definition of a metric below in order to make clear the distinction
+between it and a divergence, which will be defined afterwards.
 
 \begin{definition}
   A \textnormal{\sffamily metric} on a set $\&X$ is a function $d(\cdot, \cdot): \&X \times
@@ -191,11 +182,11 @@ afterwards.
   set $\&X$ such that all $P \in \&P$ have the same support. A
   \textnormal{\sffamily divergence} on $\&P$ is a function,
   $\&D\left( \cdot \mid\mid \cdot \right): \&P \times \&P \mapsto
-  \R^+$, such that $\forall P, Q \in \&P$ the following conditions are
+  \R^+$, such that $\forall p, q \in \&P$ the following conditions are
   satisfied
   \begin{enumerate}[(i)]
-  \item $\&D(P||Q) \geq 0$
-  \item $\&D(P||Q) = 0 \iff P = Q$.
+  \item $\&D(p||q) \geq 0$
+  \item $\&D(p||q) = 0 \iff p = q$.
   \end{enumerate}
 \end{definition}
 
@@ -203,22 +194,22 @@ afterwards.
   \label{def:kl-divergence}
   The \textnormal{\sffamily Kullback-Leibler divergence} is a measure of how
   different a probability distribution is from a second, reference probability
-  distribution. It is also known by the following names, \textnormal{\sffamily
+  distribution. It is also known by the following names: \textnormal{\sffamily
     relative entropy}, \textnormal{\sffamily directed divergence},
   \textnormal{\sffamily information gain} and \textnormal{\sffamily
     discrimination information}. It is defined by
   \begin{align}
     \label{eq:KL}
-    \KL{P}{Q} = \sum_{x \in \&X} p(x) \log{p(x) \over q(x)}.
+    \KL{p}{q} = \sum_{x \in \&X} p(x) \log{p(x) \over q(x)}.
   \end{align}
-  If $P$ and $Q$ have the same support, then $\KL{P}{Q} = 0$ if and
-  only if $P = Q$.
+  If $p$ and $q$ have the same support, then $\KL{p}{q} = 0$ if and
+  only if $p = q$.
 \end{definition}
 
 \begin{remark}
-  The Kullback-Leibler divergence is defined only if $P$ is absolutely
-  continuous with respect to $Q$, i.e.\ $\forall x$
-  $q(x) = 0 \implies p(x) = 0$.  When $p(x) = 0$, $\KL{P}{Q} = 0$
+  The Kullback-Leibler divergence is defined only if $p$ is absolutely
+  continuous with respect to $q$, i.e.\ $\forall x$
+  $q(x) = 0 \implies p(x) = 0$.  When $p(x) = 0$, $\KL{p}{q} = 0$
   since $\lim_{x \to 0} x\log{x} = 0$.
 \end{remark}
 
@@ -226,19 +217,18 @@ afterwards.
   For a closed convex set $E \subset \&P$, where $\&P$ is the space of
   all probability distributions over a finite set $\&X$, and for a
   distribution $Q \not \in E$, let $P^* \in E$ be defined by
-  $P^* = \argmin_{P \in E} \KL{P}{Q}$, then
+  $p^* = \argmin_{P \in E} \KL{p}{q}$, then
   \begin{align}
-   \KL{P}{Q} \geq \KL{P}{P^*} + \KL{P^*}{Q}.
+   \KL{p}{q} \geq \KL{p}{p^*} + \KL{p^*}{q}.
   \end{align}
   The interested reader can consult Theorem 11.6.1 in~\cite{ref:cover-thomas}.
 \end{theorem}
 
 \begin{remark}
-  The log-likelihood ratio test is used in comparing the
-  goodness-of-fit of one statistical model over another.  The
-  Kullback-Leibler divergence of $P$ and $Q$ is the average of the
-  log-likelihood ratio test with respect to probabilities defined by
-  $P$.  For two models $p(x) = f(x|\theta)$ and $q(x) = f(x|\phi)$,
+  The log-likelihood ratio test is used in comparing the goodness-of-fit of one
+  statistical model over another. The Kullback-Leibler divergence of $p$ and $q$
+  is the average of the log-likelihood ratio test with respect to probabilities
+  defined by $p$. For two models $p(x) = f(x|\theta)$ and $q(x) = f(x|\phi)$,
   the log-likelihood ratio test is
   \begin{align}
     \lambda(x) & = \log{\prod_{x \in \&X} p(x) \over \prod_{x \in \&X} q(x)} \\
@@ -259,26 +249,25 @@ data via optimizing a goodness-of-fit test since
 \end{align}
 has the same fixed point as
 \begin{align}
-  & \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\D(x_i)} - \log{(\D(\G(z_i)))} \\
+  & \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \left[\log{\D(x_i)} - \log{(\D(\G(z_i)))}\right] \\
   & = \min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\left({\D(x_i) \over \D(\G(z_i))}\right)}
 \end{align}
-which is the Kullback-Leibler divergence, or the average
-log-likelihood ratio test. Since $\forall x$ $\D(x) \in [0, 1]$, we
-can infer that when $\D$ is optimized, it will place a larger amount
-of mass on $x$ than on $\G(z)$.
+which is the Kullback-Leibler divergence or the average log-likelihood ratio
+test. Since $\forall x$ $\D(x) \in [0, 1]$, we can infer that when $\D$ is
+optimized, it will place a larger amount of mass on $x$ than on $\G(z)$.
 
-The term information gain refers to one interpretation of the
-Kullback-Leibler divergence, specifically $\KL{P}{Q}$ is the amount of
-information gained about the data when $Q$ is used to model the data,
-rather than $P$.  Equivalently, the amount of information lost when
-$Q$ is used to approximate $P$.
+The term \textit{information gain} refers to one interpretation of the
+Kullback-Leibler divergence. Specifically $\KL{p}{q}$ is the amount of
+information gained about the data when $q$ is used to model the data, rather
+than $p$. Equivalently, the amount of information lost when $q$ is used to
+approximate $p$.
 
 \begin{definition}
   The \textnormal{\sffamily reverse Kullback-Leibler divergence} is the asymmetrical
   counterpart.
   \begin{align}
     \label{eq:reverse-KL}
-    \KL{Q}{P} = \sum_{x \in \&X} q(x) \log{q(x) \over p(x)}.
+    \KL{q}{p} = \sum_{x \in \&X} q(x) \log{q(x) \over p(x)}.
   \end{align}
   The reverse Kullback-Leibler divergence is the average of the log-likelihood
   ratio test taken with respect to the model $q(x)$,
@@ -286,51 +275,50 @@ $Q$ is used to approximate $P$.
     \E{x \sim q}{\lambda(x)} = \sum_{x \in \&X} q(x)\log {q(x) \over p(x)}.
   \end{align}
 \end{definition}
+Minimizing the reverse Kullback-Leibler divergence is not equivalent to maximum
+likelihood methods.
 
-Minimizing the reverse Kullback-Leibler divergence is not equivalent
-to maximum likelihood methods. The Kullback-Leibler divergence is
-related to another quantity used in machine learning quite often,
-cross entropy.
-
+The Kullback-Leibler divergence is related to another quantity used quite often
+in machine learning: cross entropy.
 \begin{definition}
-  The \textnormal{\sffamily cross entropy} of $P$ and $Q$ (for a given data set) is the total
-  amount of uncertainty incurred by modelling the data with $Q$ rather than $P$.
+  The \textnormal{\sffamily cross entropy} of $p$ and $q$ (for a given data set) is the total
+  amount of uncertainty incurred by modelling the data with $q$ rather than $p$.
   \begin{align}
-    \&H(P,Q) = - \sum_{x \in \&X} p(x) \log q(x) = -\mathbb{E}_{x \sim p}\left[\log{q(x)}\right].
+    \&H(p, q) = - \sum_{x \in \&X} p(x) \log q(x) = -\mathbb{E}_{x \sim p}\left[\log{q(x)}\right].
   \end{align}
 \end{definition}
 
 \begin{lemma}
-The cross entropy of $P$ and $Q$ is the sum of the entropy of $P$ and the
-Kullback-Leibler divergence of $P$ and $Q$.
+  The cross entropy of $p$ and $q$ is the sum of the entropy of $p$ and the
+  Kullback-Leibler divergence of $p$ and $q$.
 \end{lemma}
 \begin{proof}
 \begin{align}
   \label{eq:cross-entropy-alt}
-  \&H(P, Q) & = -\sum_{x \in \&X} p(x) \log q(x) \\
+  \&H(p, q) & = -\sum_{x \in \&X} p(x) \log q(x) \\
             & = -\sum_{x \in \&X} p(x) \log p(x) + \sum_{x \in \&X} p(x) \log p(x) - \sum_{x \in \&X} p(x) \log q(x) \\
             & = -\sum_{x \in \&X} p(x) \log p(x) + \sum_{x \in \&X} p(x) \log {p(x) \over q(x)} \\
-            & = \&H(P) + \KL{P}{Q}
+            & = \&H(p) + \KL{p}{q}
 \end{align}
 \end{proof}
 
-Which tells us the lower bound for cross entropy must be the entropy of the
-probability distribution $P$ over $\&X$. Thus, cross entropy is the uncertainty
+This tells us the lower bound for cross entropy must be the entropy of the
+probability distribution $p$ over $\&X$. Thus, cross entropy is the uncertainty
 induced by assuming the wrong probability distribution over the data. The
 additional uncertainty is captured by the Kullback-Leibler divergence. Cross
-entropy is not symmetric since $\&H(Q, P) = \&H(Q) + \KL{Q}{P}$.
+entropy is not symmetric since $\&H(q, p) = \&H(q) + \KL{q}{p}$.
 
 As shown in~\cite{ref:goodfellow-original}, the generator minimizes an
 approximation of the Jensen-Shannon divergence.
 
-\begin{definition}
+\begin{definition}%
   \label{def:jsd}
   Let $p(x)$ and $q(x)$ be any two probability distributions over any
   space $\&X$. The \textnormal{\sffamily Jenson-Shannon divergence} of
   $p(x)$ and $q(x)$ is a symmetrization of the Kullback-Leibler
   divergence of $p(x)$ and $q(x)$ over $\&X$.
   \begin{align}
-    \JSD{P}{Q} = {1 \over 2} \KL{P}{P + Q \over 2} + {1 \over 2} \KL{Q}{P + Q
+    \JSD{p}{q} = {1 \over 2} \KL{p}{p + q \over 2} + {1 \over 2} \KL{q}{p + q
     \over 2}
   \end{align}
 \end{definition}
@@ -350,17 +338,17 @@ approximation of the Jensen-Shannon divergence.
 
 Information theory provides us with a measure of dependency, or at least how
 much information about one probability distribution is contained in another
-distribution.
+distribution. The following measure are defined in terms of random variables
+denoted by upper case letters such as $X$ and $Y$.
 
 \begin{definition}
-  Let $(\&X, p)$ and $(\&Y, q)$ be any two finite probability spaces
-  ($\&X$ and $\&Y$ need not be distinct) and consider two random
-  variables $X \sim P$ and $Y \sim Q$ with joint probability mass
-  function $\gamma$ and marginal probability mass functions
-  $\pi_p \circ \gamma = p$ and $\pi_q \circ \gamma = q$. The
-  \textnormal{\sffamily mutual information} $I(X;Y)$ is the
-  Kullback-Leibler divergence of $\gamma$ and the product of $p$ and
-  $q$, in other words
+  Let $(\&X, p)$ and $(\&Y, q)$ be any two finite probability spaces ($\&X$ and
+  $\&Y$ need not be distinct) and consider two random variables $X \sim P$ and
+  $Y \sim Q$ with joint probability mass function $\gamma$ and marginal
+  probability mass functions $\pi_p \circ \gamma = p$ and $\pi_q \circ \gamma =
+  q$. The \textnormal{\sffamily mutual information} $I(X;Y)$ is the
+  Kullback-Leibler divergence of $\gamma$ and the product of $p$ and $q$, in
+  other words
   \begin{align}
     \label{eq:mutual-information}
     \&I(X; Y) = \sum_{x \in \&X}\sum_{y \in \&Y}\gamma(x, y) \log{{\gamma(x, y) \over p(x)q(y)}}
@@ -368,8 +356,8 @@ distribution.
 \end{definition}
 
 \begin{theorem}
-  If the random variables $X$ and $Y$ are independent, then $\gamma(x,y) = p(x)q(y)$
-  and $\&I(X; Y) = 0$.
+  If the random variables $X$ and $Y$ are independent, then $\gamma(x,y) =
+  p(x)q(y)$ and $\&I(X; Y) = 0$.
 \end{theorem}
 
 \begin{remark}
@@ -378,13 +366,14 @@ distribution.
   statistical dependence.
 \end{remark}
 
-\begin{remark} Mutual information can also be defined in terms of conditional
-  entropy.
+\begin{remark}
+  Mutual information can also be defined in terms of conditional entropy,
+  defined in terms of random variables $X$ and $Y$,
   \begin{align}
     \label{eq:mutual-information-alt}
-    \&I(X; Y) = \&H(X) - \&H(X \mid Y) = \&H(Y) - \&H(Y \mid X)
+    \&I(X; Y) = \&H(X) - \&H(X | Y) = \&H(Y) - \&H(Y | X)
   \end{align}
-  Where $\&H(X \mid Y)$ is the conditional entropy of $X$ given that $Y$ has
+  where $\&H(X | Y)$ is the conditional entropy of $X$ given that $Y$ has
   occurred. In this form the mutual information can be interpreted as the
   information contained in one probability distribution minus the information
   contained in the distribution when the other distribution is known.
@@ -417,38 +406,36 @@ distribution.
 \subsection{Information-Theoretic View of GANs}%
 \label{sec:info-value-function}%
 
-We can now write a bit more about
-$\V = \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] + \mathbb{E}_{z \sim
-  \pz}[\log{(1 - D_\theta(G_\phi(z)))}]$ from the perspective of
-information theory.  The proposition presented below does not consider
-the limiting behaviour of $D$ and $G$, rather, we consider the
-behaviour at each step of the algorithm.
-Section~\ref{sec:optimization-dynamics} considers the limiting
-behaviour of the dynamics between $D$ and $G$.
+We can now write a bit more about $\V = \mathbb{E}_{x \sim \pt}[{\log
+  D_\theta(x)}] + \mathbb{E}_{z \sim \pz}[\log{(1 - D_\theta(G_\phi(z)))}]$ from
+the perspective of information theory. The proposition presented below does not
+consider the limiting behaviour of $D$ and $G$. Rather, we consider the
+behaviour at each step of the algorithm. Section~\ref{sec:optimization-dynamics}
+considers the limiting behaviour of the dynamics between $D$ and $G$.
 
-We claim that the goal of GAN training is to minimize the
-Kullback-Leibler divergence of the target probability distribution
-over the data $\pt$ and the distribution of mass the discriminator
-assigns to these data points $\D$.  Additionally, GAN training also
-maximize the Kullback-Leibler divergence of the generator's prior
-probability distribution $\pz$ and the distribution of mass the
-discriminator assigns to synthetic data points $\D(\G(z))$. Lastly,
-GAN training minimizes the Kullback-Leibler divergence of the
-generator's prior distribution $\pz$ and the amount of mass the
-discriminator assigns to synthetic data points $\D(\G(z))$.
+We claim that the goal of GAN training is to minimize the Kullback-Leibler
+divergence of the target probability distribution $\pt$ over the data and the
+distribution of mass the discriminator $\D$ assigns to these data points.
+Additionally, GAN training also maximizes the Kullback-Leibler divergence of the
+generator's prior probability distribution $\pz$ and the distribution of mass
+the discriminator assigns to synthetic data points $\D(\G(z))$. Lastly, GAN
+training minimizes the Kullback-Leibler divergence of the generator's prior
+distribution $\pz$ and the amount of mass the discriminator $\D(\G(z))$ assigns
+to synthetic data points.
 
 \begin{remark}
-  The Kullback-Leibler divergence in this context can be thought of as
-  how much more surprised we will be by outcomes drawn from $(\&X, p)$
-  since we are using an approximation $q$ of the true probability
-  distribution $p$ over the set $\&X$.
+  The Kullback-Leibler divergence in this context can be thought of as how much
+  more surprised we will be by outcomes drawn from $(\&X, p)$ since we are using
+  an approximation $q$ of the true probability distribution $p$ over the set
+  $\&X$.
 \end{remark}
 
 \begin{proposition}%
   \label{thm:info-objective}%
   If we consider
   \begin{align}
-    \min_\phi \max_\theta \mathbb{E}_{x \sim \pt}[{\log D_\theta(x})] + \mathbb{E}_{z
+    \label{eq:consider}
+    \min_\phi \max_\theta \mathbb{E}_{x \sim \pt}[{\log D_\theta(x)}] + \mathbb{E}_{z
     \sim \pz}[\log{(1 - D_\theta(G_\phi(z)))}]
   \end{align}
   from an information theoretic perspective, we can infer the training
@@ -479,12 +466,11 @@ Kullback-Leibler divergence of $\pt$ and $\pd$ is 0, since
                      \pd}  \\
                    & = H(\pt) + \KL{\pt}{\D}.
 \end{align}
-Since we don't touch $\pt$ during training, the only way to minimize
-$\&H(\pt,\D)$ is to train $\D$ to minimize $\KL{\pt}{\D}$,
-which occurs when $\pt = \D$. Therefore, when $\D$ has been
-optimized, $\D(x)$ will return the probability that $x$ was
-sampled from $\pt$, which equals $\pt$ when $\D$ is optimal. The
-second term,
+Since we do not touch $\pt$ during training, the only way to minimize
+$\&H(\pt,\D)$ is to train $\D$ to minimize $\KL{\pt}{\D}$, which occurs when
+$\pt = \D$. Therefore, when $\D$ has been optimized, $\D(x)$ will return the
+probability that $x$ was sampled from $\pt$, which equals $\pt$ when $\D$ is
+optimal. The second term of (\ref{eq:consider}),
 \begin{align}
   \mathbb{E}_{z \sim \pz}\left[\log(1 - \D(\G(z)))\right] =
   \sum_{z \sim \pz} \pzz \log (1 - \D(\G(z)))
@@ -494,49 +480,46 @@ was maximized by $\D$, which is equivalent to $\D$ maximizing
   -\sum_{z \sim \pz} \pzz \log (\D(\G(z))),
 \end{align}
 which is the cross entropy of $\pz$ and $\D(\G(z))$. This means $\D$ is trying
-to make $\pz$ and $\D(\G(z))$ to be as different as possible. And given a
-fixed discriminator $\D$, we train the $\G$ to minimize the same equation, which
-can be expressed equivalently as minimizing
+to make $\pz$ and $\D(\G(z))$ to be as different as possible. And given a fixed
+discriminator $\D$, we train the $\G$ to minimize the same equation, which can
+be expressed equivalently as minimizing
 \begin{align}
   -\sum_{z \sim \pz} \pzz \log (\D(\G(z)))
 \end{align}
 the cross entropy of $\pz$ and $\D(\G(z))$.
 \end{proof}
 
-The interpretation of the above theorem is that the generator wants
-the discriminator's decision on the generated data to be as
-uninformative as random noise.  The discriminator wants the
-distribution of its decision over the training data to match the
-empirical probability distribution, while at the same time, the
-discriminator wants its decision on the generated data to be more
+The interpretation of the above theorem is that the generator wants the
+discriminator's decision on the generated data to be as uninformative as random
+noise. The discriminator wants the distribution of its decision over the
+training data to match the empirical probability distribution, while at the same
+time, the discriminator wants its decision on the generated data to be more
 informative than noise.
 
-Next, we look at the optimization steps as the dynamics between
-approximating a divergence and minimizing the same divergence.
+Next, we look at the optimization steps as the dynamics between approximating a
+divergence and minimizing the same divergence.
 
 \subsection{Optimization Dynamics}%
 \label{sec:optimization-dynamics}
 
-We discussed training $\D$ and $\G$ from the perspective of game
-theory in Section~\ref{sec:derivation}, now let's look at these
-results more rigorously and with some actual calculations. Throughout
-this section, we will use the following notation. Let $\&X$ be our
-data and $\pt$ the true probability distribution over $\&X$. Let
-$\tilde{\&X}$ be the generated data and $\pg$ be the distribution over
-$\tilde{\&X}$ induced by $\G$. Let $X$ be a random sample from
-$(\&X, p^*)$, $\tilde{X}$ be a random sample from
-$(\tilde{\&X}, p_\phi)$, and let $Z$ be a random sample from the prior
-probability space $(\&Z, \pz)$.
+We discussed training $\D$ and $\G$ from the perspective of game theory in
+Section~\ref{sec:derivation}. Now let us look at these results more rigorously
+and with some actual calculations. Throughout this section, we will use the
+following notation. Let $\&X$ be our data and $\pt$ the true probability
+distribution over $\&X$. Let $\tilde{\&X}$ be the generated data and $\pg$ be
+the distribution over $\tilde{\&X}$ induced by $\G$. Let $X$ be a random sample
+from $(\&X, p^*)$, $\tilde{X}$ be a random sample from $(\tilde{\&X}, p_\phi)$,
+and let $Z$ be a random sample from the prior probability space $(\&Z, \pz)$.
 
 Throughout this section we will make use of not only
-\begin{align} V(\phi, \theta)(X, Z) & = \sum_{x \in X}\pt\log{\D(x)} +
-  \sum_{z \in Z}\pz\log{(1 - \D(\G(z)))},
+\begin{align}
+  V(\phi, \theta)(X, Z) & = \sum_{x \in X}\pt\log{\D(x)} +
+                          \sum_{z \in Z}\pz\log{(1 - \D(\G(z)))},
 \end{align}
-but of two equivalent variations as well. The first variation,
-$\tilde{V}(\phi, \theta)(X, \tilde{X})$, is obtained by changing the
-second argument of $\V$ from a sample of noise $Z$ to a sample from
-the generator $\G(Z) = \tilde{X}$. We compute the second
-expectation with respect to $\pg$, i.e.\ we have
+but of two equivalent variations as well. The first variation, $\tilde{V}(\phi,
+\theta)(X, \tilde{X})$, is obtained by changing the second argument of $\V$ from
+a sample of noise $Z$ to a sample from the generator $\G(Z) = \tilde{X}$. We
+compute the second expectation with respect to $\pg$, i.e.\ we have
 \begin{align}
   \tilde{V}(\phi, \theta)(X, \tilde{X}) = \sum_{x \in X}\ptx\log{\D(x)} + \sum_{\tilde{x} \in\tilde{X}}\pgx\log{(1 - \D(\tilde{x}))}.
 \end{align}
@@ -617,7 +600,7 @@ i.e. $\max_{\D}\V(X, Z)$ is equal to
   Hence, the minimax value is $ - \log{4}$.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}%
   \label{thm:limiting}
   When $\D$ is optimal, minimizing $\V$ as a function of $\phi$ is equivalent to
   optimizing the Jensen-Shannon divergence.
@@ -664,19 +647,18 @@ i.e. $\max_{\D}\V(X, Z)$ is equal to
 % are good at finding regularities in data and one way to express
 % regularity is by clustering similar objects into groups.
 
-This section included two information theoretic perspectives on GAN
-training. Theorem \ref{thm:limiting} considered the theoretical,
-limiting behaviour of GANs and \ref{thm:info-objective} considered what
-happens at each step of the optimization.
+This section included two information theoretic perspectives on GAN training.
+Theorem~\ref{thm:limiting} considered the theoretical, limiting behaviour of
+GANs and~\ref{thm:info-objective} considered what happens at each step of the
+optimization.
 
-As for Theorem \ref{thm:limiting}, the measure that $G$ minimizes
-changes at each training step since $D$ forces $\V$ into a better
-approximation of the Jensen-Shannon divergence one step at a time by
-performing the actions enumerated in Theorem \ref{thm:info-objective}.
-It is useful to consider what happens at each step of training; when
-we do that, we observe the generator and discriminator minimizing and
-maximizing the Kullback-Leibler divergence to optimize the fit of $D$
-and $G$ to $(\&X, \pt)$.
+As for Theorem~\ref{thm:limiting}, the measure that $G$ minimizes changes at
+each training step since $D$ forces $\V$ into a better approximation of the
+Jensen-Shannon divergence one step at a time by performing the actions
+enumerated in Theorem~\ref{thm:info-objective}. It is useful to consider what
+happens at each step of training. When we do that, we observe the generator and
+discriminator minimizing and maximizing the Kullback-Leibler divergence to
+optimize the fit of $D$ and $G$ to $(\&X, \pt)$.
 
 %%% Local Variables:
 %%% mode: latex
