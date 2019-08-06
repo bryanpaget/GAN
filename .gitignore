@@ -1,3 +1,10 @@
 .gio*
 .auc*
 *.aux
+*.toc
+*.synctex.gz
+*.out
+*.blg
+*.log
+*.bbl
+*.pdf
