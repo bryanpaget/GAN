@@ -178,15 +178,14 @@ between it and a divergence, which will be defined afterwards.
 \end{remark}
 
 \begin{definition}
-  Let $\&P$ be any space of probability distributions over any finite
-  set $\&X$ such that all $P \in \&P$ have the same support. A
-  \textnormal{\sffamily divergence} on $\&P$ is a function,
-  $\&D\left( \cdot \mid\mid \cdot \right): \&P \times \&P \mapsto
-  \R^+$, such that $\forall p, q \in \&P$ the following conditions are
+  Let $\&P$ be any space of probability distributions over any finite set $\&X$
+  such that all $P \in \&P$ have the same support. A \textnormal{\sffamily
+    divergence} on $\&P$ is a function, $\Divgen{\cdot}{\cdot}: \&P \times \&P
+  \mapsto \R^+$, such that $\forall p, q \in \&P$ the following conditions are
   satisfied
   \begin{enumerate}[(i)]
-  \item $\&D(p||q) \geq 0$
-  \item $\&D(p||q) = 0 \iff p = q$.
+    \item $\Divgen{p}{q} \geq 0$
+    \item $\Divgen{p}{q} = 0 \iff p = q$.
   \end{enumerate}
 \end{definition}
 
@@ -343,8 +342,8 @@ denoted by upper case letters such as $X$ and $Y$.
 
 \begin{definition}
   Let $(\&X, p)$ and $(\&Y, q)$ be any two finite probability spaces ($\&X$ and
-  $\&Y$ need not be distinct) and consider two random variables $X \sim P$ and
-  $Y \sim Q$ with joint probability mass function $\gamma$ and marginal
+  $\&Y$ need not be distinct) and consider two random variables $X \sim p$ and
+  $Y \sim q$ with joint probability mass function $\gamma$ and marginal
   probability mass functions $\pi_p \circ \gamma = p$ and $\pi_q \circ \gamma =
   q$. The \textnormal{\sffamily mutual information} $I(X;Y)$ is the
   Kullback-Leibler divergence of $\gamma$ and the product of $p$ and $q$, in

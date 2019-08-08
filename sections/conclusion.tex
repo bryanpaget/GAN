@@ -8,11 +8,11 @@ function, since $G$'s actions would no longer affect the actions of $D$. This
 strategy makes sense for $D$, since it is the best anyone can do when confronted
 with maximum uncertainty.
 
-Section~\ref{sec:information-theory} included two information perspectives on
-GAN training. Theorem~\ref{thm:limiting} considered the theoretical, limiting
-behaviour of GANs and~\ref{thm:info-objective} considered what happens at each
-step of the optimization. This is similar to a macroscopic and microscopic view
-of GAN training.
+Section~\ref{sec:information-theory} included two information theoretic
+perspectives on GAN training. Theorem~\ref{thm:limiting} considered the
+theoretical, limiting behaviour of GANs and~\ref{thm:info-objective} considered
+what happens at each step of the optimization. This is similar to a macroscopic
+and microscopic view of GAN training.
 
 Section~\ref{sec:optimal-transport} introduced optimal transport and showed how
 the GAN algorithm has benefited greatly from the application of the
@@ -23,12 +23,30 @@ theory,~\cite{ref:arjovsky-2017} have opened up an additional theoretical avenue
 of research. Future research for GANs can come from game theory, information
 theory and optimal transport.
 
-This thesis provides much of the necessary background for anyone wanting to get
-up to speed on the theory of generative adversarial networks (GANs). The most
-important thing going forward with GAN research is in the detection of fake news
-related media. GANs have made it incredibly easy to produce fake images and
-videos. There are many apps to produce deep fakes, just use your favorite search
-engine to find them.
+This thesis provided much of the necessary background material for anyone
+wanting to get up to speed on the theory of generative adversarial networks
+(GANs). The most important thing going forward with GAN research may be the
+detection of fake news related media. GANs have made it incredibly easy to
+produce fake images and videos. There are many apps to produce deep fakes, just
+use your favorite search engine to find them.
+
+The following quote from \cite{ref:goodfellow-original} hints at the social
+impact the GAN algorithm may have in the near future.
+
+\begin{quote}
+  \itshape The generative model can be thought of as analogous to a team of
+  counterfeiters, trying to produce fake currency and use it without detection,
+  while the discriminative model is analogous to the police, trying to detect
+  the counterfeit currency. Competition in this game drives both teams to
+  improve their methods until the counterfeits are indistinguishable from the
+  genuine articles.
+\end{quote}
+
+The competition between counterfeiters and police may be soon played out by the
+producers of fake images and videos, to be used in fake news, and concerned
+researchers. See \forloop{x}{1}{ \value{x}<11 }{ \cite{ref:df\arabic{x}}, }
+\cite{ref:df11} and \cite{ref:df12} for more information on fake image and video
+detection.
 
 %%% Local Variables:
 %%% mode: latex

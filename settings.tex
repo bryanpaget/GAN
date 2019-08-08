@@ -181,12 +181,15 @@ corners, node distance=3cm]
   \mathcal{D}_{\text{\tiny#1}}
 }
 
+\newcommand \Divgen[2] {
+  \Div{} \kern- \nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)
+}
 \newcommand \KL[2] {
-  \Div{KL}\left( #1 \middle| \middle| #2 \right)
+  \Div{KL} \kern- \nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)
 }
 
 \newcommand \JSD[2] {
-  \Div{JS}\left(#1\middle|\middle|#2\right)
+  \Div{JS} \kern- \nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)
 }
 
 \newcommand \Dstar[1] {
