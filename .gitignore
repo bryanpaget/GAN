@@ -1,10 +1,130 @@
-.gio*
-.auc*
+# LaTeX build artifacts
 *.aux
-*.toc
-*.synctex.gz
-*.out
-*.blg
-*.log
 *.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.out
 *.pdf
+*.synctex.gz
+*.toc
+*.tdo
+*.upa
+*.upb
+*.ptc
+*.maf
+*.mtc*
+*.mlf*
+*.mlt*
+*.mltx*
+*.figlist
+*.makefile
+*.xwm
+*.dvi
+
+# Bibliography files
+*.bcf
+*.run.xml
+
+# Glossary files
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.slg
+*.slo
+*.sls
+
+# Temporary files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+*.temp
+*.sav
+*.orig
+*.rej
+
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-*
+
+# Output directories
+build/
+out/
+output/
+dist/
+
+# Python cache (if using Python scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments (if using)
+venv/
+env/
+ENV/
+
+# Data files (if you have large datasets)
+data/
+datasets/
+*.csv
+*.json
+*.pkl
+*.h5
+*.mat
+
+# Images (if you have many generated images)
+images/generated/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.tiff
+
+# Model checkpoints (if training ML models)
+checkpoints/
+models/
+*.pth
+*.h5
+*.pt
+
+# Logs
+logs/
+*.log
+
+# Temporary directories
+tmp/
+temp/
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# Configuration files with secrets
+config/secrets.yaml
+.env
