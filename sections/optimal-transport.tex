@@ -1,562 +1,360 @@
-\section{Optimal Transport}%
+pdf\section{Optimal Transport}%
 \label{sec:optimal-transport}
-
 \vspace{1cm}
-
 \begin{figure}[h]%
-  \label{fig:paradise}
-  \centering
-  \fcolorbox{black}{white} {
-    \includegraphics[width=0.3\textwidth]{escher}
-  }
-  \caption{M.C. Escher, ``Waterfall'', 1961.}
+	\label{fig:paradise}
+	\centering
+	\fcolorbox{black}{white} {
+		\includegraphics[width=0.3\textwidth]{escher}
+	}
+	\caption{M.C. Escher's ``Waterfall'' (1961) illustrates an impossible object, symbolizing the challenges in measuring distances between probability distributions.}
 \end{figure}
-
 \vspace{1cm}
+\noindent In Section~\ref{sec:information-theory}, we explored how the generator minimizes an approximation of the Jensen-Shannon divergence between the true data distribution $p_r$ and the generator distribution $p_g$, which the discriminator approximates at each training step. In this section, we examine the limitations of the value function $\V$ as a GAN objective, stemming from the metric topology induced by the Jensen-Shannon divergence. To address these limitations, we introduce relevant concepts from topology and optimal transport theory, including the earth mover's distance (Wasserstein distance), which forms the foundation of the Wasserstein GAN (WGAN) introduced by~\cite{ref:arjovsky-2017}.
 
-\noindent Section~\ref{sec:information-theory} uncovered how the generator
-minimizes an approximation of the Jensen-Shannon divergence of $\pt$ and $\pg$
-which the discriminator approximated at each training step. In this section we
-discuss the limitations of $\V$ as the GAN objective function which come from
-the metric topology induced by the Jensen-Shannon divergence. To this end, we
-provide an introduction to some relevant concepts from topology in order to
-understand the aforementioned limitations.
+The central insight of this section is that the choice of distance function on a space $\mathcal{X}$ profoundly impacts continuity properties and consequently the ability of sequences of probability distributions to converge within $\mathcal{X}$.
 
-We also provide an introduction to optimal transport and what is commonly
-referred to as the earth mover or Wasserstein distance in order to properly
-cover a variant of the GAN algorithm called the Wasserstein GAN (WGAN). The WGAN
-was introduced by~\cite{ref:arjovsky-2017} from the Courant Institute of
-Mathematical Sciences as an attempt to overcome certain obstacles in GAN
-training.
-
-The moral of this section is that the choice of distance function with which to
-furnish a space $\&X$ has profound consequences on properties of continuity and
-therefore on the ability of sequences of probability distributions to converge
-within $\&X$.
-
-% The reason for this has to do with the topological properties
-% induced by the choice of distance.
-
-A topological space is the most general notion of a mathematical space that
-allows for the definition of concepts like continuity and convergence. Other
-spaces such as manifolds and metric spaces are specializations of topological
-spaces with extra structure or constraints. A space $\&X$ can be furnished with
-various different distance functions. The open balls form the base for a
-topology on $\&X$, which makes $\&X$ into a topological space.
-
-% \begin{definition}
-%   Let $(\&X, d)$ be a metric space. An \textbf{open ball} of radius
-%   $r \in \R^+$ around the point $x_0 \in \&X$ is the set
-%   \begin{align}http://pypy.org/features.html
-%     \&B_r(x_0) = \left\{ x \in \&X : d(x,x_0) < r \right\}.
-%   \end{align}
-%   That is to say $\&B_r(x_0)$ is the set of all points in $\&X$ that
-%   are not more than a distance of $r$ from $x_0$.
-% \end{definition}
+A topological space represents the most general mathematical framework that allows defining continuity and convergence. More specialized spaces like manifolds and metric spaces incorporate additional structure or constraints. A space $\mathcal{X}$ can be equipped with various distance functions, where the open balls form a basis for a topology on $\mathcal{X}$, transforming it into a topological space.
 
 \begin{definition}%
-  \label{def:topology1}
-  Let $\&X$ be any set. A \textnormal{\sffamily topology} $\&T$ on $\&X$ is a
-  collection of subsets of $\&X$, each called an open set, such that
-  \begin{enumerate}[(i)]
-    \item the empty set and the set containing all of $\&X$ are open;
-    \item the intersection of finitely many open sets is an open set;
-    \item the union of any collection of open sets is an open set.
-  \end{enumerate}
-  The set $\&X$ along with a topology $\&T$ on $\&X$ is called a
-  \textnormal{\sffamily topological space}.
+	\label{def:topology1}
+	Let $\mathcal{X}$ be any set. A \textnormal{\sffamily topology} $\mathcal{T}$ on $\mathcal{X}$ is a
+	collection of subsets of $\mathcal{X}$, each called an open set, satisfying:
+	\begin{enumerate}[(i)]
+		\item The empty set and $\mathcal{X}$ itself are open;
+		\item The intersection of finitely many open sets is open;
+		\item The union of any collection of open sets is open.
+	\end{enumerate}
+	The pair $(\mathcal{X}, \mathcal{T})$ is called a \textnormal{\sffamily topological space}.
 \end{definition}
 
-The notion of the open ball is fundamental to the topology of a metric space.
-Useful topological definitions (useful from the perspective of the practising
-statistician) can be formed from the notion of the open ball.
+The concept of an open ball is fundamental to the topology of metric spaces. Many useful topological definitions can be formulated using this notion.
 
 \begin{definition}%
-  \label{def:open-ball}
-  Let $(\&X, d)$ be a metric space. An \textnormal{\sffamily open ball} of
-  radius $r \in \R^+$ around the point $x_0 \in \&X$ is the set
-  \begin{align}
-    \&B_d(x_0, r) = \left\{ x \in \&X : d(x, x_0) < r \right\}.
-  \end{align}
-  That is to say $\&B_d(x_0, r)$ is the set of all points in $\&X$ that are within
-  $r$ distance from $x_0$.
+	\label{def:open-ball}
+	Let $(\mathcal{X}, d)$ be a metric space. An \textnormal{\sffamily open ball} of
+	radius $r \in \mathbb{R}^+$ centered at $x_0 \in \mathcal{X}$ is the set
+	\begin{align}
+		B_d(x_0, r) = \{ x \in \mathcal{X} : d(x, x_0) < r \}.
+	\end{align}
+	This set contains all points in $\mathcal{X}$ within distance $r$ of $x_0$.
 \end{definition}
 
 \begin{definition}%
-  \label{def:topology2}
-  Let $(\&X, d)$ be a metric space. The topology generated by the basis of open
-  balls $\&B = \{\&B_d(x, r) \mid x \in \&X, r > 0\}$ is called the
-  \textnormal{\sffamily topology induced by} $d$ and is referred to as a
-  \textnormal{\sffamily metric topology}.
+	\label{def:topology2}
+	Let $(\mathcal{X}, d)$ be a metric space. The topology generated by the basis of open
+	balls $\mathcal{B} = \{B_d(x, r) \mid x \in \mathcal{X}, r > 0\}$ is called the
+	\textnormal{\sffamily topology induced by} $d$ and is referred to as a
+	\textnormal{\sffamily metric topology}.
 \end{definition}
 
-Different metrics induce different topologies which are characterized by the
-quality of granularity.
+Different metrics induce different topologies, characterized by their granularity or fineness.
 
 \begin{theorem}%
-  \label{thm:granularity}
-  Let $d$ and $d^\prime$ be metrics on a set $\&X$, and let $\&T$ and
-  $\&T^\prime$ be the respective topologies they induce. $\&T^\prime$ is
-  \textnormal{\sffamily finer} than $\&T$ if and only if for each $x \in \&X$
-  and $\epsilon > 0$, there exists a $\delta > 0$ such that $\&B_{d^\prime}(x,
-  \delta) \subset \&B_d(x, \epsilon)$.
+	\label{thm:granularity}
+	Let $d$ and $d^\prime$ be metrics on a set $\mathcal{X}$, and let $\mathcal{T}$ and
+	$\mathcal{T}^\prime$ be their respective induced topologies. $\mathcal{T}^\prime$ is
+	\textnormal{\sffamily finer} than $\mathcal{T}$ if and only if for each $x \in \mathcal{X}$
+	and $\epsilon > 0$, there exists a $\delta > 0$ such that $B_{d^\prime}(x,
+		\delta) \subset B_d(x, \epsilon)$.
 \end{theorem}
 
 \begin{definition}%
-  \label{def:convergence-metric-space}
-  Let $\&X$ be any finite set of elementary outcomes and $\&P$ be the space of
-  all probability distributions over $\&X$ with equal support. Let $d: \&P
-  \times \&P \mapsto \mathbb{R}$ be a metric on this space. A sequence of
-  probability distributions ${(P_n)}_{n \in \mathbb{N}}$ \textnormal{\sffamily
-    converges} to a probability distribution $P$ if $d(P_n,P) \to 0$ as $n \to
-  \infty$.
+	\label{def:convergence-metric-space}
+	Let $\mathcal{X}$ be a finite set of elementary outcomes and $\mathcal{P}$ the space of
+	all probability distributions over $\mathcal{X}$ with equal support. Let $d: \mathcal{P}
+		\times \mathcal{P} \mapsto \mathbb{R}$ be a metric on this space. A sequence of
+	probability distributions $\{(P_n)\}_{n \in \mathbb{N}}$ \textnormal{\sffamily
+		converges} to a probability distribution $P$ if $d(P_n,P) \to 0$ as $n \to
+		\infty$.
 \end{definition}
 
-The Kullback-Leibler and Jensen-Shannon divergences induce a coarser topology
-than the topology induced by the earth mover distance. The interested reader can
-see the proof of this in~\cite{ref:arjovsky-2017}. To ease convergence, we want
-to place a finer topology on $\&P \times \&P$. A finer topology means we can
-pack more open sets over $\&P \times \&P$, which makes it easier to define a
-continuous map from $\&P \times \&P$ to $\R^+$. If a metric $d$ induces a finer
-topology on a space than another metric $d^\prime$, then we say $d$ is a weaker
-notion of distance than $d^\prime$.
+The Kullback-Leibler and Jensen-Shannon divergences induce a coarser topology than that induced by the earth mover's distance. (See~\cite{ref:arjovsky-2017} for a proof of this statement.) To facilitate convergence, we need a finer topology on $\mathcal{P} \times \mathcal{P}$. A finer topology allows more open sets over $\mathcal{P} \times \mathcal{P}$, making it easier to define continuous maps from $\mathcal{P} \times \mathcal{P}$ to $\mathbb{R}^+$. If a metric $d$ induces a finer topology than another metric $d^\prime$, we say $d$ is a weaker notion of distance than $d^\prime$.
 
-We can think of continuity and convergence in more than one way. Below we
-include the relevant definitions from both the topological and metric space
-points of view.
+Continuity and convergence can be understood from both topological and metric space perspectives. Below are the relevant definitions from both viewpoints.
 
 \begin{definition}%
-  \label{def:continuity-metric-space}
-  A function $f: \R \mapsto \R$ is \textnormal{\sffamily continuous} if for
-  every $x_0 \in \R$, $\epsilon > 0$, there exists $\delta > 0$ such that if $|x
-  - x_0| < \delta$, then $|f(x) - f(x_0)| < \epsilon$.
+	\label{def:continuity-metric-space}
+	A function $f: \mathbb{R} \mapsto \mathbb{R}$ is \textnormal{\sffamily continuous} if for
+	every $x_0 \in \mathbb{R}$ and $\epsilon > 0$, there exists $\delta > 0$ such that if $|x
+		- x_0| < \delta$, then $|f(x) - f(x_0)| < \epsilon$.
 \end{definition}
 
-Continuous functions between topological spaces preserve proximity, i.e.\ a
-continuous function maps points that are close together in one space to points
-that are close together in the other space.
+Continuous functions between topological spaces preserve proximity—mapping nearby points in one space to nearby points in the other space.
 
 \begin{definition}%
-  \label{def:convergence-topological-space}
-  In a topological space $(\&X, \&T)$, a sequence of points
-  \textnormal{\sffamily converges} to $x \in \&X$ if for every neighbourhood $U$
-  of $x$, there is an $N \in \mathbb{N}$ such that $x_n \in U$ for all $n \geq
-  N$.
+	\label{def:convergence-topological-space}
+	In a topological space $(\mathcal{X}, \mathcal{T})$, a sequence of points
+	\textnormal{\sffamily converges} to $x \in \mathcal{X}$ if for every neighborhood $U$
+	of $x$, there exists $N \in \mathbb{N}$ such that $x_n \in U$ for all $n \geq
+		N$.
 \end{definition}
 
-The following is the topological definition of continuity. Briefly,
-$f$ is continuous if the preimage of every open set is open.
+The following is the topological definition of continuity: a function is continuous if the preimage of every open set is open.
 
 \begin{definition}%
-  \label{def:pre-image}
-  Given a function $f: \&X \mapsto \&Y$ and a point $y \in \&Y$, define
-  $f^{-1}(y)$, the \textnormal{\sffamily preimage} of $y$, to be the set $\{x
-  \in \&X \mid f(x) = y\}$. For any set $A \subset \&Y$, the preimage of $A$ is
-  $f^{-1}(A) = \{x \in \&X \mid f(x) \in A\}$.
+	\label{def:pre-image}
+	Given a function $f: \mathcal{X} \mapsto \mathcal{Y}$ and a point $y \in \mathcal{Y}$, the
+	\textnormal{\sffamily preimage} of $y$ is $f^{-1}(y) = \{x
+		\in \mathcal{X} \mid f(x) = y\}$. For any set $A \subset \mathcal{Y}$, the preimage of $A$ is
+	$f^{-1}(A) = \{x \in \mathcal{X} \mid f(x) \in A\}$.
 \end{definition}
 
 \begin{definition}%
-  \label{def:continuity-topological-space}
-  Let $\&X$ and $\&X^\prime$ be topological spaces. A function $f: \&X \mapsto
-  \&X^\prime$ is \textnormal{\sffamily continuous} if $f^{-1}(V)$ is open in
-  $\&X$ for every open set $V$ in $\&X^\prime$.
+	\label{def:continuity-topological-space}
+	Let $\mathcal{X}$ and $\mathcal{X}^\prime$ be topological spaces. A function $f: \mathcal{X} \mapsto
+		\mathcal{X}^\prime$ is \textnormal{\sffamily continuous} if $f^{-1}(V)$ is open in
+	$\mathcal{X}$ for every open set $V$ in $\mathcal{X}^\prime$.
 \end{definition}
 
-The problem with the Kullback-Leibler and Jensen-Shannon divergences is that
-they are strong notions of distance. That means continuity of the loss function
-may be lost under certain commonly encountered circumstances in GAN training.
+The fundamental issue with Kullback-Leibler and Jensen-Shannon divergences is that they represent strong notions of distance. Consequently, the continuity of the loss function may be lost under certain commonly encountered circumstances in GAN training.
 
 \subsection{Limitations of the Kullback-Leibler Divergence}
 
-In~\cite{ref:arjovsky-2017}, the authors use the example of learning parallel
-lines and here we present the same example. This is an example of what happens
-with the Kullback-Leibler and Jensen-Shannon divergences when we compare
-distributions over the same space but with disjoint supports (see
-Definition~\ref{def:kl-divergence} for more information on the Kullback-Leibler
-divergence).
+In~\cite{ref:arjovsky-2017}, the authors illustrate the limitations using an example of learning parallel lines, which we present here. This example demonstrates what happens with KL and JS divergences when comparing distributions over the same space but with disjoint supports (see Definition~\ref{def:kl-divergence}).
 
 \begin{example}[Learning Parallel Lines]
-  \begin{figure}[h]
-    \centering
-    \begin{tikzpicture}[scale=2,>=stealth]
-      \draw[line] (-1,-0.5) rectangle (2,2);
-      \draw[red, thick, ->] (0,0) -- (0,1);
-      \draw[blue, thick, ->] (1,0) -- (1,1);
-      \draw[dotted] (-0.8,0) -- (1.8,0) node[anchor=north east]{$x$};
-      \draw[dotted] (0,-0.3) -- (0,1.8) node[anchor=north east]{$y$};
-      \draw (0,0) node[anchor=north east]{$(0,z)$};
-      \draw (1,0) node[anchor=north east]{$(\phi,z)$};
-    \end{tikzpicture}
-    \caption{Parallel Lines}%
-    \label{fig:parallel-lines}
-  \end{figure}%
-  \label{example:learning-parallel-lines}
+	\begin{figure}[h]
+		\centering
+		\begin{tikzpicture}[scale=2,>=stealth]
+			\draw[line] (-1,-0.5) rectangle (2,2);
+			\draw[red, thick, ->] (0,0) -- (0,1);
+			\draw[blue, thick, ->] (1,0) -- (1,1);
+			\draw[dotted] (-0.8,0) -- (1.8,0) node[anchor=north east]{$x$};
+			\draw[dotted] (0,-0.3) -- (0,1.8) node[anchor=north east]{$y$};
+			\draw (0,0) node[anchor=north east]{$(0,z)$};
+			\draw (1,0) node[anchor=north east]{$(\phi,z)$};
+		\end{tikzpicture}
+		\caption{Parallel lines in $\mathbb{R}^2$: the target distribution $p_0(z)$ follows the red line, while the generator distribution $G(z)$ follows the blue line.}%
+		\label{fig:parallel-lines}
+	\end{figure}%
+	\label{example:learning-parallel-lines}
+	Let $\mathcal{X} = \mathbb{R}^2$ and let $p_0(z)$ be the distribution of pairs
+	$(0, z) \subset \mathbb{R}^2$, where $z \in [0, 1]$. This represents a uniform
+	distribution over the $y$-axis of $\mathbb{R}^2$ with length 1 starting at the
+	origin. Let $G(z)$ be the distribution of pairs
+	$(\phi, z) \subset \mathbb{R}^2$ (a generative model), where $\phi$ is the
+	parameter specifying the location of the distribution along the $x$-axis. Our goal is to train $G(z)$ to approximate
+	$p_0(z)$, i.e., to make $\phi \to 0$.
 
-  Let $\&X = \R^2$ and let $p_0(z)$ be the distribution of pairs
-  $(0, z) \subset \R^2, z \in [0, 1]$, i.e.\ we have a uniform
-  distribution over the $y$-axis of $\R^2$ of length 1 starting at the
-  origin. Let $\G(z)$ be the distribution of pairs
-  $(\phi, z) \subset \R^2$ (a generative model), where $\phi$ is the
-  parameter that specifies the location of the distribution with
-  respect to the $x$-axis. We want to train $\G(z)$ to approximate
-  $p_0(z)$, i.e.\ we want $\phi \to 0$.
-  \begin{enumerate}[(i)]
-    \item If we use the Kullback-Leibler divergence to measure the
-      distance between $p_0(z)$ and $\G(z)$, we observe the following
-      discontinuity between changes in the parameter $\phi$ and the
-      divergence
-    \begin{align}
-      \KL{p_0(z)}{\G(z)} = \E{z \sim p_0(z)}{\log{p_0(z)\over\G(z)}}.
-    \end{align}
-      Since the expectation above is taken with respect to the
-      distribution over the line $(0, z)$, the line will have measure
-      zero with respect to the distribution $\G(z)$. Thus
-      $\KL{p_0(z)}{\G(z)} = \infty$, unless $\phi = 0$, then
-      $\KL{p_0(z)}{\G(z)} = 0$. The same occurs with
-      $\KL{\G(z)}{p_0(z)}$.
-  \item The Jensen-Shannon divergence ends up being equally useless
-    since
-    \begin{align}
-      \JSD{p_0(z)}{\G(z)} & = {1 \over 2} \E{z \sim p_0(z)}{\log{p_0(z)
-                            \over p_m(z)}} + {1 \over 2} \E{z \sim
-                            \G(z)}{\log{\G(z) \over p_m(z)}} \\
-                          & = {1 \over 2} \E{z \sim p_0(z)}{\log{2}} + {1
-                            \over 2} \E{z \sim \G(z)}{\log{2}} \\
-                          & = \log{2},
-    \end{align}
-      where $p_m(z) = {p_0(z) + \G(z) \over 2}$. In the first term
-      $\G(z) = 0$ because $z \sim p_0(z)$ and in the second term
-      $p_0(z) = 0$ because $z \sim \G(z)$ i.e.
-      $\JSD{p_0(z)}{\G(z)} = \log{2}$, unless $\phi = 0$, in which case
-      $\JSD{p_0(z)}{\G(z)} = 0$.
-  \end{enumerate}
+	\begin{enumerate}[(i)]
+		\item If we use the Kullback-Leibler divergence to measure the
+		      distance between $p_0(z)$ and $G(z)$, we observe a discontinuity between changes in $\phi$ and the divergence:
+		      \begin{align}
+			      \mathbb{D}_{KL}[p_0(z) \| G(z)] = \mathbb{E}_{z \sim p_0(z)}\left[\log\frac{p_0(z)}{G(z)}\right].
+		      \end{align}
+		      Since the expectation is taken with respect to the distribution over the line $(0, z)$, this line has measure
+		      zero with respect to $G(z)$. Thus,
+		      $\mathbb{D}_{KL}[p_0(z) \| G(z)] = \infty$ unless $\phi = 0$, in which case
+		      $\mathbb{D}_{KL}[p_0(z) \| G(z)] = 0$. The same issue occurs with
+		      $\mathbb{D}_{KL}[G(z) \| p_0(z)]$.
+
+		\item The Jensen-Shannon divergence proves equally problematic:
+		      \begin{align}
+			      \mathbb{D}_{JS}[p_0(z) \| G(z)] & = \frac{1}{2} \mathbb{E}_{z \sim p_0(z)}\left[\log\frac{p_0(z)}{p_m(z)}\right] + \frac{1}{2} \mathbb{E}_{z \sim G(z)}\left[\log\frac{G(z)}{p_m(z)}\right] \\
+			                                      & = \frac{1}{2} \mathbb{E}_{z \sim p_0(z)}[\log 2] + \frac{1}{2} \mathbb{E}_{z \sim G(z)}[\log 2]                                                           \\
+			                                      & = \log 2,
+		      \end{align}
+		      where $p_m(z) = \frac{p_0(z) + G(z)}{2}$. In the first term, $G(z) = 0$ because $z \sim p_0(z)$, and in the second term, $p_0(z) = 0$ because $z \sim G(z)$. Thus,
+		      $\mathbb{D}_{JS}[p_0(z) \| G(z)] = \log 2$ unless $\phi = 0$, in which case
+		      $\mathbb{D}_{JS}[p_0(z) \| G(z)] = 0$.
+	\end{enumerate}
 \end{example}
 
-% The reason why this happens has something to do with topology. We
-% need to relax the convergence requirements, we need to relax the
-% continuity requirements.
+This phenomenon, thoroughly examined in~\cite{ref:arjovsky-towards-2017}, stems from the combination of the strong notion of distance inherent in the Jensen-Shannon divergence and the artificially high dimensionality of most datasets. For example, a dataset might exist in $\mathbb{R}^n$ for large $n$, but meaningful variation might occur in only a small number of dimensions. This insight motivates dimensionality reduction algorithms like PCA and manifold learning techniques such as Isomap~\cite{ref:tenenbaum-2000}.
 
-The reason why this happens is a central topic
-in~\cite{ref:arjovsky-towards-2017} and is due to the combination of the strong
-notion of distance of the Jensen-Shannon divergence and the artificially high
-dimensionality of most data sets. For example, a data set may live in $\R^n$ for
-some large $n$ but there may only be variation of interest in a small number of
-dimensions. This is one of the ideas motivating dimensionality reduction
-algorithms like PCA and manifold learning algorithms in particular like
-Isomap~\cite{ref:tenenbaum-2000}.
+GANs are frequently used to generate realistic images. If we consider an image as a point in $\mathcal{X} = [0, 255]^{3 \times H \times W}$ (the space of 8-bit RGB images), randomly sampling from this space would most likely produce noise. Thus, any image dataset corresponds to a small subset, or data manifold, of $\mathcal{X}$. An informal definition of a manifold suffices for our discussion: a \textnormal{\sffamily manifold} is a continuous geometric structure with finite dimension (e.g., a line, curve, plane, or surface) embedded in a higher-dimensional space. Locally, manifolds resemble $\mathbb{R}^n$ for some $n$—they are locally flat.
 
-GANs are often used in the generation of realistic looking images. If we
-consider an image to be a point in $\&X = {[0, 255]}^{3 \times H \times W}$, the
-space of 8-bit RGB images, and if we were to sample a point from this space, it
-would most likely look like noise. Thus, any data set of images would correspond
-to a very small subset, or data manifold, of $\&X$. An informal definition of a
-manifold is more useful to our discussion than a formal one. When we say
-\textnormal{\sffamily manifold}, we mean a continuous geometrical structure with
-finite dimension (e.g.\ a line, a curve, a plane, a surface etc\dots) embedded
-inside a space of higher dimension than the manifold itself. Locally, manifolds
-resemble $\R^n$ for some $n$, i.e.\ they are locally flat.
+Richard E. Bellman coined the term \textit{curse of dimensionality} in~\cite{ref:bellman-1957} to describe how volume scales exponentially with dimensionality, causing data to become effectively sparse. For instance, 10 points can be evenly spaced along the unit interval with 0.1 units between them. To cover the unit square with the same spacing requires 100 points; for the unit cube, 1000 points. Each additional dimension increases the required number of points tenfold in our example. Since the space of all $H \times W$ 8-bit RGB images is enormous, even "large" image datasets are effectively sparse.
 
-Richard E. Bellman coined the term \textit{the curse of dimensionality}
-in~\cite{ref:bellman-1957} to refer to the fact that when the dimensionality of
-the data increases, the volume of the space scales at an exponential rate and
-consequently data become effectively sparse. For instance, $10$ points can be
-evenly arrange along the unit interval with $0.1$ units of distance between
-them. If we want to cover the unit square with points $0.1$ units of distance
-apart, we would need $100$ points; for the unit cube? 1000 points. Each time we
-add a dimension, we need (in our case) 10 times as many points. Since the space
-of all $L \times W$ 8-bit RGB images is very large, we get the idea that even
-``large'' image data sets are effectively small.
-
-In the case of the GAN algorithm, it is unlikely that the generator will
-generate points that are from the same data manifold in which the true data lie.
-This means $\pg$ and $\pt$ are likely to be supported by disjoint lower
-dimensional manifolds and $\KL{\pg}{\pt} = 0$, when the distributions are not
-equal, or $\KL{\pg}{\pt} = \infty$.
-
-% Concretely, issues arises with
-% (\ref{eq:the-original-objective-function}) if $\forall \tilde{x}$,
-% $(p^*(\tilde{x}) = 0)$ and if $\forall x$, $(\pg(x) = 0)$ we
-% end up with $\max_{\D}\*V(x, \widetilde{x}) = 0$. This issue may
-% arise if the supports of $\pt$ and $\pg$ lie in disjoint
-% \textit{submanifolds} of $\&X$.
+In the context of GANs, the generator is unlikely to produce points from the same data manifold as the true data. This means $p_g$ and $p_r$ are likely supported on disjoint lower-dimensional manifolds, resulting in $\mathbb{D}_{KL}[p_g \| p_r]$ being either 0 (when distributions are equal) or $\infty$ (otherwise).
 
 \subsubsection*{Perfect Discriminator}
 
-The goal of GAN training is to optimize $\D$ until it converges to $\D^*$,
-forcing (\ref{eq:the-original-objective-function}) into a function related to
-the Jensen-Shannon divergence. $\G$ is then optimized to minimize this
-divergence but in practice $\D$ very quickly converges to be
-what~\cite{ref:arjovsky-towards-2017} call a perfect discriminator.
+The goal of GAN training is to optimize $D$ until it converges to $D^*$, transforming the original objective function into one related to the Jensen-Shannon divergence. $G$ is then optimized to minimize this divergence. However, in practice, $D$ often quickly converges to what~\cite{ref:arjovsky-towards-2017} terms a perfect discriminator.
 
 \begin{definition}%
-  \label{def:perfect-discriminator}
-  A \textnormal{\sffamily perfect discriminator} is a function $D: \&X \mapsto
-  [0,1]$ that has accuracy 1 for all $x$ in the supports of $\pt$ and $\pg$. In
-  other words
-  \begin{align}
-    \mathbb{P}_{\&X}(\{\{x \in \&X : \pt > 0\} : D(x) = 1 \} )= 1, \\
-    \mathbb{P}_{\tilde{\&X}}(\{\{\tilde{x} \in \tilde{\&X} : \pg > 0\} : D(\tilde{x}) = 0 \} )= 1.
-  \end{align}
+	\label{def:perfect-discriminator}
+	A \textnormal{\sffamily perfect discriminator} is a function $D: \mathcal{X} \mapsto
+		[0,1]$ that achieves perfect accuracy on all points in the supports of $p_r$ and $p_g$. Formally:
+	\begin{align}
+		\mathbb{P}_{\mathcal{X}}(\{x \in \mathcal{X} : p_r > 0\} \text{ and } D(x) = 1) = 1, \\
+		\mathbb{P}_{\tilde{\mathcal{X}}}(\{\tilde{x} \in \tilde{\mathcal{X}} : p_g > 0\} \text{ and } D(\tilde{x}) = 0) = 1.
+	\end{align}
 \end{definition}
 
 \begin{theorem}%
-  \label{thm:perfect-discriminator}
-  If $\D$ is a perfect discriminator, then $\D$ is constant on both
-  supports of $\pg$ and $\pt$ and $\nabla{V_\phi} = 0$, which means
-  the gradient updates provide $\G$ no amount of movement in the
-  $\phi$-parameter space.
+	\label{thm:perfect-discriminator}
+	If $D$ is a perfect discriminator, then $D$ is constant on both supports of $p_g$ and $p_r$, and $\nabla V_\phi = 0$, meaning gradient updates provide no movement in the $\phi$-parameter space for $G$.
 \end{theorem}
 
 \begin{proof}%
-  \label{prf:perfect-discriminator}
-  Let $\alpha > 0$ denote the learning-rate parameter and when we
-  write $\G^{(t+1)} \gets \G^{(t)} \cdots$ we mean the parameters $\phi$ are replaced
-  with the output of the calculation on the right-hand side of the
-  assignment operator. Then
-  \begin{align}
-    \label{eq:g-updates-no-good}
-    \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log\left( 1 - \D^{(t+1)}(\G^{(t)}(z_i)) \right) \\
-    \implies \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log{ \left( 1 - \D^{(t+1)}(\tilde{x}_i) \right)} \\
-    \implies \G^{(t+1)} & \gets \G^{(t)} - \alpha\nabla_\phi {1 \over m} \sum_{i=1}^m \log{1} \\
-    \implies \G^{(t+1)} & \gets \G^{(t)}
-  \end{align} which is to say, $\G$ does not get updated.
+	\label{prf:perfect-discriminator}
+	Let $\alpha > 0$ denote the learning rate, and let $G^{(t+1)} \gets G^{(t)} \cdots$ indicate that parameters $\phi$ are updated according to the right-hand side. Then:
+	\begin{align}
+		\label{eq:g-updates-no-good}
+		G^{(t+1)}          & \gets G^{(t)} - \alpha\nabla_\phi \frac{1}{m} \sum_{i=1}^m \log\left( 1 - D^{(t+1)}(G^{(t)}(z_i)) \right) \\
+		\implies G^{(t+1)} & \gets G^{(t)} - \alpha\nabla_\phi \frac{1}{m} \sum_{i=1}^m \log\left( 1 - D^{(t+1)}(\tilde{x}_i) \right)  \\
+		\implies G^{(t+1)} & \gets G^{(t)} - \alpha\nabla_\phi \frac{1}{m} \sum_{i=1}^m \log 1                                         \\
+		\implies G^{(t+1)} & \gets G^{(t)}
+	\end{align}
+	This shows that $G$ receives no updates.
 \end{proof}
 
 \begin{theorem}%
-  \label{thm:too-early}
-  If $\D$ converges to a perfect discriminator too early in training and $\G$
-  has stopped learning, then $\D$ will not learn anything from the gradient
-  updates.
+	\label{thm:too-early}
+	If $D$ converges to a perfect discriminator too early in training and $G$
+	has stopped learning, then $D$ will not learn anything from subsequent gradient
+	updates.
 \end{theorem}
 
 \begin{proof}
-  \begin{align}
-    \label{eq:d-updates-no-good}
-    \D^{(t+1)} & \gets \D^{(t)} - \alpha \nabla_\theta {1 \over m}
-                 \sum_{i=1}^n \left( \log D^{(t)}_\theta(x_i)
-                 + \log{(1 - D^{(t)}_\theta(G^{(t)}_\phi(z_i)))} \right) \\
-    \implies \D^{(t+1)} & \gets \D^{(t)} - \alpha\nabla_\theta {1 \over m} \sum_{i=1}^n \left( \log{1} + \log{1} \right) \\
-    \implies \D^{(t+1)} & \gets \D^{(t)}
-  \end{align}
-  which is to say, $\D$ does not get updated.
+	\begin{align}
+		\label{eq:d-updates-no-good}
+		D^{(t+1)}          & \gets D^{(t)} - \alpha \nabla_\theta \frac{1}{m}
+		\sum_{i=1}^n \left( \log D^{(t)}_\theta(x_i)
+		+ \log(1 - D^{(t)}_\theta(G^{(t)}_\phi(z_i))) \right)                                                            \\
+		\implies D^{(t+1)} & \gets D^{(t)} - \alpha\nabla_\theta \frac{1}{m} \sum_{i=1}^n \left( \log 1 + \log 1 \right) \\
+		\implies D^{(t+1)} & \gets D^{(t)}
+	\end{align}
+	This shows that $D$ receives no updates.
 \end{proof}
 
-Even though $\D$ is a perfect discriminator, it is only good at telling apart
-obviously different distributions. This begets the need for a ``gentler''
-discriminator. The WGAN paper tackles the issues mentioned above by using a
-different objective function and training routine. Looking into the history of
-the Wasserstein distance we will see that the WGAN is a modern implementation to
-an old transportation problem.
+Even when $D$ is a perfect discriminator, it only excels at distinguishing obviously different distributions. This highlights the need for a "gentler" discriminator. The WGAN paper addresses these issues through a different objective function and training procedure. To understand this approach, we must examine the history of the Wasserstein distance, revealing that WGAN is a modern implementation of a classical transportation problem.
 
 \subsection{The Monge-Kantorovich Transportation Problem}
 
-Convergence issues that arise from the original GAN formulation have inspired
-novel takes on GAN training and implementation. One influential variation,
-inspired by \textit{optimal transport theory}, is the Wasserstein
-GAN~\cite{ref:arjovsky-2017}. Before we introduce the Wasserstein GAN, it will
-be informative to introduce optimal transport theory.
+Convergence issues in the original GAN formulation have inspired novel approaches to GAN training. One influential variation, based on \textit{optimal transport theory}, is the Wasserstein GAN~\cite{ref:arjovsky-2017}. Before introducing WGAN, we present key concepts from optimal transport theory.
 
-The Wasserstein GAN is named after the Wasserstein-1 distance, otherwise known
-as the earth mover distance. The distance in question however, was not
-discovered by Leonid Wasserstein, rather it was discovered by the work of
-Gaspard Monge and Leonid Kantorovich. Wasserstein did publish a paper with a
-definition of the distance in 1969, but he did not discover it.
+The Wasserstein GAN derives its name from the Wasserstein-1 distance, also known as the earth mover's distance. However, this distance was not discovered by Leonid Wasserstein but rather through the work of Gaspard Monge and Leonid Kantorovich. Wasserstein did publish a paper defining the distance in 1969, but he was not its originator.
 
-Gaspard Monge (1746~\textendash~1818) was a mathematician, physicist, and
-founder and head of the \'Ecole Polytechnique, located just outside of Paris. In
-1781 he formulated the transportation problem \textit{Excavation and
-  Embankments}, which was about how to transport soil during the construction of
-forts and roads with minimal transportation cost.
+Gaspard Monge (1746--1818) was a mathematician, physicist, and founder of the École Polytechnique near Paris. In 1781, he formulated the transportation problem \textit{Excavation and Embankments}, addressing how to transport soil during fort and road construction with minimal cost.
 
-Leonid Kantorovich (1912~\textendash~1986) is regarded as one of the founders of
-mathematical economics and received a Nobel prize in 1975 for his contributions.
-He also established the theory of linear programming in 1938. In 1939
-Kantorovich published a booklet \textit{Mathematical Methods of Organizing and
-  Planning of Production} and later he wrote a brief paper called \textit{On
-  Translocation of Masses} in 1942.
+Leonid Kantorovich (1912--1986), considered a founder of mathematical economics, received the 1975 Nobel Prize for his contributions. He also established the theory of linear programming in 1938. In 1939, Kantorovich published \textit{Mathematical Methods of Organizing and Planning of Production}, followed by \textit{On Translocation of Masses} in 1942.
 
-In 1947 Kantorovich read the proceedings to a public session dedicated to Monge.
-The proceedings contained the transcript of a talk about Monge's transportation
-problem. When Kantorovich read the problem, he saw how it related to his own
-work and it was then that the transportation problem became known as the
-Monge-Kantorovich transportation problem.
+In 1947, Kantorovich read proceedings from a public session dedicated to Monge, containing a transcript about Monge's transportation problem. Recognizing its connection to his own work, Kantorovich established what became known as the Monge-Kantorovich transportation problem.
 
-The following is the definition of a transport plan as defined by Kantorovich in
-1942~\cite{ref:kantorovich-1942}~and can be found in~\cite{ref:vershik-2013}.
+The following definition of a transport plan comes from Kantorovich's 1942 work~\cite{ref:kantorovich-1942} and appears in~\cite{ref:vershik-2013}.
 
 \begin{definition}%
-  \label{def:transport-plan}
-  Let $\&X$ be any space. A \textnormal{\sffamily transport plan} is a
-  probability measure $\gamma$ on $\&X \times \&X$, whose projection $\gamma
-  \circ \pi_{x} = p$ and whose projection $\gamma \circ \pi_{y} = q$ (i.e.\ the
-  marginal distributions of $\gamma$ with respect to $x$ and $y$) are the
-  measures $p$ and $q$.
+	\label{def:transport-plan}
+	Let $\mathcal{X}$ be any space. A \textnormal{\sffamily transport plan} is a
+	probability measure $\gamma$ on $\mathcal{X} \times \mathcal{X}$, with projections $\gamma
+		\circ \pi_{x} = p$ and $\gamma \circ \pi_{y} = q$ (i.e., the
+	marginal distributions of $\gamma$ with respect to $x$ and $y$ are the measures $p$ and $q$).
 \end{definition}
 
 \begin{remark}%
-  \label{rmrk:mass}
-  Each joint distribution $\gamma$ represents the amount of mass needed to be
-  move from each $x$ to each corresponding $y$ in order to transform $p$ into
-  $q$.
+	\label{rmrk:mass}
+	Each joint distribution $\gamma$ represents the amount of mass that must be moved from each $x$ to each corresponding $y$ to transform $p$ into $q$.
 \end{remark}
 
 \begin{definition}%
-  \label{def:transport-cost}
-  The \textnormal{\sffamily transport cost} for a given transport plan is given
-  by
-  \begin{align}%
-    \label{eq:expected-work}
-    \left(\int_{\&X}\int_{\&Y}||x-y||^p\gamma(x, y)dxdy \right)^{1 \over p}
-  \end{align}
-  The integral of the distance the mass needs to travel, $||x-y||^p$, multiplied
-  by the amount of mass $\gamma$ gives the expected amount of work required to
-  transform $p$ into $q$.
+	\label{def:transport-cost}
+	The \textnormal{\sffamily transport cost} for a given transport plan is:
+	\begin{align}%
+		\label{eq:expected-work}
+		\left(\int_{\mathcal{X}}\int_{\mathcal{Y}}\|x-y\|^p\gamma(x, y)\,dx\,dy \right)^{1/p}
+	\end{align}
+	The integral of the distance mass must travel, $\|x-y\|^p$, multiplied by the amount of mass $\gamma$ gives the expected work required to transform $p$ into $q$.
 \end{definition}
 
-The goal of optimal transport is to find the transport plan with minimal cost,
-thus we wish to find
+The goal of optimal transport is to find the transport plan with minimal cost:
 \begin{align}%
-  \label{eq:min-work}
-  \&W_p(p, q) = \inf_{\gamma \in \Gamma} \left( \int_{\&X}\int_{\&Y}||x-y||^p\gamma(x, y)dxdy \right)^{1 \over p}
+	\label{eq:min-work}
+	W_p(p, q) = \inf_{\gamma \in \Gamma} \left( \int_{\mathcal{X}}\int_{\mathcal{Y}}\|x-y\|^p\gamma(x, y)\,dx\,dy \right)^{1/p}
 \end{align}
-where $p \geq 1$. For $p = 1$ we call $\&W_1(p, q)$ the Kantorovich distance.
-This is what is used in the Wasserstein GAN. The algorithm in
-(\ref{eq:min-work}) can be stated more succinctly as
+where $p \geq 1$. For $p = 1$, we call $W_1(p, q)$ the Kantorovich distance, which is used in the Wasserstein GAN. This can be expressed more succinctly as:
 \begin{align}
-  \label{def:w1-wgan}
-  \&W_1(p, q) = \inf_{\gamma \in \Gamma}\mathbb{E}_{(x,y) \sim \gamma}
-  \left[ d(x, y) \right]
+	\label{def:w1-wgan}
+	W_1(p, q) = \inf_{\gamma \in \Gamma}\mathbb{E}_{(x,y) \sim \gamma}
+	\left[ d(x, y) \right]
 \end{align}
+
 \begin{remark}
-  The definition given above in (\ref{def:w1-wgan}) involves an intractable
-  infimum (it is not computationally feasible to find the infimum over all
-  possible $\gamma$).
+	The definition in (\ref{def:w1-wgan}) involves an intractable infimum, as it is computationally infeasible to find the infimum over all possible $\gamma$.
 \end{remark}
 
 \subsection{The Wasserstein GAN}
 
-The distance given in (\ref{def:w1-wgan}) does not yet improve anything given
-the intractability of the infimum. However, the following theorem, due to
-Kantorovich and his student Rubinstein, saves the day.
-See~\cite{ref:kantorovich-rubinstein-1958}.
+The distance in (\ref{def:w1-wgan}) does not immediately improve the situation due to its computational intractability. However, a theorem by Kantorovich and his student Rubinstein provides a solution (see~\cite{ref:kantorovich-rubinstein-1958}).
 
 \begin{definition}
-  Let $(\&X, \&D_\&X)$ and $(\&Y, \&D_\&Y)$ be two metric spaces and let $f: \&X
-  \mapsto \&Y$ be a function mapping elements from $\&X$ to $\&Y$. A
-  \textnormal{\sffamily K-Lipshitz} function is defined as
-  \begin{align}
-    \label{eq:lip1}
-    \&D_{\mathcal{Y}}(f(x_1), f(x_2)) \leq K \cdot {\&D}_{\mathcal{X}}(x_1, x_2)
-  \end{align}
-  for all $x_1$ and $x_2 \in \&X$. (\ref{eq:lip1}) can be stated as
-  \begin{align}
-    {\&D_{\mathcal{Y}}(f(x_1), f(x_2)) \over \&D_{\mathcal{X}}(x_1, x_2)} \leq K,
-  \end{align}
-  which is to say the rate of change of $f$ is bounded above by the Lipshitz
-  constant $K$.
+	Let $(\mathcal{X}, \mathcal{D}_\mathcal{X})$ and $(\mathcal{Y}, \mathcal{D}_\mathcal{Y})$ be metric spaces and $f: \mathcal{X}
+		\mapsto \mathcal{Y}$. A \textnormal{\sffamily K-Lipschitz} function satisfies:
+	\begin{align}
+		\label{eq:lip1}
+		\mathcal{D}_{\mathcal{Y}}(f(x_1), f(x_2)) \leq K \cdot \mathcal{D}_{\mathcal{X}}(x_1, x_2)
+	\end{align}
+	for all $x_1, x_2 \in \mathcal{X}$. Equation (\ref{eq:lip1}) can be rewritten as:
+	\begin{align}
+		\frac{\mathcal{D}_{\mathcal{Y}}(f(x_1), f(x_2))}{\mathcal{D}_{\mathcal{X}}(x_1, x_2)} \leq K,
+	\end{align}
+	meaning the rate of change of $f$ is bounded above by the Lipschitz constant $K$.
 \end{definition}
 
 \begin{theorem}
-  The \textnormal{\sffamily Kantorovich-Rubinstein duality} says
-  \begin{align}
-    \inf_{\gamma \in \Gamma}\mathbb{E}_{(x,y) \sim \gamma} \left[d(x, y)\right]
-  \end{align}
-  is equivalent to
-  \begin{align}
-    \sup_{f \in \&{F}} \mathbb{E}_{x \sim p}\left[ f(x) \right] - \mathbb{E}_{x \sim q}\left[ f(x) \right]
-  \end{align}
-  where $\&{F}$ is the set of all 1-Lipshitz functions.
+	The \textnormal{\sffamily Kantorovich-Rubinstein duality} states that:
+	\begin{align}
+		\inf_{\gamma \in \Gamma}\mathbb{E}_{(x,y) \sim \gamma} \left[d(x, y)\right]
+	\end{align}
+	is equivalent to:
+	\begin{align}
+		\sup_{f \in \mathcal{F}} \mathbb{E}_{x \sim p}\left[ f(x) \right] - \mathbb{E}_{x \sim q}\left[ f(x) \right]
+	\end{align}
+	where $\mathcal{F}$ is the set of all 1-Lipschitz functions.
 \end{theorem}
 
-The topology induced by the Kullback-Leibler divergence is much coarser than the
-topology induced by the Kantorovich-Rubinstein distance, which is a weak enough
-notion of distance to relax convergence requirements.
-See~\cite{ref:villani-2008} for more information on the Kantorovich-Rubinstein
-distance.
+The topology induced by the Kullback-Leibler divergence is much coarser than that induced by the Kantorovich-Rubinstein distance, which provides a sufficiently weak notion of distance to relax convergence requirements. See~\cite{ref:villani-2008} for more information on the Kantorovich-Rubinstein distance.
 
 \begin{example}[Learning Parallel Lines (Revisited)]
-  When we use the Kantorovich-Rubinstein distance in the parallel lines problem.
-  \begin{align}
-    \&W_1(\G(z), p_0(z)) & = \inf_{\gamma \in
-                           \Gamma(\G(z),p_0(z))}\mathbb{E}_{(x,y) \sim
-                           \gamma} \left[ || x-y || \right] \\
-                         & =\inf_{\gamma \in \Gamma(\G(z),
-                           p_0(z))}\mathbb{E}_{(x,y) \sim \gamma} \left[ \sqrt{(\phi - 0)^2 + {(z - z)}^2}
-                           \right] \\
-                         & =|\phi|
-  \end{align}
+	When we apply the Kantorovich-Rubinstein distance to the parallel lines problem:
+	\begin{align}
+		W_1(G(z), p_0(z)) & = \inf_{\gamma \in \Gamma(G(z),p_0(z))}\mathbb{E}_{(x,y) \sim \gamma} \left[ \| x-y \| \right]                        \\
+		                  & = \inf_{\gamma \in \Gamma(G(z), p_0(z))}\mathbb{E}_{(x,y) \sim \gamma} \left[ \sqrt{(\phi - 0)^2 + (z - z)^2} \right] \\
+		                  & = |\phi|
+	\end{align}
 \end{example}
 
-The Kantorovich-Rubinstein distance provides a continuous measure of
-distance even for probability distributions with disjoint supports.
+The Kantorovich-Rubinstein distance provides a continuous measure of distance even for probability distributions with disjoint supports.
 
 \subsubsection*{The Wasserstein GAN Algorithm}
 
 The following is the WGAN algorithm as presented in~\cite{ref:arjovsky-2017}.
 
 \begin{figure}[H]
-  \centering
-  \begin{minipage}{\linewidth}
-    \begin{algorithm}[H]
-      Let $\eta > 0$ \textit{be the learning rate.} \\
-      Let $c > 0$ \textit{be the clipping parameter.} \\
-      Let $T > 0$ \textit{be the number of training iterations.} \\
-      Let $K > 0$ \textit{be the number of training iterations for the
-        critic.} \\
-      Let $f_\theta: \Theta \times \&X \mapsto [0, 1]$ \\
-      Let $\G: \Phi \times \&Z \mapsto \&X$ \\
-      \For%
-      {$t \in \{0, \dots, T\}$} { \For%
-        {$k \in \{0, \dots, K\}$} { Let $z = \{z_1, \dots, z_m\}$,
-          \textit{where each $z_i$ is sampled from $(\&Z, \pz)$, This
-            batch will be used in the optimization of
-            $\D$.} \\
-          Let $x = \{x_1, \dots, x_m\}$, \textit{where each
-            $x_i$ is from the training data.} \\
-          Let
-          ${\partial{V} \over \partial{\theta}} = \nabla_\theta\left[
-            {1 \over m} \sum_{i=1}^m f_{\theta}(x_i) - {1 \over m}
-            \sum_{i=1}^m f_{\theta}(\G(z_i))\right]$. \\
-          Let $\theta \gets \theta + \eta \cdot \text{RMSProp}(\theta,
-          {\partial{V} \over \partial{\theta}})$. \\
-
-          Let $\theta \gets \text{clip}(\theta, -c, c)$.
-        }
-
-        Let $z = \{z_1, \dots, z_m\}$, \textit{we sample a new batch
-          from $(\&Z, \pz)$. This batch will be used in the
-          optimization of
-          $\G$.} \\
-
-        Let
-        ${\partial{V} \over \partial{\phi}} = - \nabla_\phi{1 \over m}
-        \sum_{i=1}^m f_{\theta}(\G(z_i)).$ \\
-
-        Let
-        $\phi \gets \phi + \eta \cdot \text{RMSProp}(\phi,
-        {\partial{V} \over \partial{\phi}}).$ \\
-      }
-      \caption{WGAN}
-      \label{algo:wgawgann-algo}
-    \end{algorithm}
-  \end{minipage}
+	\centering
+	\begin{minipage}{\linewidth}
+		\begin{algorithm}[H]
+			Let $\eta > 0$ be the learning rate. \\
+			Let $c > 0$ be the clipping parameter. \\
+			Let $T > 0$ be the number of training iterations. \\
+			Let $K > 0$ be the number of critic training iterations. \\
+			Let $f_\theta: \Theta \times \mathcal{X} \mapsto [0, 1]$ \\
+			Let $G: \Phi \times \mathcal{Z} \mapsto \mathcal{X}$ \\
+			\For{$t \in \{0, \dots, T\}$} {
+				\For{$k \in \{0, \dots, K\}$} {
+					Let $z = \{z_1, \dots, z_m\}$, where each $z_i$ is sampled from $(\mathcal{Z}, p_z)$. \\
+					Let $x = \{x_1, \dots, x_m\}$, where each $x_i$ is from the training data. \\
+					Let $\frac{\partial V}{\partial \theta} = \nabla_\theta\left[ \frac{1}{m} \sum_{i=1}^m f_{\theta}(x_i) - \frac{1}{m} \sum_{i=1}^m f_{\theta}(G(z_i))\right]$. \\
+					Let $\theta \gets \theta + \eta \cdot \text{RMSProp}(\theta, \frac{\partial V}{\partial \theta})$. \\
+					Let $\theta \gets \text{clip}(\theta, -c, c)$.
+				}
+				Let $z = \{z_1, \dots, z_m\}$, a new batch sampled from $(\mathcal{Z}, p_z)$. \\
+				Let $\frac{\partial V}{\partial \phi} = - \nabla_\phi \frac{1}{m} \sum_{i=1}^m f_{\theta}(G(z_i))$. \\
+				Let $\phi \gets \phi + \eta \cdot \text{RMSProp}(\phi, \frac{\partial V}{\partial \phi})$. \\
+			}
+			\caption{WGAN}
+			\label{algo:wgawgann-algo}
+		\end{algorithm}
+	\end{minipage}
 \end{figure}
 
 \subsection{Discussion}
 
-The original GAN objective function inherits the strong topology from
-the Jensen-Shannon and Kullback-Leibler divergences, which means the
-original GANs formulation was not as well suited for working with real
-data as it could have been.  The WGAN is better suited than the
-original GAN since the earth mover distance is always defined, unlike
-the Jensen-Shannon and Kullback-Leibler divergences.
+The original GAN objective function inherits the strong topology from the Jensen-Shannon and Kullback-Leibler divergences, making it less suitable for real-world applications than it could be. The WGAN offers significant improvements because the earth mover's distance is always defined, unlike the Jensen-Shannon and Kullback-Leibler divergences.
 
-One issue with the WGAN is found in the way \cite{ref:arjovsky-2017}
-achieve the 1-Lipshitz constraint.  They clip the parameters after
-each update (see Algorithm \ref{algo:wgawgann-algo} above), which
-effectively reduces the amount the parameters can change with each
-update.  They acknowledge this is not a very good way to maintain
-1-Lipshitz continuity.
+One limitation of the WGAN as presented in~\cite{ref:arjovsky-2017} lies in its approach to enforcing the 1-Lipschitz constraint. The authors clip the parameters after each update (see Algorithm \ref{algo:wgawgann-algo}), which effectively constrains how much parameters can change with each update. They acknowledge that this is not an ideal method for maintaining 1-Lipschitz continuity, suggesting that future work might explore more sophisticated approaches to this constraint.
 
 %%% Local Variables:
 %%% mode: latex
