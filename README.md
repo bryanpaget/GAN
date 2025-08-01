@@ -78,7 +78,7 @@ If you use this work in your research, please cite it as:
   title   = {An Introduction to Generative Adversarial Networks},
   school  = {University of Ottawa},
   year    = {2019},
-  month   = {Month}
+  month   = {July}
 }
 ```
 ## Acknowledgments
