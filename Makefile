@@ -7,8 +7,8 @@ BIBTEX = bibtex
 THESIS = thesis
 SETTINGS = settings
 CHAPTERS = $(wildcard sections/*.tex)
-FIGURES = $(wildcard figures/*.*)
-CODE = $(wildcard code/*.R)
+FIGURES = $(wildcard images/*.*)
+CODE = $(wildcard src/*.R)
 BIB = references.bib
 
 # Default target
