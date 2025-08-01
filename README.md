@@ -1,4 +1,3 @@
-```markdown
 # An Introduction to Generative Adversarial Networks
 
 [![LaTeX](https://img.shields.io/badge/LaTeX-008080.svg)](https://www.latex-project.org/)
