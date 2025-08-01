@@ -1,0 +1,55 @@
+name: Build Thesis PDF
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX Document
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: .
+          root_file: thesis.tex
+          latexmk_shell_escape: true
+          extra_system_packages: |
+            pygments
+            biber
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thesis-pdf
+          path: thesis.pdf
+
+  release:
+    needs: build-pdf
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download PDF Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: thesis-pdf
+          path: .
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest Thesis Build
+          body: |
+            Automatically generated PDF from commit `${{ github.sha }}`
+            Built on: ${{ github.event.created_at }}
+          files: main.pdf
+          overwrite: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
