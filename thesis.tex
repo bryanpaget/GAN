@@ -1,56 +1,96 @@
-\documentclass[10pt]{article}
+\documentclass[10pt]{report}  % Using report class for thesis structure
+
+% Include settings file with all packages and custom commands
 \include{settings}
 
-\geometry{margin=1.6in}
+%===============================================================================
+% DOCUMENT SETUP
+%===============================================================================
 
+% Page margins (adjust as needed for your university requirements)
+\geometry{margin=1.25in, top=1.25in, bottom=1.25in}
+
+%===============================================================================
+% FRONT MATTER
+%===============================================================================
 \begin{document}
+
+% Set page numbering for front matter (roman numerals)
 \pagenumbering{roman}
 
+% Title Page
 \include{sections/titlepage}
 
+% Table of Contents
 \tableofcontents
+\addcontentsline{toc}{chapter}{Table of Contents}
 
+% Optional: List of Figures
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+% Optional: List of Tables
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+% Acknowledgments
 \include{sections/thankyou}
+\addcontentsline{toc}{chapter}{Acknowledgments}
 
-%% \afterpage{\null\blankpage}
-%% \include{sections/blank}
-%% \afterpage{\null\blankpage}
-%% \include{sections/blank2}
-
-\include{sections/notation}
-%% \afterpage{\null\blankpage}
-
+% Abstract
 \include{sections/abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 
+% Preface/Outline
 \include{sections/outline}
-%% \afterpage{\null\blankpage}
+\addcontentsline{toc}{chapter}{Preface}
 
+% Notation
+\include{sections/notation}
+\addcontentsline{toc}{chapter}{Notation}
+
+%===============================================================================
+% MAIN CONTENT
+%===============================================================================
+
+% Reset page numbering for main content (arabic numerals)
+\cleardoublepage
+\pagenumbering{arabic}
+
+% Introduction
 \include{sections/introduction}
-%% \afterpage{\null\blankpage}
 
+% Game Theory Chapter
 \include{sections/original-gan}
 
+% Information Theory Chapter
 \include{sections/information-theory}
-%% \afterpage{\blankpage}
 
+% Optimal Transport Chapter
 \include{sections/optimal-transport}
-%% \afterpage{\blankpage}
 
+% Conclusion
 \include{sections/conclusion}
 
+\include{sections/addendum}
+
+%===============================================================================
+% BACK MATTER
+%===============================================================================
+
+% Appendix
+\appendix
 \include{sections/appendix-a}
-%% \afterpage{\blankpage}
+\addcontentsline{toc}{chapter}{Appendix}
 
-%% \include{sections/blank3}
-
+% Bibliography
 \bibliographystyle{apalike}
-\addcontentsline{toc}{section}{References}
-% \bibliography
-% \bibliographystyle{apalike}
-
-% \bibliography{thesis}
-
 \bibliography{thesis}
+\addcontentsline{toc}{chapter}{References}
+
+%===============================================================================
+% END DOCUMENT
+%===============================================================================
 \end{document}
 
 %%% Local Variables:

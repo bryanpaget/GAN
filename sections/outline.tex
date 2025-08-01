@@ -1,45 +1,57 @@
 \section{Preface}
 
-One of the goals I set out for myself when I started this thesis was
-to provide a document rich in theory and intuition useful for anyone
-wanting to get up to speed on the theory of generative adversarial
-networks (GANs).
+Generative Adversarial Networks (GANs) have revolutionized the field of machine learning since their introduction in 2014, enabling unprecedented advances in synthetic media generation, data augmentation, and representation learning. Despite their empirical success, the theoretical foundations of GANs remain complex and multifaceted, drawing from diverse mathematical disciplines. This thesis presents a unified theoretical framework for understanding GANs through three complementary lenses: game theory, information theory, and optimal transport.
 
-I have broken the theory into three different sections, \textit{game
-  theory}, \textit{information theory}, and \textit{optimal transport
-  theory}.  I chose this particular order because game theory provides
-the best introduction to the algorithm.  An adversarial game is an
-intuitive and catchy way to conceptualize the alternating
-optimization.  Information theory is required to deepen the
-understanding of the value function.  Optimal transport was included
-at the end because it provides the theoretical foundation of a more
-recent implementation of the GAN algorithm which was inspired by the
-optimal transport problem of Monge, Kantorovich, and Rubinstein.  The
-content of this thesis includes the following highlights:
+My primary goal in undertaking this work was to create a comprehensive resource that bridges rigorous mathematical theory with intuitive understanding, making the theoretical underpinnings of GANs accessible to researchers and practitioners alike. By synthesizing concepts from these three mathematical domains, this thesis provides both depth and breadth in analyzing the GAN framework, revealing fundamental insights about their behavior, limitations, and potential improvements.
+
+\subsection*{Structure and Organization}
+
+The thesis is organized into three main theoretical sections, each building upon the previous to create a layered understanding of GANs:
+
 \begin{enumerate}[(i)]
-\item Section~\ref{sec:game-theory} contains definitions and examples
-  related to the Nash equilibrium.
-\item I have included a motivational derivation of the value function
-  in sections~\ref{sec:derivation},~\ref{sec:derivation-d},
-  and~\ref{sec:derivation-g}.
-\item In Section~\ref{sec:difficulty}, I provide an illustrative
-  example demonstrating the difficulty in finding a Nash equilibrium.
-\item Section~\ref{sec:information-theory} contains definitions of
-  information theoretic quantities used in machine learning. I then
-  show how those quantities are found in the value function in
-  Section~\ref{thm:info-objective}.
-\item Section~\ref{sec:optimization-dynamics} contains rigorous proofs
-  that show the discriminator is optimized to force the value function
-  into an approximation of the Jensen-Shannon divergence and the
-  generator is optimized to minimize this divergence.
-\item Section~\ref{sec:optimal-transport} contains the history of
-  optimal transport and introduction to the Wasserstein GAN.
-\item Proposition~\ref{thm:info-objective} offers an
-  information-theoretic perspective on what happens step-by-step
-  during GAN training rather than the limiting behavior as discussed
-  in Section~\ref{sec:optimization-dynamics}.
+\item \textbf{Game Theory (Section~\ref{sec:game-theory})}: 
+  We begin with game theory as it provides the most natural framework for understanding the adversarial nature of GANs. This section introduces fundamental concepts such as Nash equilibrium, minimax strategies, and value functions, using the Prisoner's Dilemma as an illustrative example. We derive the GAN value function from both discriminator and generator perspectives, highlighting the challenges in finding stable equilibria during training. The section culminates in a detailed algorithmic presentation and strategic analysis of the adversarial game.
+
+\item \textbf{Information Theory (Section~\ref{sec:information-theory})}:
+  Building on the game-theoretic foundation, we delve into information theory to deepen our understanding of the GAN value function. This section provides a comprehensive treatment of entropy, divergences (KL, JS), and mutual information, establishing their relevance to machine learning. We then show how these quantities naturally emerge in the GAN framework, offering both step-by-step optimization dynamics (Proposition~\ref{thm:info-objective}) and limiting behavior analysis (Section~\ref{sec:optimization-dynamics}). The rigorous proofs in this section demonstrate how the discriminator approximates the Jensen-Shannon divergence and how the generator minimizes this divergence.
+
+\item \textbf{Optimal Transport (Section~\ref{sec:optimal-transport})}:
+  The final section addresses fundamental limitations of the original GAN formulation through the lens of optimal transport theory. We begin with the historical context of Monge and Kantorovich's transportation problem, then develop the mathematical foundations of Wasserstein distances. This section explains how the coarser topology induced by KL and JS divergences leads to training instabilities, and how the Wasserstein GAN (WGAN) overcomes these challenges. We present the Kantorovich-Rubinstein duality and its practical implementation, concluding with a critical analysis of improvements and remaining challenges.
 \end{enumerate}
+
+This progression from game theory to information theory to optimal transport reflects both a logical deepening of mathematical sophistication and a historical evolution of GAN research. Each section not only stands alone as a complete treatment of its theoretical framework but also builds upon previous sections to create a comprehensive understanding of GANs.
+
+\subsection*{Key Contributions and Insights}
+
+This thesis makes several original contributions to the theoretical understanding of GANs:
+
+\begin{itemize}
+\item A unified framework that integrates three mathematical perspectives, revealing their interconnections and complementary insights
+\item Detailed derivations of the GAN value function from both discriminator and generator perspectives, with clear connections to maximum likelihood estimation
+\item Rigorous proofs establishing the relationship between GAN optimization and Jensen-Shannon divergence minimization
+\item An information-theoretic analysis of step-by-step GAN training dynamics, complementing the limiting behavior analysis
+\item A critical examination of topological limitations in the original GAN formulation and how optimal transport addresses these issues
+\item Pedagogical examples and visualizations that make complex mathematical concepts accessible
+\end{itemize}
+
+\subsection*{Broader Impact and Applications}
+
+Beyond theoretical contributions, this thesis has practical implications for GAN research and development:
+
+\begin{itemize}
+\item The theoretical insights provide guidance for developing more stable and efficient GAN variants
+\item The unified framework helps researchers identify connections between different approaches and techniques
+\item The pedagogical presentation makes advanced theoretical concepts accessible to a broader audience
+\item The critical analysis of limitations suggests promising directions for future research
+\end{itemize}
+
+By providing a comprehensive theoretical foundation, this thesis aims to empower researchers to not only understand existing GAN architectures but also to innovate new approaches that address current limitations. The integration of game theory, information theory, and optimal transport offers a robust framework for analyzing and improving generative models, with implications for numerous applications in computer vision, natural language processing, and beyond.
+
+\subsection*{Acknowledgments}
+
+This work represents the culmination of extensive study and research. I am grateful to the many researchers whose work forms the foundation of this thesis, and to those who provided valuable feedback and insights during its development. Any errors or omissions remain my own.
+
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../thesis.tex"
+TeX-master: "../thesis.tex"
 %%% End:

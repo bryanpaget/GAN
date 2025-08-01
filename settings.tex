@@ -1,68 +1,115 @@
-\renewcommand{\contentsname}{Table of Contents}
+%===============================================================================
+% PREAMBLE
+%===============================================================================
 
-\usepackage{lastpage} % What does this do?
-\usepackage{wrapfig, subcaption, setspace, booktabs}
-\usepackage{forloop}
-% Box [thing \ other thing]
-\usepackage{diagbox}
-
-% New Page
-\usepackage{afterpage}
-
-\newcommand\blankpage{
-  \null
-  \thispagestyle{empty}
-  % \addtocounter{page}{-1}
-  \newpage
-}
-
-% TOC depth
-\setcounter{tocdepth}{2}
-\usepackage{titlesec}
-\usepackage{nameref}% http://ctan.org/pkg/nameref
-
-\titleformat{\section}[display]{\large\filcenter\scshape}{%
-  \titlerule[0.01pc]%
-  \vspace{0.15cm}%
-  \large
-  Section \thesection}{0pc}{
-  \vspace{0.15cm}%
-  \titlerule[0.01pc]%
-  \vspace{0.15cm}%
-  \LARGE}
-
-%%% Math Packages:
-\usepackage{amsmath}
-\usepackage{amssymb}
-\numberwithin{equation}{section}
-
-%%% Fonts and typography stuff
+% Document Class and Encoding
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{yfonts}
 
-%%% Footnotes:
+%===============================================================================
+% PAGE LAYOUT AND FORMATTING
+%===============================================================================
+
+% Geometry and Margins
+\usepackage{geometry}
+\geometry{a4paper, margin=1.25in, top=1.25in, bottom=1.25in}
+
+% Line Spacing
+\usepackage{setspace}
+\setstretch{1.4}
+
+% Font Selection
+\usepackage{yfonts}  % For old-style fonts
+
+% Section Formatting
+\usepackage{titlesec}
+\titleformat{\section}[display]
+  {\large\filcenter\scshape}
+  {\titlerule[0.01pc]\vspace{0.15cm}\large Section \thesection}
+  {0pc}
+  {\vspace{0.15cm}\titlerule[0.01pc]\vspace{0.15cm}\LARGE}
+
+% Table of Contents Settings
+\renewcommand{\contentsname}{Table of Contents}
+\setcounter{tocdepth}{2}
+
+% Footnote Formatting
 \renewcommand{\thefootnote}{\arabic{footnote}}
 
-%%% Figure Font Sizes:
+% Figure and Table Formatting
 \usepackage[font={small,it}]{caption}
+\usepackage{subcaption}
 \usepackage{float}
+\usepackage{booktabs}  % Professional quality tables
+\usepackage{diagbox}   % Diagonal lines in tables
+\usepackage{wrapfig}   % Wrap text around figures
 
-%%% Graphics:
-\usepackage{rotating}
+%===============================================================================
+% MATHEMATICAL PACKAGES AND SETTINGS
+%===============================================================================
+
+% Core Math Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% Math Numbering
+\numberwithin{equation}{section}
+
+% Theorem Environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+
+% Unnumbered Theorem Environments
+\newtheorem*{summary}{Summary}
+\newtheorem*{observation}{Observation}
+\newtheorem*{example}{Example}
+\newtheorem*{remark}{Remark}
+
+% Math Operators
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%===============================================================================
+% GRAPHICS AND VISUALIZATION
+%===============================================================================
+
+% Graphics and TikZ
+\usepackage{graphicx}
+\graphicspath{{./images/}{./figures/}}
 \usepackage{tikz}
 \usepackage{tikz-cd}
-\usetikzlibrary{shapes, arrows, matrix, chains}
-\usepackage{graphicx}
-\graphicspath{ {./images/} }
 \usepackage{pgfplots}
-\pgfplotsset{width=7cm,compat=1.8}
-\pgfmathdeclarefunction{gauss}{2}{
-  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
+
+% PGFPlots Configuration with Safeguards
+\pgfplotsset{
+  width=7cm,
+  compat=1.18,
+  % Handle unbounded coordinates gracefully
+  unbounded coords=discard,
+  clip mode=individual,
+  clip=true,
+  % Set default axis limits to prevent issues
+  enlargelimits=false,
+  axis equal image=false
 }
 
-%%% Block styles
-\tikzstyle{mystar} = [star,star points=6, draw]
+% TikZ Libraries
+\usetikzlibrary{
+  shapes, arrows, matrix, chains,
+  positioning, calc, decorations.pathreplacing,
+  patterns, decorations.markings
+}
+
+% TikZ Styles
+\tikzstyle{mystar} = [star, star points=6, draw]
 \tikzstyle{node1} = [circle, draw, node distance=2cm]
 \tikzstyle{node2} = [circle, draw, node distance=2cm]
 \tikzstyle{node3} = [circle, draw, node distance=1cm]
@@ -71,164 +118,95 @@
 \tikzstyle{nn3} = [circle, draw, node distance=3cm]
 \tikzstyle{nn2} = [circle, draw, node distance=2cm]
 \tikzstyle{nn} = [circle, draw, node distance=1cm]
-\tikzstyle{true} = [rectangle, draw, rounded
-corners, node distance=3cm]
-\tikzstyle{noise} = [rectangle, draw, rounded
-corners, node distance=3cm]
-\tikzstyle{brain} = [star,star points=10, draw, rounded
-corners, node distance=3cm]
+\tikzstyle{true} = [rectangle, draw, rounded corners, node distance=3cm]
+\tikzstyle{noise} = [rectangle, draw, rounded corners, node distance=3cm]
+\tikzstyle{brain} = [star, star points=10, draw, rounded corners, node distance=3cm]
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse, node distance=3cm]
 \tikzstyle{pic} = [node distance=3cm]
 
-%%% Theorem:
-\usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{claim}[theorem]{Claim}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem*{summary}{Summary}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem*{observation}{Observation}
-\newtheorem*{example}{Example}
-\newtheorem*{remark}{Remark}
-\newtheorem{problem}[theorem]{Problem}
+% PGF Plots Functions
+\pgfmathdeclarefunction{gauss}{2}{
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
+}
 
-%%% Geometry:
-\usepackage{geometry}
+% Safe TikZ Environments
+\newenvironment{safetikz}[1][]{
+  \begin{tikzpicture}
+    \pgfplotsset{
+      unbounded coords=discard,
+      clip=true,
+      #1
+    }
+}{
+  \end{tikzpicture}
+}
 
-%%% Algorithm:
+\newenvironment{safeaxis}[1][]{
+  \begin{axis}[
+    width=7cm,
+    height=5cm,
+    xmin=0, xmax=100,
+    ymin=-10, ymax=10,
+    unbounded coords=discard,
+    clip=true,
+    grid=major,
+    #1
+  ]
+}{
+  \end{axis}
+}
+
+% Safe Plot Commands
+\newcommand{\safeplot}[3][]{
+  \addplot[#1] coordinates {
+    #2
+  };
+  \addlegendentry{#3}
+}
+
+\newcommand{\safecoord}[2]{
+  \pgfmathparse{#2}
+  \ifnum\pgfmathresult>-10000
+    \ifnum\pgfmathresult<10000
+      (#1,#2)
+    \fi
+  \fi
+}
+
+% Rotating Figures
+\usepackage{rotating}
+
+%===============================================================================
+% ALGORITHMS AND CODE LISTINGS
+%===============================================================================
+
+% Algorithm Package
 \usepackage[linesnumbered, ruled]{algorithm2e}
 
-%%% Spacing:
-\usepackage{setspace}
-\renewcommand{\baselinestretch}{1.4}
-
-%%% Commands:
-\newcommand \V {
-  V(\phi, \theta)
-}
-
-\newcommand \Va {
-  \mathcal{V}(\phi, \theta)
-}
-
-\newcommand \VD {
-  V_{D_\theta}(\phi, \theta)
-}
-
-\newcommand \VG {
-  V_{G_\phi}(\phi, \theta)
-}
-
-% Spaces
-\newcommand{\target}{\&X}
-\newcommand{\prior}{\&Z}
-
-% Generator
-\newcommand{\G}{G_\phi}
-\newcommand{\Gt}{G_{\phi_{t}}}
-\newcommand{\Gtt}{G_{\phi_{t+1}}}
-\newcommand{\Gl}{G_{{\infty}}}
-\newcommand{\Gz}{G_\phi(z)}
-\newcommand{\Gzi}{G_\phi(z_i)}
-
-\newcommand{\D}{D_\theta}
-\newcommand{\Dt}{D_{\theta_{t}}}
-\newcommand{\Dtt}{D_{\theta_{t+1}}}
-\newcommand{\Dl}{D_{\infty}}
-
-\newcommand{\pg}{p_{\phi}}
-\newcommand{\pgx}{p_{\phi}(\tilde{x})}
-\newcommand{\pgu}{p_{\phi}(u)}
-\newcommand{\pgt}{p_{\phi_t}(\tilde{x})}
-\newcommand{\pgtu}{p_{\phi_t}(u)}
-
-\newcommand{\pd}{D_\theta(x)}
-
-\newcommand{\pt}{p^*}
-\newcommand{\ptx}{p^*(x)}
-\newcommand{\ptu}{p^*(u)}
-\newcommand{\pz}{p_\prior}
-\newcommand{\pzz}{p_\prior(z)}
-
-\newcommand \pdg {
-  D_{\theta}(G_{\phi}(z))
-}
-
-\def\*#1{\mathbf{#1}}
-
-\def\&#1{\mathcal{#1}}
-
-\def\i#1{\textit{#1}}
-
-\def\R{\mathbb{R}}
-
-\DeclareMathOperator*{\argmax}{arg\,max}
-
-\DeclareMathOperator*{\argmin}{arg\,min}
-
-\newcommand \restr[2] {
-    \left. \kern- \nulldelimiterspace #1 % the function
-      \vphantom{\big|} % pretend it's a little taller at normal size
-    \right|_{#2} % this is the delimiter
-}
-
-\newcommand \Div[1] {
-  \mathcal{D}_{\text{\tiny#1}}
-}
-
-\newcommand \Divgen[2] {
-  \Div{} \kern- \nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)
-}
-\newcommand \KL[2] {
-  \Div{KL} \kern- \nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)
-}
-
-\newcommand \JSD[2] {
-  \Div{JS} \kern- \nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)
-}
-
-\newcommand \Dstar[1] {
-  {p^*(#1) \over p^*(#1) + p_{\phi}(#1)}
-}
-
-\newcommand \maxV[1] {
-  \mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] +
-  \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]
-}
-
-\newcommand \E[2] {
-  \mathbb{E}_{#1}\left[ #2 \right]
-}
-
-\newcommand \KLE[3] {
-  \E{#1\sim #2}{\log{#2 \over #3}}
-}
-
-\newcommand \KLd[2] {
-  \sum_{\x \sim #1} #1 \log{#1 \over #2}
-}
-
-\newcommand \KLc[3] {
-  \int_{#1} #2 \log{#2 \over #3}d#1
-}
-
-%%% Code
+% Code Listings
 \usepackage{listings}
-\usepackage{color}
+\usepackage{xcolor}
+
 \lstset{
   language=Python,
   showstringspaces=false,
   basicstyle={\small\ttfamily},
   numbers=none,
-  tabsize=4
+  tabsize=4,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  frame=single,
+  frameround=tttt,
+  backgroundcolor=\color{gray!10}
 }
 
-%%% PDF Settings
+%===============================================================================
+% HYPERLINKS AND PDF SETTINGS
+%===============================================================================
+
+% Hyperref Package
 \usepackage[pdftex]{hyperref}
 \hypersetup{
   pdftitle={Generative Adversarial Networks: An Overview},
@@ -236,20 +214,110 @@ corners, node distance=3cm]
   pdfkeywords={Machine Learning, Deep Learning, GANs, Statistics, Game Theory},
   pdfsubject={Statistics, Game Theory, Machine Learning},
   pdffitwindow=true,
-  colorlinks=false,
-  linkcolor=orange,
-  citecolor=orange,
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=green,
   filecolor=magenta,
-  urlcolor=black,
+  urlcolor=orange,
   pdfstartpage=2
 }
 
-%%% Section Counter
-\setcounter{section}{0}
+% Cross-Referencing
+\usepackage{nameref}
 
+%===============================================================================
+% UTILITY PACKAGES AND COMMANDS
+%===============================================================================
+
+% Page Numbering and References
+\usepackage{lastpage}  % For referencing the last page
+\usepackage{afterpage}  % For creating blank pages
+\usepackage{forloop}    % For loop constructs
+
+% Enumerate Package
 \usepackage{enumerate}
 
-%%% Local Variables:
+% Blank Page Command
+\newcommand{\blankpage}{
+  \null
+  \thispagestyle{empty}
+  \newpage
+}
+
+%===============================================================================
+% CUSTOM MATHEMATICAL COMMANDS
+%===============================================================================
+
+% Value Functions
+\newcommand{\V}{V(\phi, \theta)}
+\newcommand{\Va}{\mathcal{V}(\phi, \theta)}
+\newcommand{\VD}{V_{D_\theta}(\phi, \theta)}
+\newcommand{\VG}{V_{G_\phi}(\phi, \theta)}
+
+% Spaces and Distributions
+\newcommand{\target}{\mathcal{X}}
+\newcommand{\prior}{\mathcal{Z}}
+
+% Generator Commands
+\newcommand{\G}{G_\phi}
+\newcommand{\Gt}{G_{\phi_{t}}}
+\newcommand{\Gtt}{G_{\phi_{t+1}}}
+\newcommand{\Gl}{G_{\infty}}
+\newcommand{\Gz}{G_\phi(z)}
+\newcommand{\Gzi}{G_\phi(z_i)}
+
+% Discriminator Commands
+\newcommand{\D}{D_\theta}
+\newcommand{\Dt}{D_{\theta_{t}}}
+\newcommand{\Dtt}{D_{\theta_{t+1}}}
+\newcommand{\Dl}{D_{\infty}}
+
+% Probability Distributions
+\newcommand{\pg}{p_{\phi}}
+\newcommand{\pgx}{p_{\phi}(\tilde{x})}
+\newcommand{\pgu}{p_{\phi}(u)}
+\newcommand{\pgt}{p_{\phi_t}(\tilde{x})}
+\newcommand{\pgtu}{p_{\phi_t}(u)}
+\newcommand{\pd}{D_\theta(x)}
+\newcommand{\pt}{p^*}
+\newcommand{\ptx}{p^*(x)}
+\newcommand{\ptu}{p^*(u)}
+\newcommand{\pz}{p_{\mathcal{Z}}}
+\newcommand{\pzz}{p_{\mathcal{Z}}(z)}
+\newcommand{\pdg}{D_{\theta}(G_{\phi}(z))}
+
+% General Math Commands
+\def\*#1{\mathbf{#1}}
+\def\&#1{\mathcal{#1}}
+\def\i#1{\textit{#1}}
+\def\R{\mathbb{R}}
+
+% Restriction Command
+\newcommand{\restr}[2]{\left. #1 \vphantom{\big|} \right|_{#2}}
+
+% Divergence Commands
+\newcommand{\Div}[1]{\mathcal{D}_{\text{\tiny#1}}}
+\newcommand{\Divgen}[2]{\Div{} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
+\newcommand{\KL}[2]{\Div{KL} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
+\newcommand{\JSD}[2]{\Div{JS} \kern-\nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)}
+\newcommand{\Dstar}[1]{{p^*(#1) \over p^*(#1) + p_{\phi}(#1)}}
+\newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]}
+
+% Expectation Commands
+\newcommand{\E}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
+\newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \over #3}}}
+\newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \over #2}}
+\newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \over #3}d#1}
+
+%===============================================================================
+% DOCUMENT SETTINGS
+%===============================================================================
+
+% Section Counter
+\setcounter{section}{0}
+
+%===============================================================================
+% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis"
 %%% End:
