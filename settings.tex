@@ -12,7 +12,7 @@
 
 % Geometry and Margins
 \usepackage{geometry}
-\geometry{a4paper, margin=1in, top=1.2in, bottom=1.2in}
+\geometry{a4paper, margin=1.25in, top=1.25in, bottom=1.25in}
 
 % Line Spacing
 \usepackage{setspace}
@@ -87,8 +87,19 @@
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{pgfplots}
-\pgfplotsset{width=7cm, compat=1.8}
-\pgfplotsset{compat=1.18}
+
+% PGFPlots Configuration with Safeguards
+\pgfplotsset{
+  width=7cm,
+  compat=1.18,
+  % Handle unbounded coordinates gracefully
+  unbounded coords=discard,
+  clip mode=individual,
+  clip=true,
+  % Set default axis limits to prevent issues
+  enlargelimits=false,
+  axis equal image=false
+}
 
 % TikZ Libraries
 \usetikzlibrary{
@@ -117,6 +128,50 @@
 % PGF Plots Functions
 \pgfmathdeclarefunction{gauss}{2}{
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
+}
+
+% Safe TikZ Environments
+\newenvironment{safetikz}[1][]{
+  \begin{tikzpicture}
+    \pgfplotsset{
+      unbounded coords=discard,
+      clip=true,
+      #1
+    }
+}{
+  \end{tikzpicture}
+}
+
+\newenvironment{safeaxis}[1][]{
+  \begin{axis}[
+    width=7cm,
+    height=5cm,
+    xmin=0, xmax=100,
+    ymin=-10, ymax=10,
+    unbounded coords=discard,
+    clip=true,
+    grid=major,
+    #1
+  ]
+}{
+  \end{axis}
+}
+
+% Safe Plot Commands
+\newcommand{\safeplot}[3][]{
+  \addplot[#1] coordinates {
+    #2
+  };
+  \addlegendentry{#3}
+}
+
+\newcommand{\safecoord}[2]{
+  \pgfmathparse{#2}
+  \ifnum\pgfmathresult>-10000
+    \ifnum\pgfmathresult<10000
+      (#1,#2)
+    \fi
+  \fi
 }
 
 % Rotating Figures
