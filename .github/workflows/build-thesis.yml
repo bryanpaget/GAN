@@ -18,11 +18,11 @@ jobs:
           working_directory: .
           root_file: thesis.tex
           latexmk_shell_escape: true
-          latexmk_use_xelatex: true
+          latexmk_use_xelatex: true  # Use XeLaTeX
           extra_system_packages: |
             py3-pygments
             biber
-            texlive-xetex  # Add XeTeX support
+            texlive-xetex
           args: -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
 
       - name: Upload LaTeX Log on Failure
