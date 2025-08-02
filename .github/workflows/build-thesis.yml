@@ -15,7 +15,7 @@ jobs:
       - name: Compile LaTeX Document
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: thesis
+          working_directory: .
           root_file: thesis.tex
           latexmk_shell_escape: true
           extra_system_packages: |
