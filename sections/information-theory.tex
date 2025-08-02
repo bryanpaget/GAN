@@ -84,8 +84,8 @@ While base 2 yields bits, base $e$ (nats) and base 10 (dits) are also common.
       ylabel = $H(p)$,
       enlargelimits = false,
       grid=major]
-      \addplot [samples = 300, blue, thick] {-x*log2(x)-(1-x)*log2(1-x)};
-      \node at (axis cs:0.5,0.8) {Maximum uncertainty\\at $p(H)=0.5$};
+      \addplot [samples = 300, blue, thick, domain=0.001:0.999] {-x*log2(x)-(1-x)*log2(1-x)};
+      \node[align=center] at (axis cs:0.5,0.8) {Maximum uncertainty\\at $p(H)=0.5$};
     \end{axis}
   \end{tikzpicture}
   \caption{Entropy of a coin toss as a function of the probability of heads $p(H)$. Entropy is maximized at 1 bit when the coin is fair ($p(H)=0.5$) and minimized at 0 when the outcome is certain ($p(H)=0$ or $p(H)=1$).}%
