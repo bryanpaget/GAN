@@ -18,13 +18,11 @@ jobs:
           working_directory: .
           root_file: thesis.tex
           latexmk_shell_escape: true
+          latexmk_use_lualatex: true
           extra_system_packages: |
             py3-pygments
             biber
-          # Remove -bibtex- flag and add explicit bibtex command
-          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
-          # Add pre-compile step to run bibtex
-          pre_compile: "latexmk -bibtex thesis"
+          args: -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
 
       - name: Upload LaTeX Log on Failure
         if: failure()
