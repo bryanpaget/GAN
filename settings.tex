@@ -1,44 +1,31 @@
 %===============================================================================
 % PREAMBLE
 %===============================================================================
-
-% Document Class and Encoding
+% Document Class and Encoding (for pdfLaTeX)
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-
+\usepackage{textcomp}
 %===============================================================================
 % PAGE LAYOUT AND FORMATTING
 %===============================================================================
-
 % Geometry and Margins
 \usepackage{geometry}
 \geometry{a4paper, margin=1.25in, top=1.25in, bottom=1.25in}
-
 % Line Spacing
 \usepackage{setspace}
 \setstretch{1.4}
+% Font Selection (using Latin Modern instead of Times New Roman for better compatibility)
+% \usepackage{yfonts}  % For old-style fonts - comment out if not needed
 
-% Font Selection
-\usepackage{yfonts}  % For old-style fonts
-
-% XeLaTeX
-\usepackage{fontspec}
-\usepackage{xltxtra}
-\usepackage{xunicode}
-\usepackage{polyglossia}
-\usepackage{textcomp}
-
-% Set main fonts
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
-\setmonofont{Courier New}
+% Bibliography setup
+\usepackage[backend=biber,style=authoryear,citestyle=authoryear]{biblatex}
+\addbibresource{thesis.bib}
 
 % Other packages
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{hyperref}
-
 % Section Formatting
 \usepackage{titlesec}
 \titleformat{\section}[display]
@@ -46,14 +33,11 @@
   {\titlerule[0.01pc]\vspace{0.15cm}\large Section \thesection}
   {0pc}
   {\vspace{0.15cm}\titlerule[0.01pc]\vspace{0.15cm}\LARGE}
-
 % Table of Contents Settings
 \renewcommand{\contentsname}{Table of Contents}
 \setcounter{tocdepth}{2}
-
 % Footnote Formatting
 \renewcommand{\thefootnote}{\arabic{footnote}}
-
 % Figure and Table Formatting
 \usepackage[font={small,it}]{caption}
 \usepackage{subcaption}
@@ -61,19 +45,15 @@
 \usepackage{booktabs}  % Professional quality tables
 \usepackage{diagbox}   % Diagonal lines in tables
 \usepackage{wrapfig}   % Wrap text around figures
-
 %===============================================================================
 % MATHEMATICAL PACKAGES AND SETTINGS
 %===============================================================================
-
 % Core Math Packages
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-
 % Math Numbering
 \numberwithin{equation}{section}
-
 % Theorem Environments
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -84,28 +64,23 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{problem}[theorem]{Problem}
-
 % Unnumbered Theorem Environments
 \newtheorem*{summary}{Summary}
 \newtheorem*{observation}{Observation}
 \newtheorem*{example}{Example}
 \newtheorem*{remark}{Remark}
-
 % Math Operators
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
-
 %===============================================================================
 % GRAPHICS AND VISUALIZATION
 %===============================================================================
-
 % Graphics and TikZ
 \usepackage{graphicx}
 \graphicspath{{./images/}{./figures/}}
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{pgfplots}
-
 % PGFPlots Configuration with Safeguards
 \pgfplotsset{
   width=7cm,
@@ -118,14 +93,12 @@
   enlargelimits=false,
   axis equal image=false
 }
-
 % TikZ Libraries
 \usetikzlibrary{
   shapes, arrows, matrix, chains,
   positioning, calc, decorations.pathreplacing,
   patterns, decorations.markings
 }
-
 % TikZ Styles
 \tikzstyle{mystar} = [star, star points=6, draw]
 \tikzstyle{node1} = [circle, draw, node distance=2cm]
@@ -142,12 +115,10 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse, node distance=3cm]
 \tikzstyle{pic} = [node distance=3cm]
-
 % PGF Plots Functions
 \pgfmathdeclarefunction{gauss}{2}{
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
 }
-
 % Safe TikZ Environments
 \newenvironment{safetikz}[1][]{
   \begin{tikzpicture}
@@ -159,7 +130,6 @@
 }{
   \end{tikzpicture}
 }
-
 \newenvironment{safeaxis}[1][]{
   \begin{axis}[
     width=7cm,
@@ -174,7 +144,6 @@
 }{
   \end{axis}
 }
-
 % Safe Plot Commands
 \newcommand{\safeplot}[3][]{
   \addplot[#1] coordinates {
@@ -182,7 +151,6 @@
   };
   \addlegendentry{#3}
 }
-
 \newcommand{\safecoord}[2]{
   \pgfmathparse{#2}
   \ifnum\pgfmathresult>-10000
@@ -191,21 +159,16 @@
     \fi
   \fi
 }
-
 % Rotating Figures
 \usepackage{rotating}
-
 %===============================================================================
 % ALGORITHMS AND CODE LISTINGS
 %===============================================================================
-
 % Algorithm Package
 \usepackage[linesnumbered, ruled]{algorithm2e}
-
 % Code Listings
 \usepackage{listings}
 \usepackage{xcolor}
-
 \lstset{
   language=Python,
   showstringspaces=false,
@@ -219,11 +182,9 @@
   frameround=tttt,
   backgroundcolor=\color{gray!10}
 }
-
 %===============================================================================
 % HYPERLINKS AND PDF SETTINGS
 %===============================================================================
-
 % Hyperref Package
 \usepackage[pdftex]{hyperref}
 \hypersetup{
@@ -239,43 +200,34 @@
   urlcolor=orange,
   pdfstartpage=2
 }
-
 % Cross-Referencing
 \usepackage{nameref}
-
 %===============================================================================
 % UTILITY PACKAGES AND COMMANDS
 %===============================================================================
-
 % Page Numbering and References
 \usepackage{lastpage}  % For referencing the last page
 \usepackage{afterpage}  % For creating blank pages
 \usepackage{forloop}    % For loop constructs
-
 % Enumerate Package
 \usepackage{enumerate}
-
 % Blank Page Command
 \newcommand{\blankpage}{
   \null
   \thispagestyle{empty}
   \newpage
 }
-
 %===============================================================================
 % CUSTOM MATHEMATICAL COMMANDS
 %===============================================================================
-
 % Value Functions
 \newcommand{\V}{V(\phi, \theta)}
 \newcommand{\Va}{\mathcal{V}(\phi, \theta)}
 \newcommand{\VD}{V_{D_\theta}(\phi, \theta)}
 \newcommand{\VG}{V_{G_\phi}(\phi, \theta)}
-
 % Spaces and Distributions
 \newcommand{\target}{\mathcal{X}}
 \newcommand{\prior}{\mathcal{Z}}
-
 % Generator Commands
 \newcommand{\G}{G_\phi}
 \newcommand{\Gt}{G_{\phi_{t}}}
@@ -283,13 +235,11 @@
 \newcommand{\Gl}{G_{\infty}}
 \newcommand{\Gz}{G_\phi(z)}
 \newcommand{\Gzi}{G_\phi(z_i)}
-
 % Discriminator Commands
 \newcommand{\D}{D_\theta}
 \newcommand{\Dt}{D_{\theta_{t}}}
 \newcommand{\Dtt}{D_{\theta_{t+1}}}
 \newcommand{\Dl}{D_{\infty}}
-
 % Probability Distributions
 \newcommand{\pg}{p_{\phi}}
 \newcommand{\pgx}{p_{\phi}(\tilde{x})}
@@ -303,16 +253,13 @@
 \newcommand{\pz}{p_{\mathcal{Z}}}
 \newcommand{\pzz}{p_{\mathcal{Z}}(z)}
 \newcommand{\pdg}{D_{\theta}(G_{\phi}(z))}
-
 % General Math Commands
 \def\*#1{\mathbf{#1}}
 \def\&#1{\mathcal{#1}}
 \def\i#1{\textit{#1}}
 \def\R{\mathbb{R}}
-
 % Restriction Command
 \newcommand{\restr}[2]{\left. #1 \vphantom{\big|} \right|_{#2}}
-
 % Divergence Commands
 \newcommand{\Div}[1]{\mathcal{D}_{\text{\tiny#1}}}
 \newcommand{\Divgen}[2]{\Div{} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
@@ -320,20 +267,16 @@
 \newcommand{\JSD}[2]{\Div{JS} \kern-\nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)}
 \newcommand{\Dstar}[1]{{p^*(#1) \over p^*(#1) + p_{\phi}(#1)}}
 \newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]}
-
 % Expectation Commands
 \newcommand{\E}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
 \newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \over #3}}}
 \newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \over #2}}
 \newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \over #3}d#1}
-
 %===============================================================================
 % DOCUMENT SETTINGS
 %===============================================================================
-
 % Section Counter
 \setcounter{section}{0}
-
 %===============================================================================
 % Local Variables:
 %%% mode: latex
