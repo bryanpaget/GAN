@@ -8,18 +8,13 @@
 	\caption{Visual representation of information entropy \href{https://www.consciousentities.com/2017/02/consciousness-entropy/}{(Conscious Entities, Peter Hankins)}}
 \end{figure}
 \vspace{0.5cm}
-
 Information theory emerged in 1948 with Claude Shannon's seminal work \textit{A Mathematical Theory of Communication}. Shannon's framework, inspired by thermodynamics concepts from Boltzmann and Gibbs and communication theory from Hartley and Nyquist at Bell Labs~\cite{ref:losee-1997}, revolutionized our understanding of information quantification and transmission. While applications like data compression, error-correcting codes, and channel capacity are beyond this thesis's scope, we focus on information-theoretic quantities fundamental to machine learning and generative adversarial networks.
-
 \begin{remark}
 	In information theory, we quantify information about probability distributions rather than the semantic content of outcomes. Probability distributions capture our uncertainty about outcomes, making them central to information measurement. The most valuable information lies in accurately characterizing these distributions.
 \end{remark}
-
 Information theory provides essential tools for deep learning. Viewing neural networks as noisy channels highlights the relevance of information-theoretic principles. As David Mackay observed in~\cite{ref:mackay-2003}, ``brains are the ultimate compression and communication systems. And the state-of-the-art algorithms for both data compression and error-correcting codes use the same tools as machine learning''. This symbiotic relationship suggests that advancing artificial intelligence methods will lead to better compression algorithms, and vice versa.
-
 \subsection{Entropy: Quantifying Uncertainty}
 The cornerstone of information theory is entropy, which measures uncertainty in probability distributions. We derive entropy by defining uncertainty as a function $\eta$ that satisfies intuitive requirements.
-
 \begin{definition}
 	Let $(\mathcal{X}, p)$ be a discrete probability space. We define \textnormal{\sffamily uncertainty} as a real-valued function $\eta(\cdot): \mathcal{X} \mapsto \mathbb{R}^+$ that depends only on outcome probabilities and satisfies:
 	\begin{enumerate}[(i)]
@@ -31,38 +26,32 @@ The cornerstone of information theory is entropy, which measures uncertainty in 
 \begin{remark}
 	This definition adapts concepts from~\cite{ref:martin-2011} for our context.
 \end{remark}
-
 New information reduces uncertainty, with rare events providing more information than common ones. This suggests $\eta$ should be inversely proportional to probability:
 \begin{align}
 	\label{eq:eta-1}
-	\eta(x) \propto {1 \over p(x)}
+	\eta(x) \propto \frac{1}{p(x)}
 \end{align}
-
 The additivity requirement (iii) implies a logarithmic relationship since independent events' probabilities multiply while their information content should add:
 \begin{align}
 	\label{eq:eta-3}
-	\eta(x) = \log{1 \over p(x)}.
+	\eta(x) = \log\frac{1}{p(x)}.
 \end{align}
-
 For a probability distribution, we need an average uncertainty measure weighted by outcome probabilities. This leads to entropy, denoted by $H$ (resembling the Greek eta):
 \begin{align}
 	\label{eq:eta-almost}
-	H(p) = \sum_{x \in \mathcal{X}} p(x) \log{1 \over p(x)}.
+	H(p) = \sum_{x \in \mathcal{X}} p(x) \log\frac{1}{p(x)}.
 \end{align}
-
 Entropy represents the average surprise associated with outcomes from $(\mathcal{X}, p)$. It reaches maximum when all outcomes are equally likely (uniform distribution), reflecting maximum uncertainty:
 \begin{align}
 	\label{eq:eta-2}
 	H(p) \leq \log{|\mathcal{X}|}
 \end{align}
-
 We can also interpret entropy as the average information (in bits) needed to describe outcomes from $(\mathcal{X}, p)$. The logarithm base determines the units:
 \begin{align}
 	\label{eq:understand-log}
-	\log_2{1 \over p(x)} = n \iff 2^n = {1 \over p(x)}.
+	\log_2\frac{1}{p(x)} = n \iff 2^n = \frac{1}{p(x)}.
 \end{align}
 While base 2 yields bits, base $e$ (nats) and base 10 (dits) are also common.
-
 \begin{definition}
 	Let $(\mathcal{X}, p)$ be a discrete probability space. The \textnormal{\sffamily entropy} of distribution $p$ is:
 	\begin{align}
@@ -71,7 +60,6 @@ While base 2 yields bits, base $e$ (nats) and base 10 (dits) are also common.
 	\end{align}
 	Entropy quantifies the average uncertainty in outcomes from $(\mathcal{X}, p)$. The uniform distribution maximizes entropy, as all outcomes are equally surprising.
 \end{definition}
-
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
@@ -91,14 +79,11 @@ While base 2 yields bits, base $e$ (nats) and base 10 (dits) are also common.
 	\caption{Entropy of a coin toss as a function of the probability of heads $p(H)$. Entropy is maximized at 1 bit when the coin is fair ($p(H)=0.5$) and minimized at 0 when the outcome is certain ($p(H)=0$ or $p(H)=1$).}%
 	\label{fig:entropy-coin-toss}
 \end{figure}
-
 \begin{example}
 	The entropy of a fair coin toss is 1 bit. For $m$ independent fair tosses, entropy is $m$ bits. With three equally likely outcomes, entropy is $\log_2{3} \approx 1.585$ bits.
 \end{example}
-
 \subsection{Divergences and Distance Measures}
 To compare probability distributions, we need measures of dissimilarity. We first distinguish between metrics and divergences.
-
 \begin{definition}
 	A \textnormal{\sffamily metric} on a set $\mathcal{X}$ is a function $d(\cdot, \cdot): \mathcal{X} \times \mathcal{X} \mapsto \mathbb{R}^+$ satisfying $\forall x, y, z \in \mathcal{X}$:
 	\begin{enumerate}
@@ -107,11 +92,9 @@ To compare probability distributions, we need measures of dissimilarity. We firs
 		\item $d(x, z) \leq d(x, y) + d(y, z)$ (triangle inequality)
 	\end{enumerate}
 \end{definition}
-
 \begin{remark}
 	A divergence is a weaker notion than distance. It need not be symmetric nor satisfy the triangle inequality, but must be non-negative and zero only for identical distributions.
 \end{remark}
-
 \begin{definition}
 	Let $\mathcal{P}$ be a space of probability distributions over finite set $\mathcal{X}$ with identical support. A \textnormal{\sffamily divergence} on $\mathcal{P}$ is a function $\text{D}(\cdot, \cdot): \mathcal{P} \times \mathcal{P} \mapsto \mathbb{R}^+$ such that $\forall p, q \in \mathcal{P}$:
 	\begin{enumerate}[(i)]
@@ -119,24 +102,20 @@ To compare probability distributions, we need measures of dissimilarity. We firs
 		\item $\text{D}(p, q) = 0 \iff p = q$.
 	\end{enumerate}
 \end{definition}
-
 \subsubsection{Kullback-Leibler Divergence}
 The most fundamental divergence in information theory is the Kullback-Leibler (KL) divergence.
-
 \begin{definition}%
 	\label{def:kl-divergence}
 	The \textnormal{\sffamily Kullback-Leibler divergence} (also called \textnormal{\sffamily relative entropy}, \textnormal{\textsf directed divergence}, \textnormal{\sffamily information gain}, or \textnormal{\sffamily discrimination information}) between distributions $p$ and $q$ is:
 	\begin{align}
 		\label{eq:KL}
-		\text{KL}(p \| q) = \sum_{x \in \mathcal{X}} p(x) \log{p(x) \over q(x)}.
+		\text{KL}(p \| q) = \sum_{x \in \mathcal{X}} p(x) \log\frac{p(x)}{q(x)}.
 	\end{align}
 	If $p$ and $q$ have the same support, $\text{KL}(p \| q) = 0$ if and only if $p = q$.
 \end{definition}
-
 \begin{remark}
 	KL divergence requires $p$ to be absolutely continuous with respect to $q$ ($q(x) = 0 \implies p(x) = 0$). When $p(x) = 0$, $\text{KL}(p \| q) = 0$ since $\lim_{x \to 0} x\log{x} = 0$.
 \end{remark}
-
 \begin{theorem}[Pythagorean Identity for KL Divergence]
 	For a closed convex set $E \subset \mathcal{P}$ and distribution $Q \not \in E$, let $P^* \in E$ be the projection $p^* = \argmin_{P \in E} \text{KL}(p \| q)$. Then:
 	\begin{align}
@@ -144,46 +123,40 @@ The most fundamental divergence in information theory is the Kullback-Leibler (K
 	\end{align}
 	See Theorem 11.6.1 in~\cite{ref:cover-thomas} for details.
 \end{theorem}
-
 \begin{remark}
 	KL divergence relates to the log-likelihood ratio test for comparing statistical models. For models $p(x) = f(x|\theta)$ and $q(x) = f(x|\phi)$, the log-likelihood ratio is:
 	\begin{align}
-		\lambda(x) & = \log{\prod_{x \in \mathcal{X}} p(x) \over \prod_{x \in \mathcal{X}} q(x)} = \sum_{x \in \mathcal{X}} \log {p(x) \over q(x)}
+		\lambda(x) & = \log\frac{\prod_{x \in \mathcal{X}} p(x)}{\prod_{x \in \mathcal{X}} q(x)} = \sum_{x \in \mathcal{X}} \log \frac{p(x)}{q(x)}
 	\end{align}
 	The KL divergence $\text{KL}(p \| q)$ is the expectation of $\lambda(x)$ under $p$:
 	\begin{align}
-		\mathbb{E}_{x \sim p}[\lambda(x)] = \sum_{x \in \mathcal{X}} p(x)\log {p(x) \over q(x)}.
+		\mathbb{E}_{x \sim p}[\lambda(x)] = \sum_{x \in \mathcal{X}} p(x)\log \frac{p(x)}{q(x)}.
 	\end{align}
 \end{remark}
-
 This connection reveals that GAN training can be viewed as optimizing a goodness-of-fit test. The GAN objective:
 \begin{align}
-	\min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{D_\theta(x_i)} + {1 \over n} \sum_{i=1}^n\log{(1 - D_\theta(G_\phi(z_i)))}
+	\min_{\phi}\max_{\theta}\frac{1}{n} \sum_{i=1}^n \log{D_\theta(x_i)} + \frac{1}{n} \sum_{i=1}^n\log{(1 - D_\theta(G_\phi(z_i)))}
 \end{align}
 has the same fixed point as:
 \begin{align}
-	\min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\left({D_\theta(x_i) \over D_\theta(G_\phi(z_i))}\right)}
+	\min_{\phi}\max_{\theta}\frac{1}{n} \sum_{i=1}^n \log{\left(\frac{D_\theta(x_i)}{D_\theta(G_\phi(z_i))}\right)}
 \end{align}
 which represents a KL divergence or average log-likelihood ratio. Since $D_\theta(x) \in [0, 1]$, an optimal $D$ assigns higher probability to real data than generated data.
-
 The term \textit{information gain} reflects that $\text{KL}(p \| q)$ quantifies information gained when using $q$ instead of $p$ to model data, or equivalently, information lost when $q$ approximates $p$.
-
 \begin{definition}
 	The \textnormal{\sffamily reverse Kullback-Leibler divergence} is:
 	\begin{align}
 		\label{eq:reverse-KL}
-		\text{KL}(q \| p) = \sum_{x \in \mathcal{X}} q(x) \log{q(x) \over p(x)}.
+		\text{KL}(q \| p) = \sum_{x \in \mathcal{X}} q(x) \log\frac{q(x)}{p(x)}.
 	\end{align}
 	This represents the expectation of the log-likelihood ratio under $q$:
 	\begin{align}
-		\mathbb{E}_{x \sim q}[\lambda(x)] = \sum_{x \in \mathcal{X}} q(x)\log {q(x) \over p(x)}.
+		\mathbb{E}_{x \sim q}[\lambda(x)] = \sum_{x \in \mathcal{X}} q(x)\log \frac{q(x)}{p(x)}.
 	\end{align}
 \end{definition}
 Unlike forward KL, minimizing reverse KL is not equivalent to maximum likelihood estimation.
-
 \subsubsection{Cross Entropy}
 Cross entropy measures the average uncertainty when using $q$ to encode events from $p$.
-
 \begin{definition}
 	The \textnormal{\sffamily cross entropy} between $p$ and $q$ is:
 	\begin{align}
@@ -191,7 +164,6 @@ Cross entropy measures the average uncertainty when using $q$ to encode events f
 	\end{align}
 	It represents the total uncertainty incurred by modeling data with $q$ instead of $p$.
 \end{definition}
-
 \begin{lemma}
 	Cross entropy decomposes as $H(p, q) = H(p) + \text{KL}(p \| q)$.
 \end{lemma}
@@ -199,50 +171,41 @@ Cross entropy measures the average uncertainty when using $q$ to encode events f
 	\begin{align}
 		H(p, q) & = -\sum_{x \in \mathcal{X}} p(x) \log q(x)                                                                                     \\
 		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log p(x) - \sum_{x \in \mathcal{X}} p(x) \log q(x) \\
-		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log {p(x) \over q(x)}                              \\
+		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log \frac{p(x)}{q(x)}                              \\
 		        & = H(p) + \text{KL}(p \| q)
 	\end{align}
 \end{proof}
-
 This decomposition shows cross entropy is bounded below by $H(p)$, with the excess quantified by $\text{KL}(p \| q)$. Cross entropy is asymmetric since $H(q, p) = H(q) + \text{KL}(q \| p)$.
-
 \subsubsection{Jensen-Shannon Divergence}
 The Jensen-Shannon divergence (JSD) provides a symmetric, smoothed version of KL divergence.
-
 \begin{definition}%
 	\label{def:jsd}
 	For distributions $p(x)$ and $q(x)$ over space $\mathcal{X}$, the \textnormal{\sffamily Jensen-Shannon divergence} is:
 	\begin{align}
-		\text{JSD}(p \| q) = {1 \over 2} \text{KL}\left(p \| {p + q \over 2}\right) + {1 \over 2} \text{KL}\left(q \| {p + q \over 2}\right)
+		\text{JSD}(p \| q) = \frac{1}{2} \text{KL}\left(p \| \frac{p + q}{2}\right) + \frac{1}{2} \text{KL}\left(q \| \frac{p + q}{2}\right)
 	\end{align}
 \end{definition}
-
 \begin{remark}
 	JSD is the average of forward and reverse KL divergences with respect to the midpoint distribution $(p+q)/2$.
 \end{remark}
-
 \begin{theorem}
 	The square root of Jensen-Shannon divergence, $\sqrt{\text{JSD}(p \| q)}$, is a metric.
 \end{theorem}
 \begin{proof}
 	See~\cite{ref:endres-2003}.
 \end{proof}
-
 \subsection{Mutual Information and Dependency Measures}
 Information theory provides tools to quantify dependencies between distributions.
-
 \begin{definition}
 	Let $(\mathcal{X}, p)$ and $(\mathcal{Y}, q)$ be finite probability spaces with random variables $X \sim p$ and $Y \sim q$. Their joint distribution is $\gamma$ with marginals $\pi_p \circ \gamma = p$ and $\pi_q \circ \gamma = q$. The \textnormal{\sffamily mutual information} $I(X;Y)$ is:
 	\begin{align}
 		\label{eq:mutual-information}
-		I(X; Y) = \sum_{x \in \mathcal{X}}\sum_{y \in \mathcal{Y}}\gamma(x, y) \log{{\gamma(x, y) \over p(x)q(y)}}
+		I(X; Y) = \sum_{x \in \mathcal{X}}\sum_{y \in \mathcal{Y}}\gamma(x, y) \log\frac{\gamma(x, y)}{p(x)q(y)}
 	\end{align}
 \end{definition}
-
 \begin{theorem}
 	If $X$ and $Y$ are independent, then $\gamma(x,y) = p(x)q(y)$ and $I(X; Y) = 0$.
 \end{theorem}
-
 \begin{remark}
 	Mutual information quantifies the information shared between distributions, serving as a measure of statistical dependence. It can also be expressed as:
 	\begin{align}
@@ -251,7 +214,6 @@ Information theory provides tools to quantify dependencies between distributions
 	\end{align}
 	where $H(X | Y)$ is the conditional entropy of $X$ given $Y$. This form shows mutual information as the reduction in uncertainty about one variable given knowledge of the other.
 \end{remark}
-
 \begin{figure}[h!]
 	\centering
 	\begin{tikzpicture}[scale=0.9]
@@ -276,27 +238,22 @@ Information theory provides tools to quantify dependencies between distributions
 	\caption{Venn diagram illustrating relationships between entropy $H(X)$, $H(Y)$, conditional entropy $H(X|Y)$, $H(Y|X)$, joint entropy $H(X,Y)$, and mutual information $I(X;Y)$.}%
 	\label{fig:venn-information}
 \end{figure}
-
 \subsection{Information-Theoretic Analysis of GANs}%
 \label{sec:info-value-function}%
-
 We now analyze the GAN value function $V = \mathbb{E}_{x \sim p_r}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]$ from an information-theoretic perspective. The following proposition examines the optimization dynamics at each training step, while Section~\ref{sec:optimization-dynamics} analyzes limiting behavior.
-
 GAN training aims to:
 1. Minimize the KL divergence between the data distribution $p_r$ and the discriminator's output distribution $D_\theta(x)$
 2. Maximize the KL divergence between the generator's prior $p_z$ and the discriminator's assessment of generated data $D_\theta(G_\phi(z))$
 3. Minimize the KL divergence between $p_z$ and $D_\theta(G_\phi(z))$ from the generator's perspective
-
 \begin{remark}
 	KL divergence in this context quantifies the additional surprise when using an approximate distribution $q$ instead of the true distribution $p$.
 \end{remark}
-
 \begin{proposition}%
 	\label{thm:info-objective}%
 	The GAN objective:
 	\begin{align}
 		\label{eq:gan-objective}
-		\min_\phi \max_\theta \mathbb{E}_{x \sim p_r}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]
+		\min_{\phi} \max_{\theta} \mathbb{E}_{x \sim p_r}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]
 	\end{align}
 	corresponds to the following information-theoretic objectives:
 	\begin{enumerate}[(i)]
@@ -304,7 +261,6 @@ GAN training aims to:
 		\item Generator optimization: Find $\phi \in \Phi$ to minimize $\text{KL}(p_z \| D_\theta \circ G_\phi)$
 	\end{enumerate}
 \end{proposition}
-
 \begin{proof}
 	The first term of $V$ is the negative cross entropy between $p_r$ and $D_\theta$:
 	\begin{align}
@@ -316,7 +272,6 @@ GAN training aims to:
 		H(p_r, D_\theta) & = H(p_r) + \text{KL}(p_r \| D_\theta),
 	\end{align}
 	and $H(p_r)$ is fixed, minimizing cross entropy requires minimizing $\text{KL}(p_r \| D_\theta)$, achieved when $D_\theta(x) = p_r(x)$.
-
 	The second term of (\ref{eq:gan-objective}) is:
 	\begin{align}
 		\mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))] = \sum_{z \sim p_z} p_z(z) \log (1 - D_\theta(G_\phi(z)))
@@ -326,17 +281,12 @@ GAN training aims to:
 		-\sum_{z \sim p_z} p_z(z) \log (D_\theta(G_\phi(z))),
 	\end{align}
 	which is the negative cross entropy between $p_z$ and $D_\theta \circ G_\phi$. Thus, $D_\theta$ maximizes $\text{KL}(p_z \| D_\theta \circ G_\phi)$, making $D_\theta(G_\phi(z))$ as different as possible from $p_z$.
-
 	Conversely, the generator minimizes the same term, equivalent to minimizing cross entropy between $p_z$ and $D_\theta \circ G_\phi$, which minimizes $\text{KL}(p_z \| D_\theta \circ G_\phi)$.
 \end{proof}
-
 This analysis reveals that the generator aims to make the discriminator's output on generated data as uninformative as random noise, while the discriminator tries to match its output distribution to the true data distribution while distinguishing generated data from noise.
-
 \subsection{Optimization Dynamics and Limiting Behavior}%
 \label{sec:optimization-dynamics}%
-
 We now rigorously analyze GAN optimization dynamics. Let $\mathcal{X}$ be the data space with true distribution $p_r$, and $\tilde{\mathcal{X}}$ be generated data with distribution $p_g$ induced by generator $G_\phi$. Let $X \sim p_r$, $\tilde{X} \sim p_g$, and $Z \sim p_z$ (noise prior).
-
 We consider three equivalent forms of the value function:
 \begin{align}
 	V(\phi, \theta)(X, Z)                 & = \mathbb{E}_{x \sim p_r}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]         \\
@@ -344,47 +294,43 @@ We consider three equivalent forms of the value function:
 	\mathcal{V}(U)                        & = \mathbb{E}_{u \sim p_U} [p_r(u) \log D_\theta(u) + p_g(u) \log(1 - D_\theta(u))]
 \end{align}
 where $U \subset \mathbb{R}^2$ contains pairs $(x, \tilde{x})$, and $p_U$ is the joint distribution over these pairs.
-
 \begin{theorem}[Optimal Discriminator]%
 	\label{theorem:minimax}
 	For any fixed generator $G_\phi$, the optimal discriminator $D^*$ that maximizes $V$ is:
 	\begin{align}
-		D^*(x) = \over{p_r(x)}{p_r(x) + p_g(x)}.
+		D^*(x) = \frac{p_r(x)}{p_r(x) + p_g(x)}.
 	\end{align}
 \end{theorem}
 \begin{proof}
 	We compute the derivative of $\mathcal{V}$ with respect to $\theta$:
 	\begin{align}
 		\label{eq:derivatives}
-		{\partial \mathcal{V}(U) \over \partial \theta} = \mathbb{E}_{u \sim p_U}\left[ p_r(u) { {\partial D_\theta(u) \over \partial \theta} \over D_\theta(u)} - p_g(u) {{\partial D_\theta(u) \over \partial \theta} \over (1 - D_\theta(u))}\right],
+		\frac{\partial \mathcal{V}(U)}{\partial \theta} = \mathbb{E}_{u \sim p_U}\left[ p_r(u) \frac{\partial D_\theta(u) / \partial \theta}{D_\theta(u)} - p_g(u) \frac{\partial D_\theta(u) / \partial \theta}{(1 - D_\theta(u))}\right],
 	\end{align}
 	Setting this to zero yields:
 	\begin{align}
 		\label{eq:20}
-		{p_r(u) \over D_\theta(u)} = {p_g(u) \over (1 - D_\theta(u))} \iff D^*(u) = {p_r(u) \over p_g(u) + p_r(u)}.
+		\frac{p_r(u)}{D_\theta(u)} = \frac{p_g(u)}{(1 - D_\theta(u))} \iff D^*(u) = \frac{p_r(u)}{p_g(u) + p_r(u)}.
 	\end{align}
 	Thus, for any fixed $G_\phi$, $\mathcal{V}(U)$ is maximized when $D_\theta = D^*$.
 \end{proof}
-
 Substituting $D^*$ into $\tilde{V}$ gives:
 \begin{align}
 	\label{eq:sum-of-two-kl-divergences}
-	\max_D \tilde{V}(\phi, \theta)(X, \tilde{X}) = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \over p_g(x) + p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_g}\left[\log{p_g(\tilde{x}) \over p_g(\tilde{x}) + p_r(\tilde{x})} \right]
+	\max_D \tilde{V}(\phi, \theta)(X, \tilde{X}) = \mathbb{E}_{x \sim p_r}\left[\log\frac{p_r(x)}{p_g(x) + p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_g}\left[\log\frac{p_g(\tilde{x})}{p_g(\tilde{x}) + p_r(\tilde{x})} \right]
 \end{align}
 This expression relates to the Jensen-Shannon divergence between $p_r$ and $p_g$.
-
 \begin{lemma}
 	The minimax value of the GAN game is $-\log 4$.
 \end{lemma}
 \begin{proof}
 	The optimal generator satisfies $p_g = p_r$. Substituting into (\ref{eq:sum-of-two-kl-divergences}):
 	\begin{align}
-		V(\phi^*, \theta^*)(X, \tilde{X}) & = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \over 2p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_r}\left[\log{p_r(\tilde{x}) \over 2p_r(\tilde{x})}\right] \\
+		V(\phi^*, \theta^*)(X, \tilde{X}) & = \mathbb{E}_{x \sim p_r}\left[\log\frac{p_r(x)}{2p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_r}\left[\log\frac{p_r(\tilde{x})}{2p_r(\tilde{x})}\right] \\
 		                                  & = \mathbb{E}_{x \sim p_r}[\log(1/2)] + \mathbb{E}_{\tilde{x} \sim p_r}[\log(1/2)]                                                                         \\
 		                                  & = -\log 2 - \log 2 = -\log 4
 	\end{align}
 \end{proof}
-
 \begin{theorem}[GAN Optimization as JSD Minimization]%
 	\label{thm:limiting}
 	With an optimal discriminator, minimizing $V$ with respect to $\phi$ is equivalent to minimizing the Jensen-Shannon divergence between $p_r$ and $p_g$.
@@ -397,14 +343,10 @@ This expression relates to the Jensen-Shannon divergence between $p_r$ and $p_g$
 	\end{align}
 	as shown in Appendix~\ref{sec:proof-for-jsd-thing}. Minimizing $V$ thus minimizes $\text{JSD}(p_r \| p_g)$.
 \end{proof}
-
 \subsection{Discussion}
 This section presented two complementary information-theoretic perspectives on GAN training. Theorem~\ref{thm:limiting} characterizes the limiting behavior, showing that GAN optimization minimizes Jensen-Shannon divergence between real and generated distributions. Theorem~\ref{thm:info-objective} examines the optimization dynamics at each training step, revealing how the discriminator and generator alternately minimize and maximize Kullback-Leibler divergences.
-
 The analysis shows that GANs avoid limitations of traditional maximum likelihood methods, which minimize forward KL divergence $\text{KL}(p_r \| p_g)$. This divergence is sensitive to mode dropping, as it penalizes generating samples where $p_g > 0$ but $p_r = 0$. In contrast, JSD provides a more balanced measure of distributional similarity.
-
 During training, the discriminator progressively forces the value function to better approximate JSD by performing the operations in Theorem~\ref{thm:info-objective}. This stepwise optimization reveals the intricate interplay between discriminator and generator as they jointly minimize distributional divergence through adversarial dynamics.
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis.tex"
