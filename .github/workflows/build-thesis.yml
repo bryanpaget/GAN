@@ -21,8 +21,10 @@ jobs:
           extra_system_packages: |
             py3-pygments
             biber
-          # Use biber instead of bibtex
-          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f -bibtex-
+          # Remove -bibtex- flag and add explicit bibtex command
+          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
+          # Add pre-compile step to run bibtex
+          pre_compile: "latexmk -bibtex thesis"
 
       - name: Upload LaTeX Log on Failure
         if: failure()
