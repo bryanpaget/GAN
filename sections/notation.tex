@@ -1,72 +1,60 @@
 \section{Notation}
 \vspace{1cm}
-
 \begin{center}
-\renewcommand{\arraystretch}{1.5}
-\begin{tabular}{@{}p{0.5\textwidth} p{0.4\textwidth}@{}}
-\toprule
-\textbf{Mathematical Object} & \textbf{Symbol} \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Core Components}} \\
-Generator & $G$ \\
-Discriminator & $D$ \\
-Generator parameterized by $\phi \in \Phi$ & $G_\phi$ \\
-Discriminator parameterized by $\theta \in \Theta$ & $D_\theta$ \\
-Value function & $V(G_\phi, D_\theta)$ \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Parameter Spaces}} \\
-Generator parameter space & $\Phi \subset \mathbb{R}^n$ \\
-Discriminator parameter space & $\Theta \subset \mathbb{R}^m$ \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Probability Spaces}} \\
-Target space & $\mathcal{X}$ \\
-Prior space (noise) & $\mathcal{Z}$ \\
-Target probability distribution & $p_{data}$ \\
-Prior distribution & $p_z$ \\
-Generated data distribution & $p_g$ \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Data and Samples}} \\
-Real data point & $x \sim p_{data}$ \\
-Generated data point & $\tilde{x} = G_\phi(z)$ \\
-Noise vector & $z \sim p_z$ \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Information Theory}} \\
-Entropy of distribution $p$ & $H(p)$ \\
-Kullback-Leibler divergence & $\text{KL}(p \| q)$ \\
-Jensen-Shannon divergence & $\text{JSD}(p \| q)$ \\
-Cross entropy & $H(p, q)$ \\
-Mutual information & $I(X; Y)$ \\
-\midrule
-
-\multicolumn{2}{c}{\textbf{Optimization}} \\
-Minimax optimization problem & $\min_{\phi} \max_{\theta} V(G_\phi, D_\theta)$ \\
-Optimal discriminator & $D^*(x) = \over{p_{data}(x)}{p_{data}(x) + p_g(x)}$ \\
-\bottomrule
-\end{tabular}
-\end{minipage}
+	\renewcommand{\arraystretch}{1.5}
+	\begin{tabular}{@{}p{0.5\textwidth} p{0.4\textwidth}@{}}
+		\toprule
+		\textbf{Mathematical Object}                       & \textbf{Symbol}                                     \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Core Components}}                                                             \\
+		Generator                                          & $G$                                                 \\
+		Discriminator                                      & $D$                                                 \\
+		Generator parameterized by $\phi \in \Phi$         & $G_\phi$                                            \\
+		Discriminator parameterized by $\theta \in \Theta$ & $D_\theta$                                          \\
+		Value function                                     & $V(G_\phi, D_\theta)$                               \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Parameter Spaces}}                                                            \\
+		Generator parameter space                          & $\Phi \subset \mathbb{R}^n$                         \\
+		Discriminator parameter space                      & $\Theta \subset \mathbb{R}^m$                       \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Probability Spaces}}                                                          \\
+		Target space                                       & $\mathcal{X}$                                       \\
+		Prior space (noise)                                & $\mathcal{Z}$                                       \\
+		Target probability distribution                    & $p_{data}$                                          \\
+		Prior distribution                                 & $p_z$                                               \\
+		Generated data distribution                        & $p_g$                                               \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Data and Samples}}                                                            \\
+		Real data point                                    & $x \sim p_{data}$                                   \\
+		Generated data point                               & $\tilde{x} = G_\phi(z)$                             \\
+		Noise vector                                       & $z \sim p_z$                                        \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Information Theory}}                                                          \\
+		Entropy of distribution $p$                        & $H(p)$                                              \\
+		Kullback-Leibler divergence                        & $\text{KL}(p \| q)$                                 \\
+		Jensen-Shannon divergence                          & $\text{JSD}(p \| q)$                                \\
+		Cross entropy                                      & $H(p, q)$                                           \\
+		Mutual information                                 & $I(X; Y)$                                           \\
+		\midrule
+		\multicolumn{2}{c}{\textbf{Optimization}}                                                                \\
+		Minimax optimization problem                       & $\min_{\phi} \max_{\theta} V(G_\phi, D_\theta)$     \\
+		Optimal discriminator                              & $D^*(x) = \frac{p_{data}(x)}{p_{data}(x) + p_g(x)}$ \\
+		\bottomrule
+	\end{tabular}
 \end{center}
-
 \vspace{0.5cm}
-
 \begin{center}
-\begin{minipage}{0.9\textwidth}
-\footnotesize
-\noindent\textbf{Notes:}
-\begin{itemize}
-\item All probability distributions are defined over their respective spaces: $p_{data}$ over $\mathcal{X}$, $p_z$ over $\mathcal{Z}$, and $p_g$ over $\mathcal{X}$
-\item The generated distribution $p_g$ is induced by the generator: $p_g$ is the distribution of $G_\phi(z)$ when $z \sim p_z$
-\item The value function $V(G_\phi, D_\theta)$ is defined as:
-\[
-V(G_\phi, D_\theta) = \mathbb{E}_{x \sim p_{data}}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]
-\]
-\end{itemize}
+	\footnotesize
+	\noindent\textbf{Notes:}
+	\begin{itemize}
+		\item All probability distributions are defined over their respective spaces: $p_{data}$ over $\mathcal{X}$, $p_z$ over $\mathcal{Z}$, and $p_g$ over $\mathcal{X}$
+		\item The generated distribution $p_g$ is induced by the generator: $p_g$ is the distribution of $G_\phi(z)$ when $z \sim p_z$
+		\item The value function $V(G_\phi, D_\theta)$ is defined as:
+		      \[
+			      V(G_\phi, D_\theta) = \mathbb{E}_{x \sim p_{data}}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))]
+		      \]
+	\end{itemize}
 \end{center}
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis.tex"

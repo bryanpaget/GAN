@@ -24,6 +24,10 @@
 
 % Other packages
 \usepackage{amsmath,amssymb,amsthm}
+% More robust redefinition of \over
+\makeatletter
+\def\over{\frac}
+\makeatother
 % Section Formatting
 \usepackage{titlesec}
 \titleformat{\section}[display]

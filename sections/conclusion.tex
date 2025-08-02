@@ -1,23 +1,15 @@
 \section{Conclusion}
 This thesis has presented a comprehensive mathematical survey of Generative Adversarial Networks (GANs), examining their theoretical foundations through three complementary lenses: game theory, information theory, and optimal transport. By synthesizing these perspectives, we have illuminated the mathematical principles that govern GAN behavior and performance.
-
 In Section~\ref{sec:game-theory}, we framed GANs as a strategic game between competing neural networks, revealing the minimax strategy where the discriminator adopts $D(x) = {1 \over 2}$ for all $x$. This equilibrium represents maximum uncertainty, creating a challenging optimization landscape where the generator's actions become ineffective. This game-theoretic perspective explains why GAN training often suffers from instability and mode collapse—phenomena that emerge naturally from adversarial dynamics.
-
 Section~\ref{sec:information-theory} provided dual information-theoretic perspectives on GAN training. Theorem~\ref{thm:limiting} examined the asymptotic behavior of GANs, establishing fundamental limits on their performance, while Theorem~\ref{thm:info-objective} analyzed the optimization process at each iteration. Together, these results offer both macroscopic and microscopic views of the training process, revealing how information-theoretic measures evolve during adversarial learning.
-
 Section~\ref{sec:optimal-transport} demonstrated how optimal transport theory has revolutionized GAN research. The Kantorovich-Rubinstein distance provides a more stable and meaningful metric for comparing distributions than the Jensen-Shannon divergence used in original GANs. As shown by~\cite{ref:arjovsky-2017}, this theoretical insight led to Wasserstein GANs, which significantly mitigate training instability. This exemplifies how deep theoretical understanding directly enables practical improvements in learning systems.
-
 Looking forward, the mathematical frameworks examined in this thesis offer fertile ground for advancing GAN research. Game theory suggests new approaches to equilibrium selection and incentive design; information theory provides tools for analyzing representation learning and generalization; and optimal transport offers geometric insights for developing more robust architectures. The convergence of these perspectives will likely yield next-generation generative models with improved stability, sample efficiency, and theoretical guarantees.
-
 Beyond technical advancements, this research carries significant societal implications. As GANs make synthetic media generation increasingly accessible, they present both opportunities and challenges. On one hand, these technologies enable creative applications in art, design, and data augmentation. On the other hand, they facilitate the creation of convincing fake images and videos that can be weaponized for misinformation campaigns. The counterfeiter-police analogy from~\cite{ref:goodfellow-original} aptly captures this duality:
 \begin{quote}
 	\itshape The generative model can be thought of as analogous to a team of counterfeiters, trying to produce fake currency and use it without detection, while the discriminative model is analogous to the police, trying to detect the counterfeit currency. Competition in this game drives both teams to improve their methods until the counterfeits are indistinguishable from the genuine articles.
 \end{quote}
-
-This adversarial dynamic is now playing out in the realm of digital media, where researchers developing detection methods must continually adapt to increasingly sophisticated generation techniques. As documented in recent studies \forloop{x}{1}{ \value{x}<11 }{ \cite{ref:df\arabic{x}}, } \cite{ref:df11} and \cite{ref:df12}, this technological arms race demands ongoing innovation in both generation and detection algorithms.
-
+This adversarial dynamic is now playing out in the realm of digital media, where researchers developing detection methods must continually adapt to increasingly sophisticated generation techniques. As documented in recent studies~\cite{ref:df1,ref:df2,ref:df3,ref:df4,ref:df5,ref:df6,ref:df7,ref:df8,ref:df9,ref:df10,ref:df11,ref:df12}, this technological arms race demands ongoing innovation in both generation and detection algorithms.
 Ultimately, the mathematical theory of GANs represents more than an academic exercise—it provides essential tools for understanding and shaping the future of artificial intelligence. By deepening our theoretical foundations, we not only improve technical capabilities but also develop the frameworks needed to address the profound societal challenges posed by generative technologies. As this field continues to evolve, the mathematical perspectives surveyed here will remain indispensable for researchers seeking to harness the power of adversarial learning responsibly and effectively.
-
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
