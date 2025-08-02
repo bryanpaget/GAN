@@ -8,12 +8,12 @@ This appendix contains detailed mathematical proofs and derivations supporting k
 We prove the limit $\lim_{x \to 0} x\log{x} = 0$ using L'Hôpital's rule, which is fundamental for analyzing entropy calculations in information theory.
 
 \begin{align}
-  \label{justification:lhospital}
-  \lim_{x \to 0} x\log{x} & = \lim_{x \to 0} {\log{x} \over {1 \over x}} \\
-                          & = \lim_{x \to 0} {{1 \over x} \over {-1 \over x^2}}\\
-                          & = \lim_{x \to 0} {-x^2 \over x} \\
-                          & = \lim_{x \to 0} -x \\
-                          & = 0
+	\label{justification:lhospital}
+	\lim_{x \to 0} x\log{x} & = \lim_{x \to 0} {\log{x} \frac {1 \frac x}}        \\
+	                        & = \lim_{x \to 0} {{1 \frac x} \frac {-1 \frac x^2}} \\
+	                        & = \lim_{x \to 0} {-x^2 \frac x}                     \\
+	                        & = \lim_{x \to 0} -x                                 \\
+	                        & = 0
 \end{align}
 
 \subsection{Optimization Dynamics}
@@ -21,18 +21,18 @@ We prove the limit $\lim_{x \to 0} x\log{x} = 0$ using L'Hôpital's rule, which 
 We derive the relationship between the Jensen-Shannon divergence (JSD) and the GAN objective function. This shows that minimizing the GAN loss is equivalent to minimizing the JSD between the real and generated data distributions.
 
 \begin{small}
-  \begin{align}
-    & \mathbb{E}\left[\log{{\ptx \over \pgx + \ptx}}\right] + \mathbb{E}\left[\log{\pgx\over\pgx + \ptx}\right] + \log4 - \log4 \nonumber \\
-    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \over \pgx + \ptx} + \log4 - \log4 \nonumber \\
-    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \over \pgx + \ptx} + \log2 + \log2 - \log4 \nonumber \\
-    & = \sum_{x}\ptx\log{\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{\pgx
-      \over \pgx + \ptx} \nonumber \\
-    & \quad + \sum_{x}\ptx\log2 + \sum_{x}\pgx\log2 - \log4 \nonumber \\
-    & = \sum_{x}\ptx\log{2\ptx \over \pgx + \ptx} + \sum_{x}\pgx\log{2\pgx \over \pgx + \ptx} - \log4 \nonumber \\
-    & = \sum_{x}\ptx\log{\ptx \over {\pgx + \ptx \over 2}} + \sum_{x}\pgx\log{\pgx \over {\pgx + \ptx \over 2}} - \log4 \nonumber \\
-    & = \KL{\ptx}{\pgx + \ptx \over 2} + \KL{\pgx}{\pgx+\ptx \over 2} - \log4 \nonumber \\
-    & = 2 \cdot \JSD{\pgx}{\ptx} - \log4 \label{eq:jsd-derivation}
-  \end{align}
+	\begin{align}
+		 & \mathbb{E}\left[\log{{\ptx \frac \pgx + \ptx}}\right] + \mathbb{E}\left[\log{\pgx\frac\pgx + \ptx}\right] + \log4 - \log4 \nonumber \\
+		 & = \sum_{x}\ptx\log{\ptx \frac \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \frac \pgx + \ptx} + \log4 - \log4 \nonumber                     \\
+		 & = \sum_{x}\ptx\log{\ptx \frac \pgx + \ptx} + \sum_{x}\pgx\log{\pgx \frac \pgx + \ptx} + \log2 + \log2 - \log4 \nonumber             \\
+		 & = \sum_{x}\ptx\log{\ptx \frac \pgx + \ptx} + \sum_{x}\pgx\log{\pgx
+		\frac \pgx + \ptx} \nonumber                                                                                                           \\
+		 & \quad + \sum_{x}\ptx\log2 + \sum_{x}\pgx\log2 - \log4 \nonumber                                                                     \\
+		 & = \sum_{x}\ptx\log{2\ptx \frac \pgx + \ptx} + \sum_{x}\pgx\log{2\pgx \frac \pgx + \ptx} - \log4 \nonumber                           \\
+		 & = \sum_{x}\ptx\log{\ptx \frac {\pgx + \ptx \frac 2}} + \sum_{x}\pgx\log{\pgx \frac {\pgx + \ptx \frac 2}} - \log4 \nonumber         \\
+		 & = \KL{\ptx}{\pgx + \ptx \frac 2} + \KL{\pgx}{\pgx+\ptx \frac 2} - \log4 \nonumber                                                   \\
+		 & = 2 \cdot \JSD{\pgx}{\ptx} - \log4 \label{eq:jsd-derivation}
+	\end{align}
 \end{small}
 
 Equation \ref{eq:jsd-derivation} establishes the connection between the GAN objective and JSD, demonstrating that the optimal discriminator corresponds to the JSD between the real and generated distributions.
@@ -44,27 +44,27 @@ We analyze the minimax and maximin values of the discriminator ($\VD$) and gener
 \subsubsection{Minimax of $\VD$}
 \label{sec:minimax-vd}
 \begin{align}
-  \overline{\VD} & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}}
-                    V_{\D}(\theta, \phi) \nonumber \\
-                  & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}} \left (
-                    \mathbb{E}\left[\log{\D(x)}\right] +
-                    \mathbb{E}\left[\log(1 -
-                    \D(\G(\mathbf{z})))\right] \right) \nonumber \\
-                  & = \min_{\mathbf{\phi}}\left(\max_{\mathbf{\theta}} \left (
-                    \mathbb{E}\left[\log{\D(x)}\right] +
-                    \mathbb{E}\left[\log(1 -
-                    \D(\G(\mathbf{z})))\right] \right)
-                    \right) \nonumber \\
-                  & = \min_{\phi}\left(\mathbb{E}\left[\log{\pt \over
-                    \pg + \pt}\right] + \mathbb{E}\left[\log\left(1 - {\pt \over
-                    \pg + \pt}\right)\right] \right) \nonumber \\
-                  & = \mathbb{E}\left[\log{\pt \over \pt + \pt}\right] +
-                    \mathbb{E}\left[\log\left(1 - {\pt \over
-                    \pt + \pt}\right)\right] \nonumber \\
-                  & = \mathbb{E}\left[\log{1 \over 2}\right] +
-                    \mathbb{E}\left[\log{\left(1 - {1 \over 2}\right)}\right] \nonumber \\
-                  & = \log{1 \over 2} + \log{1 \over 2} \nonumber \\
-                  & = \log{1 \over 4} \label{eq:minimax-vd}
+	\fracline{\VD} & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}}
+	V_{\D}(\theta, \phi) \nonumber                                              \\
+	               & = \min_{\mathbf{\phi}}\max_{\mathbf{\theta}} \left (
+	\mathbb{E}\left[\log{\D(x)}\right] +
+	\mathbb{E}\left[\log(1 -
+	\D(\G(\mathbf{z})))\right] \right) \nonumber                                \\
+	               & = \min_{\mathbf{\phi}}\left(\max_{\mathbf{\theta}} \left (
+		\mathbb{E}\left[\log{\D(x)}\right] +
+		\mathbb{E}\left[\log(1 -
+				\D(\G(\mathbf{z})))\right] \right)
+	\right) \nonumber                                                           \\
+	               & = \min_{\phi}\left(\mathbb{E}\left[\log{\pt \frac
+			\pg + \pt}\right] + \mathbb{E}\left[\log\left(1 - {\pt \frac
+	\pg + \pt}\right)\right] \right) \nonumber                                  \\
+	               & = \mathbb{E}\left[\log{\pt \frac \pt + \pt}\right] +
+	\mathbb{E}\left[\log\left(1 - {\pt \frac
+	\pt + \pt}\right)\right] \nonumber                                          \\
+	               & = \mathbb{E}\left[\log{1 \frac 2}\right] +
+	\mathbb{E}\left[\log{\left(1 - {1 \frac 2}\right)}\right] \nonumber         \\
+	               & = \log{1 \frac 2} + \log{1 \frac 2} \nonumber              \\
+	               & = \log{1 \frac 4} \label{eq:minimax-vd}
 \end{align}
 
 Equation \ref{eq:minimax-vd} shows that the minimax value of the discriminator objective is $\log(1/4)$, achieved when the generator perfectly matches the real data distribution.
@@ -72,29 +72,29 @@ Equation \ref{eq:minimax-vd} shows that the minimax value of the discriminator o
 \subsubsection{Maximin of $\VD$}
 \label{sec:maximin-vd}
 \begin{align}
-  \underline{\VD} & =
-                     \max_{\mathbf{\theta}}\min_{\mathbf{\phi}}V_{\D}(\theta,
-                     \phi) \nonumber \\
-                   & =
-                     \max_{\mathbf{\theta}}\min_{\mathbf{\phi}} \left(
-                     \mathbb{E}\left[\log{\D(x)}\right] +
-                     \mathbb{E}\left[\log(1 - \D(\G(\mathbf{z})))\right]\right) \nonumber \\
-                   & = \max_{\mathbf{\theta}}\left(\min_{\mathbf{\phi}} \left(
-                     \mathbb{E}\left[\log{\D(x)}\right] +
-                     \mathbb{E}\left[\log(1 -
-                     \D(\G(\mathbf{z})))\right]\right)\right) \nonumber \\
-                   & = \max_{\mathbf{\theta}}\left(\left(
-                     \mathbb{E}\left[\log{\D(x)}\right] +
-                     \mathbb{E}\left[\log(1 -
-                     \D(x))\right]\right)\right) \nonumber \\
-                   & = \max_{\mathbf{\theta}}\left(\left(
-                     \mathbb{E}\left[\log{\D(x)} +
-                     \log(1 - \D(x))\right]\right)\right) \nonumber \\
-                   & = \mathbb{E}\left[\log{\pt \over \pt + \pt}\right]
-                     + \mathbb{E}\left[\log\left(1 - {\pt \over \pt + \pt}\right)\right] \nonumber \\
-                   & = \mathbb{E}\left[\log{1 \over 2}\right] + \mathbb{E}\left[\log{\left(1 - {1 \over 2}\right)}\right] \nonumber \\
-                   & = \log{1 \over 2} + \log{1 \over 2} \nonumber \\
-                   & = \log{1 \over 4} \label{eq:maximin-vd}
+	\underline{\VD} & =
+	\max_{\mathbf{\theta}}\min_{\mathbf{\phi}}V_{\D}(\theta,
+	\phi) \nonumber                                                                                                                  \\
+	                & =
+	\max_{\mathbf{\theta}}\min_{\mathbf{\phi}} \left(
+	\mathbb{E}\left[\log{\D(x)}\right] +
+	\mathbb{E}\left[\log(1 - \D(\G(\mathbf{z})))\right]\right) \nonumber                                                             \\
+	                & = \max_{\mathbf{\theta}}\left(\min_{\mathbf{\phi}} \left(
+		\mathbb{E}\left[\log{\D(x)}\right] +
+		\mathbb{E}\left[\log(1 -
+	\D(\G(\mathbf{z})))\right]\right)\right) \nonumber                                                                               \\
+	                & = \max_{\mathbf{\theta}}\left(\left(
+		\mathbb{E}\left[\log{\D(x)}\right] +
+		\mathbb{E}\left[\log(1 -
+	\D(x))\right]\right)\right) \nonumber                                                                                            \\
+	                & = \max_{\mathbf{\theta}}\left(\left(
+		\mathbb{E}\left[\log{\D(x)} +
+	\log(1 - \D(x))\right]\right)\right) \nonumber                                                                                   \\
+	                & = \mathbb{E}\left[\log{\pt \frac \pt + \pt}\right]
+	+ \mathbb{E}\left[\log\left(1 - {\pt \frac \pt + \pt}\right)\right] \nonumber                                                    \\
+	                & = \mathbb{E}\left[\log{1 \frac 2}\right] + \mathbb{E}\left[\log{\left(1 - {1 \frac 2}\right)}\right] \nonumber \\
+	                & = \log{1 \frac 2} + \log{1 \frac 2} \nonumber                                                                  \\
+	                & = \log{1 \frac 4} \label{eq:maximin-vd}
 \end{align}
 
 Equation \ref{eq:maximin-vd} demonstrates that the maximin value of the discriminator objective also equals $\log(1/4)$, confirming the existence of a saddle point in the GAN game.
@@ -102,29 +102,29 @@ Equation \ref{eq:maximin-vd} demonstrates that the maximin value of the discrimi
 \subsubsection{Minimax of $\VG$}
 \label{sec:minimax-vg}
 \begin{align}
-  \overline{\VG} & = \min_{\theta}\max_{\phi} \VG \nonumber \\
-                  & = \min_{\theta}\max_{\mathbf{\phi}}
-                    \left (-\mathbb{E}\left[\log{\D(x)}\right] -
-                    \mathbb{E}\left[\log(1 -
-                    \D(\G(\mathbf{z})))\right] \right) \nonumber \\
-                  & = \min_{\theta}\left(\max_{\mathbf{\phi}}
-                    \left (-\mathbb{E}\left[\log{\D(x)}\right] -
-                    \mathbb{E}\left[\log(1 -
-                    \D(\G(\mathbf{z})))\right] \right)
-                    \right) \nonumber \\
-                  & = \min_{\theta}\left(
-                    -\mathbb{E}\left[\log{\D(x)}\right] -
-                    \mathbb{E}\left[\log(1 -
-                    \D(x))\right] \right) \nonumber \\
-                  & = \min_{\theta}\left(
-                    -\mathbb{E}\left[\log{\D(x)} +
-                    \log(1 - \D(x))\right] \right) \nonumber \\
-                  & = -\mathbb{E}\left[\log{\pt \over \pt + \pt} +
-                    \log\left(1 - {\pt \over \pt + \pt}\right)\right] \nonumber \\
-                  & = - \mathbb{E}\left[\log{1 \over 2} +
-                    \log{\left(1 - {1 \over 2}\right)}\right] \nonumber \\
-                  & = - \log{1 \over 2} - \log{1 \over 2} \nonumber \\
-                  & = - \log{1 \over 4} \label{eq:minimax-vg}
+	\fracline{\VG} & = \min_{\theta}\max_{\phi} \VG \nonumber        \\
+	               & = \min_{\theta}\max_{\mathbf{\phi}}
+	\left (-\mathbb{E}\left[\log{\D(x)}\right] -
+	\mathbb{E}\left[\log(1 -
+	\D(\G(\mathbf{z})))\right] \right) \nonumber                     \\
+	               & = \min_{\theta}\left(\max_{\mathbf{\phi}}
+	\left (-\mathbb{E}\left[\log{\D(x)}\right] -
+		\mathbb{E}\left[\log(1 -
+				\D(\G(\mathbf{z})))\right] \right)
+	\right) \nonumber                                                \\
+	               & = \min_{\theta}\left(
+	-\mathbb{E}\left[\log{\D(x)}\right] -
+	\mathbb{E}\left[\log(1 -
+	\D(x))\right] \right) \nonumber                                  \\
+	               & = \min_{\theta}\left(
+	-\mathbb{E}\left[\log{\D(x)} +
+	\log(1 - \D(x))\right] \right) \nonumber                         \\
+	               & = -\mathbb{E}\left[\log{\pt \frac \pt + \pt} +
+	\log\left(1 - {\pt \frac \pt + \pt}\right)\right] \nonumber      \\
+	               & = - \mathbb{E}\left[\log{1 \frac 2} +
+	\log{\left(1 - {1 \frac 2}\right)}\right] \nonumber              \\
+	               & = - \log{1 \frac 2} - \log{1 \frac 2} \nonumber \\
+	               & = - \log{1 \frac 4} \label{eq:minimax-vg}
 \end{align}
 
 Equation \ref{eq:minimax-vg} shows that the minimax value of the generator objective is $-\log(1/4)$, which is the negative of the discriminator's minimax value.
@@ -132,29 +132,29 @@ Equation \ref{eq:minimax-vg} shows that the minimax value of the generator objec
 \subsubsection{Maximin of $\VG$}
 \label{sec:maximin-vg}
 \begin{align}
-  \underline{\VG} & = \max_{\mathbf{\phi}} \min_{\mathbf{\theta}}\VG \nonumber \\
-                   & = \max_{\mathbf{\phi}}\min_{\mathbf{\theta}}\VG \nonumber \\
-                   & = \max_{\phi}\min_{\theta} \left(
-                     -\mathbb{E}\left[\log{\D(x)}\right] -
-                     \mathbb{E}\left[\log(1 -
-                     \D(\G(\mathbf{z})))\right] \right) \nonumber \\
-                   & = \max_{\phi}\left(\min_{\theta} \left(
-                     -\mathbb{E}\left[\log{\D(x)}\right] -
-                     \mathbb{E}\left[\log(1 -
-                     \D(\G(\mathbf{z})))\right] \right)
-                     \right) \nonumber \\
-                   & = \max_{\phi}\left(
-                     -\mathbb{E}\left[\log{\pt \over \pt + \pg} +
-                     \log(1 -
-                     {\pt \over \pt + \pg}\right] \right) \nonumber \\
-                   & =
-                     -\mathbb{E}\left[\log{\pt \over \pt + \pt} +
-                     \log(1 -
-                     {\pt \over \pt + \pt})\right] \nonumber \\
-                  & = - \mathbb{E}\left[\log{1 \over 2} +
-                    \log{\left(1 - {1 \over 2}\right)}\right] \nonumber \\
-                  & = - \log{1 \over 2} - \log{1 \over 2} \nonumber \\
-                  & = - \log{1 \over 4} \label{eq:maximin-vg}
+	\underline{\VG} & = \max_{\mathbf{\phi}} \min_{\mathbf{\theta}}\VG \nonumber \\
+	                & = \max_{\mathbf{\phi}}\min_{\mathbf{\theta}}\VG \nonumber  \\
+	                & = \max_{\phi}\min_{\theta} \left(
+	-\mathbb{E}\left[\log{\D(x)}\right] -
+	\mathbb{E}\left[\log(1 -
+	\D(\G(\mathbf{z})))\right] \right) \nonumber                                 \\
+	                & = \max_{\phi}\left(\min_{\theta} \left(
+		-\mathbb{E}\left[\log{\D(x)}\right] -
+		\mathbb{E}\left[\log(1 -
+				\D(\G(\mathbf{z})))\right] \right)
+	\right) \nonumber                                                            \\
+	                & = \max_{\phi}\left(
+	-\mathbb{E}\left[\log{\pt \frac \pt + \pg} +
+	\log(1 -
+	{\pt \frac \pt + \pg}\right] \right) \nonumber                               \\
+	                & =
+	-\mathbb{E}\left[\log{\pt \frac \pt + \pt} +
+		\log(1 -
+	{\pt \frac \pt + \pt})\right] \nonumber                                      \\
+	                & = - \mathbb{E}\left[\log{1 \frac 2} +
+	\log{\left(1 - {1 \frac 2}\right)}\right] \nonumber                          \\
+	                & = - \log{1 \frac 2} - \log{1 \frac 2} \nonumber            \\
+	                & = - \log{1 \frac 4} \label{eq:maximin-vg}
 \end{align}
 
 Equation \ref{eq:maximin-vg} confirms that the maximin value of the generator objective equals $-\log(1/4)$, consistent with the minimax value and demonstrating the stability of the GAN optimization problem.

@@ -27,10 +27,10 @@
 % Section Formatting
 \usepackage{titlesec}
 \titleformat{\section}[display]
-  {\large\filcenter\scshape}
-  {\titlerule[0.01pc]\vspace{0.15cm}\large Section \thesection}
-  {0pc}
-  {\vspace{0.15cm}\titlerule[0.01pc]\vspace{0.15cm}\LARGE}
+{\large\filcenter\scshape}
+{\titlerule[0.01pc]\vspace{0.15cm}\large Section \thesection}
+{0pc}
+{\vspace{0.15cm}\titlerule[0.01pc]\vspace{0.15cm}\LARGE}
 % Table of Contents Settings
 \renewcommand{\contentsname}{Table of Contents}
 \setcounter{tocdepth}{2}
@@ -81,21 +81,21 @@
 \usepackage{pgfplots}
 % PGFPlots Configuration with Safeguards
 \pgfplotsset{
-  width=7cm,
-  compat=1.18,
-  % Handle unbounded coordinates gracefully
-  unbounded coords=discard,
-  clip mode=individual,
-  clip=true,
-  % Set default axis limits to prevent issues
-  enlargelimits=false,
-  axis equal image=false
+	width=7cm,
+	compat=1.18,
+	% Handle unbounded coordinates gracefully
+	unbounded coords=discard,
+	clip mode=individual,
+	clip=true,
+	% Set default axis limits to prevent issues
+	enlargelimits=false,
+	axis equal image=false
 }
 % TikZ Libraries
 \usetikzlibrary{
-  shapes, arrows, matrix, chains,
-  positioning, calc, decorations.pathreplacing,
-  patterns, decorations.markings
+	shapes, arrows, matrix, chains,
+	positioning, calc, decorations.pathreplacing,
+	patterns, decorations.markings
 }
 % TikZ Styles
 \tikzstyle{mystar} = [star, star points=6, draw]
@@ -115,47 +115,47 @@
 \tikzstyle{pic} = [node distance=3cm]
 % PGF Plots Functions
 \pgfmathdeclarefunction{gauss}{2}{
-  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}
 }
 % Safe TikZ Environments
 \newenvironment{safetikz}[1][]{
-  \begin{tikzpicture}
-    \pgfplotsset{
-      unbounded coords=discard,
-      clip=true,
-      #1
-    }
-}{
-  \end{tikzpicture}
+	\begin{tikzpicture}
+		\pgfplotsset{
+			unbounded coords=discard,
+			clip=true,
+			#1
+		}
+		}{
+	\end{tikzpicture}
 }
 \newenvironment{safeaxis}[1][]{
-  \begin{axis}[
-    width=7cm,
-    height=5cm,
-    xmin=0, xmax=100,
-    ymin=-10, ymax=10,
-    unbounded coords=discard,
-    clip=true,
-    grid=major,
-    #1
-  ]
-}{
-  \end{axis}
+	\begin{axis}[
+			width=7cm,
+			height=5cm,
+			xmin=0, xmax=100,
+			ymin=-10, ymax=10,
+			unbounded coords=discard,
+			clip=true,
+			grid=major,
+			#1
+		]
+		}{
+	\end{axis}
 }
 % Safe Plot Commands
 \newcommand{\safeplot}[3][]{
-  \addplot[#1] coordinates {
-    #2
-  };
-  \addlegendentry{#3}
+	\addplot[#1] coordinates {
+			#2
+		};
+	\addlegendentry{#3}
 }
 \newcommand{\safecoord}[2]{
-  \pgfmathparse{#2}
-  \ifnum\pgfmathresult>-10000
-    \ifnum\pgfmathresult<10000
-      (#1,#2)
-    \fi
-  \fi
+	\pgfmathparse{#2}
+	\ifnum\pgfmathresult>-10000
+		\ifnum\pgfmathresult<10000
+			(#1,#2)
+		\fi
+	\fi
 }
 % Rotating Figures
 \usepackage{rotating}
@@ -168,17 +168,17 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \lstset{
-  language=Python,
-  showstringspaces=false,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  tabsize=4,
-  keywordstyle=\color{blue},
-  commentstyle=\color{green!50!black},
-  stringstyle=\color{red},
-  frame=single,
-  frameround=tttt,
-  backgroundcolor=\color{gray!10}
+	language=Python,
+	showstringspaces=false,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	tabsize=4,
+	keywordstyle=\color{blue},
+	commentstyle=\color{green!50!black},
+	stringstyle=\color{red},
+	frame=single,
+	frameround=tttt,
+	backgroundcolor=\color{gray!10}
 }
 %===============================================================================
 % HYPERLINKS AND PDF SETTINGS
@@ -186,17 +186,17 @@
 % Hyperref Package - ONLY LOAD ONCE WITH OPTIONS
 \usepackage[pdftex]{hyperref}
 \hypersetup{
-  pdftitle={Generative Adversarial Networks: An Overview},
-  pdfauthor={Bryan Paget},
-  pdfkeywords={Machine Learning, Deep Learning, GANs, Statistics, Game Theory},
-  pdfsubject={Statistics, Game Theory, Machine Learning},
-  pdffitwindow=true,
-  colorlinks=true,
-  linkcolor=blue,
-  citecolor=green,
-  filecolor=magenta,
-  urlcolor=orange,
-  pdfstartpage=2
+	pdftitle={Generative Adversarial Networks: An Overview},
+	pdfauthor={Bryan Paget},
+	pdfkeywords={Machine Learning, Deep Learning, GANs, Statistics, Game Theory},
+	pdfsubject={Statistics, Game Theory, Machine Learning},
+	pdffitwindow=true,
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=green,
+	filecolor=magenta,
+	urlcolor=orange,
+	pdfstartpage=2
 }
 % Cross-Referencing
 \usepackage{nameref}
@@ -211,9 +211,9 @@
 \usepackage{enumerate}
 % Blank Page Command
 \newcommand{\blankpage}{
-  \null
-  \thispagestyle{empty}
-  \newpage
+	\null
+	\thispagestyle{empty}
+	\newpage
 }
 %===============================================================================
 % CUSTOM MATHEMATICAL COMMANDS
@@ -263,13 +263,13 @@
 \newcommand{\Divgen}[2]{\Div{} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
 \newcommand{\KL}[2]{\Div{KL} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
 \newcommand{\JSD}[2]{\Div{JS} \kern-\nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)}
-\newcommand{\Dstar}[1]{{p^*(#1) \over p^*(#1) + p_{\phi}(#1)}}
-\newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]}
+\newcommand{\Dstar}[1]{{p^*(#1) \frac p^*(#1) + p_{\phi}(#1)}}
+\newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \frac \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \frac \pg + \pt} \right]}
 % Expectation Commands
 \newcommand{\E}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
-\newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \over #3}}}
-\newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \over #2}}
-\newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \over #3}d#1}
+\newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \frac #3}}}
+\newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \frac #2}}
+\newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \frac #3}d#1}
 %===============================================================================
 % DOCUMENT SETTINGS
 %===============================================================================
