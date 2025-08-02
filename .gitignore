@@ -55,7 +55,7 @@
 *.upb
 *.vrb
 *.xdv
-
+*-SAVE-ERROR
 # R specific files
 *.Rhistory
 *.RData
