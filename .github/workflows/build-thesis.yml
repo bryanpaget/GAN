@@ -21,7 +21,18 @@ jobs:
           extra_system_packages: |
             py3-pygments
             biber
-          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
+          # Use biber instead of bibtex
+          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f -bibtex-
+
+      - name: Upload LaTeX Log on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-logs
+          path: |
+            thesis.log
+            thesis.blg
+            thesis.fls
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
