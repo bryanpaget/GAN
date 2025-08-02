@@ -21,18 +21,21 @@ jobs:
           extra_system_packages: |
             py3-pygments
             biber
+          args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
         with:
           name: thesis-pdf
           path: thesis.pdf
+          retention-days: 30
 
   release:
     needs: build-pdf
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    if: success()
     steps:
       - name: Download PDF Artifact
         uses: actions/download-artifact@v4
@@ -48,6 +51,7 @@ jobs:
           body: |
             Automatically generated PDF from commit `${{ github.sha }}`
             Built on: ${{ github.event.created_at }}
+            Commit message: ${{ github.event.head_commit.message }}
           files: thesis.pdf
           overwrite: true
           prerelease: false
