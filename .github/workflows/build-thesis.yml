@@ -16,7 +16,7 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           working_directory: thesis
-          root_file: main.tex
+          root_file: thesis.tex
           latexmk_shell_escape: true
           extra_system_packages: |
             py3-pygments
@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: thesis-pdf
-          path: thesis/main.pdf
+          path: thesis.pdf
 
   release:
     needs: build-pdf
@@ -48,7 +48,7 @@ jobs:
           body: |
             Automatically generated PDF from commit `${{ github.sha }}`
             Built on: ${{ github.event.created_at }}
-          files: main.pdf
+          files: thesis.pdf
           overwrite: true
           prerelease: false
         env:
