@@ -1,12 +1,14 @@
 \documentclass[10pt]{report}  % Using report class for thesis structure
 
+% Force PDF output
+\pdfoutput=1
+
 % Include settings file with all packages and custom commands
 \include{settings}
 
 %===============================================================================
 % DOCUMENT SETUP
 %===============================================================================
-
 % Page margins (adjust as needed for your university requirements)
 \geometry{margin=1.25in, top=1.25in, bottom=1.25in}
 
@@ -14,7 +16,6 @@
 % FRONT MATTER
 %===============================================================================
 \begin{document}
-
 % Set page numbering for front matter (roman numerals)
 \pagenumbering{roman}
 
@@ -52,7 +53,6 @@
 %===============================================================================
 % MAIN CONTENT
 %===============================================================================
-
 % Reset page numbering for main content (arabic numerals)
 \cleardoublepage
 \pagenumbering{arabic}
@@ -72,28 +72,21 @@
 % Conclusion
 \include{sections/conclusion}
 
+% Addendum
 \include{sections/addendum}
 
 %===============================================================================
 % BACK MATTER
 %===============================================================================
-
 % Appendix
 \appendix
 \include{sections/appendix-a}
 \addcontentsline{toc}{chapter}{Appendix}
 
-% Bibliography
-\bibliographystyle{apalike}
-\bibliography{thesis}
-\addcontentsline{toc}{chapter}{References}
+% Bibliography - Using biblatex instead of traditional bibtex
+\printbibliography[heading=bibintoc,title={References}]
 
 %===============================================================================
 % END DOCUMENT
 %===============================================================================
 \end{document}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
