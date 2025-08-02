@@ -35,19 +35,19 @@ The cornerstone of information theory is entropy, which measures uncertainty in 
 New information reduces uncertainty, with rare events providing more information than common ones. This suggests $\eta$ should be inversely proportional to probability:
 \begin{align}
 	\label{eq:eta-1}
-	\eta(x) \propto {1 \frac p(x)}
+	\eta(x) \propto {1 \over p(x)}
 \end{align}
 
 The additivity requirement (iii) implies a logarithmic relationship since independent events' probabilities multiply while their information content should add:
 \begin{align}
 	\label{eq:eta-3}
-	\eta(x) = \log{1 \frac p(x)}.
+	\eta(x) = \log{1 \over p(x)}.
 \end{align}
 
 For a probability distribution, we need an average uncertainty measure weighted by outcome probabilities. This leads to entropy, denoted by $H$ (resembling the Greek eta):
 \begin{align}
 	\label{eq:eta-almost}
-	H(p) = \sum_{x \in \mathcal{X}} p(x) \log{1 \frac p(x)}.
+	H(p) = \sum_{x \in \mathcal{X}} p(x) \log{1 \over p(x)}.
 \end{align}
 
 Entropy represents the average surprise associated with outcomes from $(\mathcal{X}, p)$. It reaches maximum when all outcomes are equally likely (uniform distribution), reflecting maximum uncertainty:
@@ -59,7 +59,7 @@ Entropy represents the average surprise associated with outcomes from $(\mathcal
 We can also interpret entropy as the average information (in bits) needed to describe outcomes from $(\mathcal{X}, p)$. The logarithm base determines the units:
 \begin{align}
 	\label{eq:understand-log}
-	\log_2{1 \frac p(x)} = n \iff 2^n = {1 \frac p(x)}.
+	\log_2{1 \over p(x)} = n \iff 2^n = {1 \over p(x)}.
 \end{align}
 While base 2 yields bits, base $e$ (nats) and base 10 (dits) are also common.
 
@@ -128,7 +128,7 @@ The most fundamental divergence in information theory is the Kullback-Leibler (K
 	The \textnormal{\sffamily Kullback-Leibler divergence} (also called \textnormal{\sffamily relative entropy}, \textnormal{\textsf directed divergence}, \textnormal{\sffamily information gain}, or \textnormal{\sffamily discrimination information}) between distributions $p$ and $q$ is:
 	\begin{align}
 		\label{eq:KL}
-		\text{KL}(p \| q) = \sum_{x \in \mathcal{X}} p(x) \log{p(x) \frac q(x)}.
+		\text{KL}(p \| q) = \sum_{x \in \mathcal{X}} p(x) \log{p(x) \over q(x)}.
 	\end{align}
 	If $p$ and $q$ have the same support, $\text{KL}(p \| q) = 0$ if and only if $p = q$.
 \end{definition}
@@ -148,21 +148,21 @@ The most fundamental divergence in information theory is the Kullback-Leibler (K
 \begin{remark}
 	KL divergence relates to the log-likelihood ratio test for comparing statistical models. For models $p(x) = f(x|\theta)$ and $q(x) = f(x|\phi)$, the log-likelihood ratio is:
 	\begin{align}
-		\lambda(x) & = \log{\prod_{x \in \mathcal{X}} p(x) \frac \prod_{x \in \mathcal{X}} q(x)} = \sum_{x \in \mathcal{X}} \log {p(x) \frac q(x)}
+		\lambda(x) & = \log{\prod_{x \in \mathcal{X}} p(x) \over \prod_{x \in \mathcal{X}} q(x)} = \sum_{x \in \mathcal{X}} \log {p(x) \over q(x)}
 	\end{align}
 	The KL divergence $\text{KL}(p \| q)$ is the expectation of $\lambda(x)$ under $p$:
 	\begin{align}
-		\mathbb{E}_{x \sim p}[\lambda(x)] = \sum_{x \in \mathcal{X}} p(x)\log {p(x) \frac q(x)}.
+		\mathbb{E}_{x \sim p}[\lambda(x)] = \sum_{x \in \mathcal{X}} p(x)\log {p(x) \over q(x)}.
 	\end{align}
 \end{remark}
 
 This connection reveals that GAN training can be viewed as optimizing a goodness-of-fit test. The GAN objective:
 \begin{align}
-	\min_\phi\max_\theta{1 \frac n} \sum_{i=1}^n \log{D_\theta(x_i)} + {1 \frac n} \sum_{i=1}^n\log{(1 - D_\theta(G_\phi(z_i)))}
+	\min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{D_\theta(x_i)} + {1 \over n} \sum_{i=1}^n\log{(1 - D_\theta(G_\phi(z_i)))}
 \end{align}
 has the same fixed point as:
 \begin{align}
-	\min_\phi\max_\theta{1 \frac n} \sum_{i=1}^n \log{\left({D_\theta(x_i) \frac D_\theta(G_\phi(z_i))}\right)}
+	\min_\phi\max_\theta{1 \over n} \sum_{i=1}^n \log{\left({D_\theta(x_i) \over D_\theta(G_\phi(z_i))}\right)}
 \end{align}
 which represents a KL divergence or average log-likelihood ratio. Since $D_\theta(x) \in [0, 1]$, an optimal $D$ assigns higher probability to real data than generated data.
 
@@ -172,11 +172,11 @@ The term \textit{information gain} reflects that $\text{KL}(p \| q)$ quantifies 
 	The \textnormal{\sffamily reverse Kullback-Leibler divergence} is:
 	\begin{align}
 		\label{eq:reverse-KL}
-		\text{KL}(q \| p) = \sum_{x \in \mathcal{X}} q(x) \log{q(x) \frac p(x)}.
+		\text{KL}(q \| p) = \sum_{x \in \mathcal{X}} q(x) \log{q(x) \over p(x)}.
 	\end{align}
 	This represents the expectation of the log-likelihood ratio under $q$:
 	\begin{align}
-		\mathbb{E}_{x \sim q}[\lambda(x)] = \sum_{x \in \mathcal{X}} q(x)\log {q(x) \frac p(x)}.
+		\mathbb{E}_{x \sim q}[\lambda(x)] = \sum_{x \in \mathcal{X}} q(x)\log {q(x) \over p(x)}.
 	\end{align}
 \end{definition}
 Unlike forward KL, minimizing reverse KL is not equivalent to maximum likelihood estimation.
@@ -199,7 +199,7 @@ Cross entropy measures the average uncertainty when using $q$ to encode events f
 	\begin{align}
 		H(p, q) & = -\sum_{x \in \mathcal{X}} p(x) \log q(x)                                                                                     \\
 		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log p(x) - \sum_{x \in \mathcal{X}} p(x) \log q(x) \\
-		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log {p(x) \frac q(x)}                              \\
+		        & = -\sum_{x \in \mathcal{X}} p(x) \log p(x) + \sum_{x \in \mathcal{X}} p(x) \log {p(x) \over q(x)}                              \\
 		        & = H(p) + \text{KL}(p \| q)
 	\end{align}
 \end{proof}
@@ -213,7 +213,7 @@ The Jensen-Shannon divergence (JSD) provides a symmetric, smoothed version of KL
 	\label{def:jsd}
 	For distributions $p(x)$ and $q(x)$ over space $\mathcal{X}$, the \textnormal{\sffamily Jensen-Shannon divergence} is:
 	\begin{align}
-		\text{JSD}(p \| q) = {1 \frac 2} \text{KL}\left(p \| {p + q \frac 2}\right) + {1 \frac 2} \text{KL}\left(q \| {p + q \frac 2}\right)
+		\text{JSD}(p \| q) = {1 \over 2} \text{KL}\left(p \| {p + q \over 2}\right) + {1 \over 2} \text{KL}\left(q \| {p + q \over 2}\right)
 	\end{align}
 \end{definition}
 
@@ -235,7 +235,7 @@ Information theory provides tools to quantify dependencies between distributions
 	Let $(\mathcal{X}, p)$ and $(\mathcal{Y}, q)$ be finite probability spaces with random variables $X \sim p$ and $Y \sim q$. Their joint distribution is $\gamma$ with marginals $\pi_p \circ \gamma = p$ and $\pi_q \circ \gamma = q$. The \textnormal{\sffamily mutual information} $I(X;Y)$ is:
 	\begin{align}
 		\label{eq:mutual-information}
-		I(X; Y) = \sum_{x \in \mathcal{X}}\sum_{y \in \mathcal{Y}}\gamma(x, y) \log{{\gamma(x, y) \frac p(x)q(y)}}
+		I(X; Y) = \sum_{x \in \mathcal{X}}\sum_{y \in \mathcal{Y}}\gamma(x, y) \log{{\gamma(x, y) \over p(x)q(y)}}
 	\end{align}
 \end{definition}
 
@@ -349,19 +349,19 @@ where $U \subset \mathbb{R}^2$ contains pairs $(x, \tilde{x})$, and $p_U$ is the
 	\label{theorem:minimax}
 	For any fixed generator $G_\phi$, the optimal discriminator $D^*$ that maximizes $V$ is:
 	\begin{align}
-		D^*(x) = \frac{p_r(x)}{p_r(x) + p_g(x)}.
+		D^*(x) = \over{p_r(x)}{p_r(x) + p_g(x)}.
 	\end{align}
 \end{theorem}
 \begin{proof}
 	We compute the derivative of $\mathcal{V}$ with respect to $\theta$:
 	\begin{align}
 		\label{eq:derivatives}
-		{\partial \mathcal{V}(U) \frac \partial \theta} = \mathbb{E}_{u \sim p_U}\left[ p_r(u) { {\partial D_\theta(u) \frac \partial \theta} \frac D_\theta(u)} - p_g(u) {{\partial D_\theta(u) \frac \partial \theta} \frac (1 - D_\theta(u))}\right],
+		{\partial \mathcal{V}(U) \over \partial \theta} = \mathbb{E}_{u \sim p_U}\left[ p_r(u) { {\partial D_\theta(u) \over \partial \theta} \over D_\theta(u)} - p_g(u) {{\partial D_\theta(u) \over \partial \theta} \over (1 - D_\theta(u))}\right],
 	\end{align}
 	Setting this to zero yields:
 	\begin{align}
 		\label{eq:20}
-		{p_r(u) \frac D_\theta(u)} = {p_g(u) \frac (1 - D_\theta(u))} \iff D^*(u) = {p_r(u) \frac p_g(u) + p_r(u)}.
+		{p_r(u) \over D_\theta(u)} = {p_g(u) \over (1 - D_\theta(u))} \iff D^*(u) = {p_r(u) \over p_g(u) + p_r(u)}.
 	\end{align}
 	Thus, for any fixed $G_\phi$, $\mathcal{V}(U)$ is maximized when $D_\theta = D^*$.
 \end{proof}
@@ -369,7 +369,7 @@ where $U \subset \mathbb{R}^2$ contains pairs $(x, \tilde{x})$, and $p_U$ is the
 Substituting $D^*$ into $\tilde{V}$ gives:
 \begin{align}
 	\label{eq:sum-of-two-kl-divergences}
-	\max_D \tilde{V}(\phi, \theta)(X, \tilde{X}) = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \frac p_g(x) + p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_g}\left[\log{p_g(\tilde{x}) \frac p_g(\tilde{x}) + p_r(\tilde{x})} \right]
+	\max_D \tilde{V}(\phi, \theta)(X, \tilde{X}) = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \over p_g(x) + p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_g}\left[\log{p_g(\tilde{x}) \over p_g(\tilde{x}) + p_r(\tilde{x})} \right]
 \end{align}
 This expression relates to the Jensen-Shannon divergence between $p_r$ and $p_g$.
 
@@ -379,7 +379,7 @@ This expression relates to the Jensen-Shannon divergence between $p_r$ and $p_g$
 \begin{proof}
 	The optimal generator satisfies $p_g = p_r$. Substituting into (\ref{eq:sum-of-two-kl-divergences}):
 	\begin{align}
-		V(\phi^*, \theta^*)(X, \tilde{X}) & = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \frac 2p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_r}\left[\log{p_r(\tilde{x}) \frac 2p_r(\tilde{x})}\right] \\
+		V(\phi^*, \theta^*)(X, \tilde{X}) & = \mathbb{E}_{x \sim p_r}\left[\log{p_r(x) \over 2p_r(x)}\right] + \mathbb{E}_{\tilde{x} \sim p_r}\left[\log{p_r(\tilde{x}) \over 2p_r(\tilde{x})}\right] \\
 		                                  & = \mathbb{E}_{x \sim p_r}[\log(1/2)] + \mathbb{E}_{\tilde{x} \sim p_r}[\log(1/2)]                                                                         \\
 		                                  & = -\log 2 - \log 2 = -\log 4
 	\end{align}

@@ -263,13 +263,13 @@
 \newcommand{\Divgen}[2]{\Div{} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
 \newcommand{\KL}[2]{\Div{KL} \kern-\nulldelimiterspace \left( #1 \kern 0.1em \middle| \middle| \kern 0.1em #2 \right)}
 \newcommand{\JSD}[2]{\Div{JS} \kern-\nulldelimiterspace \left(#1 \kern 0.1em \middle|\middle| \kern 0.1em #2\right)}
-\newcommand{\Dstar}[1]{{p^*(#1) \frac p^*(#1) + p_{\phi}(#1)}}
-\newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \frac \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \frac \pg + \pt} \right]}
+\newcommand{\Dstar}[1]{{p^*(#1) \over p^*(#1) + p_{\phi}(#1)}}
+\newcommand{\maxV}[1]{\mathbb{E} \left[\log{{\pt \over \pg + \pt}}\right] + \mathbb{E}\left[\log{\pg \over \pg + \pt} \right]}
 % Expectation Commands
 \newcommand{\E}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
-\newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \frac #3}}}
-\newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \frac #2}}
-\newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \frac #3}d#1}
+\newcommand{\KLE}[3]{\E{#1\sim #2}{\log{#2 \over #3}}}
+\newcommand{\KLd}[2]{\sum_{\x \sim #1} #1 \log{#1 \over #2}}
+\newcommand{\KLc}[3]{\int_{#1} #2 \log{#2 \over #3}d#1}
 %===============================================================================
 % DOCUMENT SETTINGS
 %===============================================================================

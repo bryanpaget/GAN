@@ -41,9 +41,9 @@ In zero-sum games, players seek optimal strategies to maximize their minimum pos
 
 \begin{definition}
   \label{def:minimax}
-  In a two-player game with players $D$ and $G$, the \textnormal{\sffamily minimax decision rule} for $D$ maximizes $D$'s expected reward after $G$ has minimized $D$'s maximum attainable reward. The \textnormal{\sffamily minimax value} $\fracline{V_D}$ is:
+  In a two-player game with players $D$ and $G$, the \textnormal{\sffamily minimax decision rule} for $D$ maximizes $D$'s expected reward after $G$ has minimized $D$'s maximum attainable reward. The \textnormal{\sffamily minimax value} $\overline{V_D}$ is:
   \begin{align}
-    \fracline{V_D} = \min_{G} \max_{D} V_D(D, G).
+    \overline{V_D} = \min_{G} \max_{D} V_D(D, G).
   \end{align}
 \end{definition}
 
@@ -203,7 +203,7 @@ which corresponds to minimizing $\mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\ph
 
 The training objectives lead to the minimax formulation:
 \begin{align}
-  \fracline{V_D} & = \min_{\phi}\max_{\theta} V_D(\theta, \phi) \\
+  \overline{V_D} & = \min_{\phi}\max_{\theta} V_D(\theta, \phi) \\
                   & = \min_{\phi}\max_{\theta} \left( \mathbb{E}_{x \sim p_{data}}[\log D_\theta(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D_\theta(G_\phi(z)))] \right)
 \end{align}
 
@@ -220,7 +220,7 @@ Finding Nash equilibria can be difficult, as demonstrated by the following examp
     \min_x \max_y V(x, y) = xy.
   \end{align}
 
-  The gradients are $\frac{\partial V}{\partial x} = y$ and $\frac{\partial V}{\partial y} = x$, leading to updates:
+  The gradients are $\over{\partial V}{\partial x} = y$ and $\over{\partial V}{\partial y} = x$, leading to updates:
   \begin{align}
     x^{(t+1)} & \gets x^{(t)} - \eta \cdot y, \\
     y^{(t+1)} & \gets y^{(t)} + \eta \cdot x,
@@ -269,7 +269,7 @@ The complete GAN algorithm is presented below:
         Sample batch $\{z_1, \dots, z_m\}$ from prior noise distribution $p_z$\;
         Compute discriminator loss:
         \[
-        L_D = -\frac{1}{m} \sum_{i=1}^m \left[ \log D_\theta(x_i) + \log(1 - D_\theta(G_\phi(z_i))) \right]
+        L_D = -\over{1}{m} \sum_{i=1}^m \left[ \log D_\theta(x_i) + \log(1 - D_\theta(G_\phi(z_i))) \right]
         \]
         Update discriminator parameters: $\theta \gets \theta - \eta \cdot \nabla_\theta L_D$\;
 
@@ -277,7 +277,7 @@ The complete GAN algorithm is presented below:
         Sample batch $\{z_1, \dots, z_m\}$ from prior noise distribution $p_z$\;
         Compute generator loss:
         \[
-        L_G = -\frac{1}{m} \sum_{i=1}^m \log D_\theta(G_\phi(z_i))
+        L_G = -\over{1}{m} \sum_{i=1}^m \log D_\theta(G_\phi(z_i))
         \]
         Update generator parameters: $\phi \gets \phi - \eta \cdot \nabla_\phi L_G$\;
       }

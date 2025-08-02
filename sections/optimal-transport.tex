@@ -87,17 +87,17 @@ The Kullback-Leibler (KL) and Jensen-Shannon (JS) divergences, while useful in m
   \begin{enumerate}[(i)]
     \item \textbf{KL Divergence:} For $\phi \neq 0$, the distributions have disjoint supports:
     \begin{align}
-      \text{KL}(p_0 \| G_\phi) = \mathbb{E}_{z \sim p_0} \left[ \log \frac{p_0(z)}{G_\phi(z)} \right] = \infty
+      \text{KL}(p_0 \| G_\phi) = \mathbb{E}_{z \sim p_0} \left[ \log \over{p_0(z)}{G_\phi(z)} \right] = \infty
     \end{align}
     since $G_\phi(z) = 0$ for all $z \sim p_0$. Similarly, $\text{KL}(G_\phi \| p_0) = \infty$. Only when $\phi = 0$ do we have $\text{KL}(p_0 \| G_\phi) = 0$.
     
     \item \textbf{Jensen-Shannon Divergence:} The JS divergence also fails to provide a useful gradient:
     \begin{align}
-      \text{JSD}(p_0 \| G_\phi) &= \frac{1}{2} \mathbb{E}_{z \sim p_0} \left[ \log \frac{p_0(z)}{p_m(z)} \right] + \frac{1}{2} \mathbb{E}_{z \sim G_\phi} \left[ \log \frac{G_\phi(z)}{p_m(z)} \right] \\
-      &= \frac{1}{2} \mathbb{E}_{z \sim p_0} [\log 2] + \frac{1}{2} \mathbb{E}_{z \sim G_\phi} [\log 2] \\
+      \text{JSD}(p_0 \| G_\phi) &= \over{1}{2} \mathbb{E}_{z \sim p_0} \left[ \log \over{p_0(z)}{p_m(z)} \right] + \over{1}{2} \mathbb{E}_{z \sim G_\phi} \left[ \log \over{G_\phi(z)}{p_m(z)} \right] \\
+      &= \over{1}{2} \mathbb{E}_{z \sim p_0} [\log 2] + \over{1}{2} \mathbb{E}_{z \sim G_\phi} [\log 2] \\
       &= \log 2
     \end{align}
-    where $p_m = \frac{p_0 + G_\phi}{2}$. Again, this is constant ($\log 2$) for all $\phi \neq 0$ and only drops to 0 when $\phi = 0$.
+    where $p_m = \over{p_0 + G_\phi}{2}$. Again, this is constant ($\log 2$) for all $\phi \neq 0$ and only drops to 0 when $\phi = 0$.
   \end{enumerate}
 \end{example}
 
@@ -139,9 +139,9 @@ The limitations of KL and JS divergences lead to a critical issue in GAN trainin
 \begin{proof}
   The generator update is:
   \begin{align}
-    \phi^{(t+1)} &\gets \phi^{(t)} - \alpha \nabla_\phi \frac{1}{m} \sum_{i=1}^m \log(1 - D^{(t+1)}(G_{\phi^{(t)}}(z_i))) \\
-    &\gets \phi^{(t)} - \alpha \nabla_\phi \frac{1}{m} \sum_{i=1}^m \log(1 - 0) \\
-    &\gets \phi^{(t)} - \alpha \nabla_\phi \frac{1}{m} \sum_{i=1}^m \log(1) \\
+    \phi^{(t+1)} &\gets \phi^{(t)} - \alpha \nabla_\phi \over{1}{m} \sum_{i=1}^m \log(1 - D^{(t+1)}(G_{\phi^{(t)}}(z_i))) \\
+    &\gets \phi^{(t)} - \alpha \nabla_\phi \over{1}{m} \sum_{i=1}^m \log(1 - 0) \\
+    &\gets \phi^{(t)} - \alpha \nabla_\phi \over{1}{m} \sum_{i=1}^m \log(1) \\
     &\gets \phi^{(t)}
   \end{align}
   Thus, the generator parameters do not update.
@@ -154,8 +154,8 @@ The limitations of KL and JS divergences lead to a critical issue in GAN trainin
 \begin{proof}
   The discriminator update is:
   \begin{align}
-    \theta^{(t+1)} &\gets \theta^{(t)} - \alpha \nabla_\theta \frac{1}{m} \sum_{i=1}^m \left[ \log D^{(t)}(x_i) + \log(1 - D^{(t)}(G_{\phi^{(t)}}(z_i))) \right] \\
-    &\gets \theta^{(t)} - \alpha \nabla_\theta \frac{1}{m} \sum_{i=1}^m \left[ \log(1) + \log(1) \right] \\
+    \theta^{(t+1)} &\gets \theta^{(t)} - \alpha \nabla_\theta \over{1}{m} \sum_{i=1}^m \left[ \log D^{(t)}(x_i) + \log(1 - D^{(t)}(G_{\phi^{(t)}}(z_i))) \right] \\
+    &\gets \theta^{(t)} - \alpha \nabla_\theta \over{1}{m} \sum_{i=1}^m \left[ \log(1) + \log(1) \right] \\
     &\gets \theta^{(t)}
   \end{align}
   Thus, the discriminator parameters also do not update.
@@ -259,7 +259,7 @@ In practice, we enforce the Lipschitz constraint through weight clipping or grad
           Sample $\{z_1, \dots, z_m\}$ from prior noise distribution $p_z$\;
           Compute critic loss:
           \[
-          L = \frac{1}{m} \sum_{i=1}^m f_\theta(x_i) - \frac{1}{m} \sum_{i=1}^m f_\theta(G_\phi(z_i))
+          L = \over{1}{m} \sum_{i=1}^m f_\theta(x_i) - \over{1}{m} \sum_{i=1}^m f_\theta(G_\phi(z_i))
           \]
           Update critic parameters: $\theta \gets \theta + \eta \cdot \nabla_\theta L$\;
           Clip critic weights: $\theta \gets \text{clip}(\theta, -c, c)$\;
@@ -267,7 +267,7 @@ In practice, we enforce the Lipschitz constraint through weight clipping or grad
         Sample $\{z_1, \dots, z_m\}$ from prior noise distribution $p_z$\;
         Compute generator loss:
         \[
-        L = -\frac{1}{m} \sum_{i=1}^m f_\theta(G_\phi(z_i))
+        L = -\over{1}{m} \sum_{i=1}^m f_\theta(G_\phi(z_i))
         \]
         Update generator parameters: $\phi \gets \phi - \eta \cdot \nabla_\phi L$\;
       }
