@@ -22,9 +22,10 @@ jobs:
             py3-pygments
             biber
           args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
+          # Continue on errors to generate PDF even with minor issues
+          continue_on_error: true
 
-      - name: Upload LaTeX Log on Failure
-        if: failure()
+      - name: Upload LaTeX Logs
         uses: actions/upload-artifact@v4
         with:
           name: latex-logs
@@ -33,6 +34,9 @@ jobs:
             thesis.blg
             thesis.fls
             thesis.fdb_latexmk
+            thesis.bcf
+            thesis.run.xml
+          retention-days: 30
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
@@ -46,7 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: success()
+    # Always run release step if PDF exists, even if there were warnings
+    if: always() && needs.build-pdf.result == 'success' || needs.build-pdf.result == 'failure'
     steps:
       - name: Download PDF Artifact
         uses: actions/download-artifact@v4
@@ -55,6 +60,7 @@ jobs:
           path: .
 
       - name: Create Release
+        if: hashFiles('thesis.pdf') != ''
         uses: softprops/action-gh-release@v1
         with:
           tag_name: latest
@@ -63,6 +69,8 @@ jobs:
             Automatically generated PDF from commit `${{ github.sha }}`
             Built on: ${{ github.event.created_at }}
             Commit message: ${{ github.event.head_commit.message }}
+            
+            **Note**: This build may contain warnings. Check the logs for details.
           files: thesis.pdf
           overwrite: true
           prerelease: false
