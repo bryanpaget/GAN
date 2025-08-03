@@ -1,4 +1,5 @@
-# An Introduction to Generative Adversarial Networks
+# An Introduction to 
+# Generative Adversarial Networks
 
 [![LaTeX](https://img.shields.io/badge/LaTeX-008080.svg)](https://www.latex-project.org/)
 [![R](https://img.shields.io/badge/R-276DC3.svg)](https://www.r-project.org/)
