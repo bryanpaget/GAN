@@ -1,17 +1,16 @@
 name: Build Thesis PDF
-
 on:
   push:
     branches:
       - master
-
 jobs:
   build-pdf:
     runs-on: ubuntu-latest
+    outputs:
+      pdf_exists: ${{ steps.check-pdf.outputs.pdf_exists }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Compile LaTeX Document
         uses: xu-cheng/latex-action@v3
         with:
@@ -23,7 +22,6 @@ jobs:
             biber
           args: -pdf -latexoption=-interaction=nonstopmode -latexoption=-file-line-error -f
           continue_on_error: true
-
       - name: Check if PDF was created
         id: check-pdf
         run: |
@@ -35,7 +33,6 @@ jobs:
             echo "pdf_exists=false" >> $GITHUB_OUTPUT
             echo "PDF file was not created"
           fi
-
       - name: Upload PDF Artifact
         if: steps.check-pdf.outputs.pdf_exists == 'true'
         uses: actions/upload-artifact@v4
@@ -43,7 +40,6 @@ jobs:
           name: thesis-pdf
           path: thesis.pdf
           retention-days: 30
-
       - name: Upload LaTeX Logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -57,21 +53,19 @@ jobs:
             thesis.bcf
             thesis.run.xml
           retention-days: 30
-
   release:
     needs: build-pdf
     runs-on: ubuntu-latest
     permissions:
       contents: write
     # Run release job if PDF was created, regardless of build success/failure
-    if: needs.build-pdf.outputs.check-pdf == 'true'
+    if: needs.build-pdf.outputs.pdf_exists == 'true'
     steps:
       - name: Download PDF Artifact
         uses: actions/download-artifact@v4
         with:
           name: thesis-pdf
           path: .
-
       - name: Create or Update Release
         uses: softprops/action-gh-release@v1
         with:
